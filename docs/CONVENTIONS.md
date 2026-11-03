@@ -29,12 +29,13 @@ layout is cue numbers in thousands (`1000 Start - <title>`, `2000 Verse 1`, `300
 Chorus 1`, ... `Chorus / Hits`, `Bridge`, `Tag`, `Refrain`, `Ending`), `-> Follows` cues as
 follow steps, and sub-steps like `12200`, `12400` between sections.
 
-**Deleting old songs is the one decision a job must put in front of Aaron every time.**
-A song still assigned on a page that is kept is never a candidate. Songs assigned only
-on older weekend pages are candidates; list them with name, cue count and the pages
-they sit on, and wait for a go. `TODO(Aaron)`: is there a rule of thumb (older than N
-weekends, or not in the next N PCO plans) that makes a song safe to delete without
-asking?
+**Songs are deleted only after a stage flip, never because they are old.** The songs are
+programmed with hard values, not recipes, so they stay valid for the whole life of a
+stage design and are reused whenever a song comes back. When the stage design changes,
+Aaron asks for the song pool to be cleared; until he says "stage flip" or "new stage
+design", a job never deletes a song, and "remove old songs" in a weekly job means
+nothing more than unassigning them from the new page. At a stage flip, list every song
+with name, cue count and the pages it sits on, and wait for a go before deleting.
 
 ## Pages and executors
 
