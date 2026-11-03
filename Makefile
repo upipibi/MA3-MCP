@@ -15,10 +15,21 @@ LUA_CPATH_T := $(ROCKS)/lib/lua/$(LUAV)/?.so;$(BREWLUA)/lib/lua/$(LUAV)/?.so;;
 test:
 	@LUA_PATH="$(LUA_PATH_T)" LUA_CPATH="$(LUA_CPATH_T)" $(LUA) test/run.lua
 
-ONPC_PLUGINS := $(HOME)/MALightingTechnology/gma3_2.5.1/shared/resource/lib_plugins/ma3_mcp
-# Copies the spike plugins (and dist/ once it exists) into onPC's plugin folder.
-install-onpc:
-	@mkdir -p "$(ONPC_PLUGINS)"
-	@cp spike/gate-zero/*.lua spike/gate-zero/*.xml spike/onpc-facts/*.lua spike/onpc-facts/*.xml "$(ONPC_PLUGINS)/"
-	@[ -d dist ] && cp dist/*.lua dist/*.xml "$(ONPC_PLUGINS)/" 2>/dev/null || true
-	@ls -1 "$(ONPC_PLUGINS)"
+# Bundle every src module into one plugin file the console can import.
+build:
+	@mkdir -p dist
+	@$(LUA) tools/bundle.lua "dist/MA3 MCP.lua"
+	@cp "plugin/MA3 MCP.xml" dist/
+	@$(dir $(LUA))luac -p "dist/MA3 MCP.lua" && echo "dist/MA3 MCP.lua compiles ($$(wc -c < 'dist/MA3 MCP.lua') bytes)"
+
+# onPC imports plugins from the library's datapools/plugins folder:
+#   Import Plugin Library "MA3 MCP.xml" At Plugin <n>
+ONPC_LIBRARY := $(HOME)/MALightingTechnology/gma3_library/datapools/plugins
+install-onpc: build
+	@mkdir -p "$(ONPC_LIBRARY)"
+	@cp "dist/MA3 MCP.lua" "dist/MA3 MCP.xml" spike/gate-zero/*.lua spike/gate-zero/*.xml "$(ONPC_LIBRARY)/"
+	@ls -1 "$(ONPC_LIBRARY)" | grep 'MA3 MCP'
+
+release: build
+	@mkdir -p dist
+	@cd dist && rm -f avl-ma3-mcp-*.zip && zip -q "avl-ma3-mcp-$$($(LUA) -e 'print(require("main").VERSION)' 2>/dev/null || echo dev).zip" "MA3 MCP.lua" "MA3 MCP.xml" ../docs/CONVENTIONS.md ../docs/INSTALL-CONSOLE.md && ls -1 avl-ma3-mcp-*.zip
