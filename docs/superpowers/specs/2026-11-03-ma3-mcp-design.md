@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-03
 **Status:** approved by Aaron 2026-11-03 (summary approval; calls marked "Claude's call" are Claude's)
-**Target:** grandMA3 light, software 2.5.1.1, Worship Center, production network 10.11.0.0/20, console address **10.11.3.10** (DHCP reservation)
+**Target:** grandMA3 light, software 2.5.1.1, Worship Center, production network <production subnet>, console address **<console-ip>** (DHCP reservation)
 **Repo (to be created):** `NorthwoodsCommunityChurch/avl-ma3-mcp`, topic `lighting-tools`, MIT
 
 ---
@@ -141,7 +141,7 @@ setting persists). Contents, top to bottom:
 | Row | Content |
 | --- | --- |
 | Title bar | "MA3 MCP", close button (closing hides the window; the server keeps running) |
-| State | big On/Off button; text "Listening on 10.11.x.x:9800" or "Off" |
+| State | big On/Off button; text "Listening on <production network>:9800" or "Off" |
 | PIN | the 8-character PIN in large text, a **Regenerate** button, a note "paste as Bearer token" |
 | Lua | toggle "Allow Lua execution" (default off, resets to off at every start) |
 | Clients | the last 10 connections: IP, client name (from MCP clientInfo), last seen, call count, and a red "bad PIN" row for refused attempts |
@@ -340,7 +340,7 @@ and so on).
 
 Only what changes what gets built:
 
-1. ~~Is the console's production-network IP fixed?~~ **Answered 2026-11-03:** 10.11.3.10 by
+1. ~~Is the console's production-network IP fixed?~~ **Answered 2026-11-03:** <console-ip> by
    DHCP reservation. Clients are configured by address; no lookup step.
 2. ~~OK to run the gate-zero socket test on the real console?~~ **Answered 2026-11-03:** yes.
 

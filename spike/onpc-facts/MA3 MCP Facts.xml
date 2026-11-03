@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GMA3 DataVersion="2.5.1.1">
+    <UserPlugin Name="MA3 MCP Facts" Version="0.0.1.0" Path="/ma3_mcp">
+        <ComponentLua Name="ma3_mcp_facts" FileName="MA3 MCP Facts.lua" />
+    </UserPlugin>
+</GMA3>

@@ -1,0 +1,113 @@
+local console = require("console")
+local bulk = require("tools.bulk")
+local fake_console = require("fake_console")
+local h = require("helpers")
+
+local function setup()
+  local fake = fake_console.new()
+  local c = console.new(fake.api)
+  local tools = {}
+  local ctx = { budget_ms = 10000, lua_enabled = function() return false end }
+  bulk.register(tools, c, ctx)
+  return fake, tools, ctx
+end
+
+local function find(rows, key, value)
+  for _, r in ipairs(rows) do if r[key] == value then return r end end
+end
+
+h.describe("ma3_fixtures lists instances", function()
+  local fake, tools, ctx = setup()
+  local r = tools.ma3_fixtures.handler({}, ctx)
+  h.eq(#r.rows, 3, "top-level fixtures"); h.eq(r.partial, false); h.eq(r.next_offset, nil)
+  local f = find(r.rows, "id", "201")
+  h.eq(f.name, "Multi 8 Bar"); h.eq(f.fixture_type, "Multi 8"); h.eq(f.mode, "FixtureType 7.1.1"); h.eq(f.patch, "2.001"); h.eq(f.fid, 201)
+  h.eq(#f.children, 8); h.eq(f.children[3].id, "201.3"); h.eq(f.children[3].cid, 3); h.eq(f.children[3].name, "Cell 3"); h.eq(f.children[3].sf_index, 103)
+  local rack = find(r.rows, "id", "8")
+  h.eq(#rack.children, 3); h.eq(rack.children[1].id, "1"); h.eq(rack.children[1].patch, "1.001"); h.eq(rack.children[1].address, "Fixture 1")
+  h.eq(r.fixture_types[1].name, "Generic Dimmer"); h.eq(r.fixture_types[1].no, 3)
+end)
+
+h.describe("ma3_fixtures filters", function()
+  local _, tools, ctx = setup()
+  local r = tools.ma3_fixtures.handler({ type = "Multi" }, ctx)
+  h.eq(#r.rows, 1); h.eq(r.rows[1].id, "201")
+  local r2 = tools.ma3_fixtures.handler({ id_from = 1, id_to = 100 }, ctx)
+  h.eq(#r2.rows, 1); h.eq(r2.rows[1].id, "8")
+end)
+
+h.describe("fixtures_returns_partial_with_next_offset_on_budget", function()
+  local fake, tools, ctx = setup()
+  ctx.budget_ms = 1; fake.slow = true
+  local r = tools.ma3_fixtures.handler({}, ctx)
+  h.eq(r.partial, true); h.truthy(r.next_offset); h.truthy(#r.rows >= 1)
+  local r2 = tools.ma3_fixtures.handler({ offset = r.next_offset }, ctx)
+  h.truthy(r2.rows[1].id ~= r.rows[1].id, "resumes after the first page")
+end)
+
+h.describe("ma3_sequences shows executors and never ranges pages", function()
+  local fake, tools, ctx = setup()
+  local r = tools.ma3_sequences.handler({}, ctx)
+  h.eq(#r.rows, 6)
+  local s = find(r.rows, "no", 12)
+  h.eq(s.name, "Song A"); h.eq(s.cue_count, 4, "CueZero and OffCue are not cues"); h.eq(s.first_cue, "Cue 1"); h.eq(s.last_cue, "Cue 4"); h.eq(s.tags, "Song:0"); h.eq(s.note, "walk-in")
+  h.eq(#s.executors, 2)
+  h.eq(s.executors[1].page, 1); h.eq(s.executors[1].executor, 201); h.eq(s.executors[1].page_name, "Weekend"); h.eq(s.executors[1].label, "Song A")
+  h.eq(s.executors[2].page, 3); h.eq(s.executors[2].executor, 101)
+  local l = find(r.rows, "no", 13); h.eq(l.cue_count, 0); h.eq(#l.executors, 0)
+  local old = find(r.rows, "no", 300); h.eq(old.cue_count, 0)
+  h.eq(s.cues, nil)
+  for _, call in ipairs(fake.objectlist_calls) do h.truthy(not call:lower():find("thru"), call) end
+end)
+
+h.describe("ma3_sequences include_cues and paging", function()
+  local _, tools, ctx = setup()
+  local r = tools.ma3_sequences.handler({ include_cues = true, limit = 2 }, ctx)
+  h.eq(#r.rows, 2); h.eq(r.next_offset, 13)
+  h.eq(r.rows[1].cues[2].no, 2); h.eq(r.rows[1].cues[2].name, "Cue 2"); h.eq(r.rows[1].cues[2].trigger, "Follow")
+  local r2 = tools.ma3_sequences.handler({ offset = r.next_offset }, ctx)
+  h.eq(r2.rows[1].no, 14); h.eq(#r2.rows, 4); h.eq(r2.next_offset, nil)
+end)
+
+h.describe("ma3_pages", function()
+  local _, tools, ctx = setup()
+  local r = tools.ma3_pages.handler({}, ctx)
+  h.eq(#r.rows, 2); h.eq(r.rows[1].no, 1); h.eq(r.rows[1].name, "Weekend"); h.eq(#r.rows[1].executors, 3)
+  local e = r.rows[1].executors[1]
+  h.eq(e.executor, 101); h.eq(e.label, "House"); h.eq(e.assigned, "Sequence 20"); h.eq(e.assigned_name, "House"); h.eq(e.key, "Go+"); h.eq(e.fader, "Master"); h.eq(e.width, 1); h.eq(e.height, 2)
+  h.eq(r.rows[1].executors[2].executor, 201, "sorted by executor number")
+  h.eq(r.rows[2].executors[1].assigned, "Sequence 12")
+end)
+
+h.describe("ma3_groups members", function()
+  local _, tools, ctx = setup()
+  local r = tools.ma3_groups.handler({}, ctx)
+  h.eq(#r.rows, 2)
+  h.eq(r.rows[1].no, 1); h.eq(r.rows[1].name, "Cells L"); h.eq(r.rows[1].tags, "LED:0")
+  h.eq(r.rows[1].members[1], "201.1"); h.eq(r.rows[1].members[2], "201.2"); h.eq(r.rows[1].member_count, 2)
+  h.eq(r.rows[1].member_details[1].name, "Cell 1"); h.eq(r.rows[1].member_details[1].sf_index, 101); h.eq(r.rows[1].member_details[1].x, 0)
+  h.eq(r.rows[2].members[1], "1")
+end)
+
+h.describe("ma3_presets", function()
+  local _, tools, ctx = setup()
+  local r = tools.ma3_presets.handler({}, ctx)
+  h.eq(#r.rows, 3)
+  h.eq(r.rows[1].pool, 1); h.eq(r.rows[1].pool_name, "Dimmer"); h.eq(r.rows[1].no, 1); h.eq(r.rows[1].name, "Full"); h.eq(r.rows[1].address, "Preset 1.1"); h.eq(r.rows[1].child_count, 3)
+  h.eq(r.rows[3].name, "Blue"); h.eq(r.rows[3].no, 7)
+  local r2 = tools.ma3_presets.handler({ pool = 4 }, ctx)
+  h.eq(#r2.rows, 2); h.eq(r2.rows[1].tags, "Song:0")
+end)
+
+h.describe("ma3_macros", function()
+  local _, tools, ctx = setup()
+  local r = tools.ma3_macros.handler({}, ctx)
+  h.eq(#r.rows, 1); h.eq(r.rows[1].no, 1); h.eq(r.rows[1].name, "Relays On"); h.eq(#r.rows[1].lines, 3)
+  h.eq(r.rows[1].lines[1].command, "Park Group 1100 At 100"); h.eq(r.rows[1].lines[1].wait, "Follow"); h.eq(r.rows[1].lines[2].enabled, false)
+end)
+
+h.describe("bulk tools yield while walking", function()
+  local fake, tools, ctx = setup()
+  tools.ma3_sequences.handler({}, ctx)
+  h.truthy(fake.yields > 0, "yielded at least once over a 2000-slot pool")
+end)
