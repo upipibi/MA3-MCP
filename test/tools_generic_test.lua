@@ -99,3 +99,17 @@ h.describe("log ring buffer", function()
   for i = 1, 5 do l:add("l%d", i) end
   local lines = l:lines(); h.eq(#lines, 3); h.eq(lines[1], "l3"); h.eq(lines[3], "l5")
 end)
+
+h.describe("ma3_command refuses Lua and show-file commands", function()
+  local before = #fake.cmds
+  for _, cmd in ipairs({ 'Lua "os.remove(1)"', "lua 'x'", 'LuaFile "x.lua"', 'SaveShow "x"', "SaveShow", 'LoadShow "y"', "NewShow" }) do
+    local r, err = tools.ma3_command.handler({ command = cmd }, ctx)
+    h.eq(r, nil, cmd); h.truthy(err and (err:find("ma3_lua") or err:find("ma3_save") or err:find("refused")), cmd .. ": " .. tostring(err))
+  end
+  h.eq(#fake.cmds, before, "nothing reached the console")
+  h.truthy(tools.ma3_command.handler({ command = "Call Plugin 1" }, ctx), "other plugins may be called")
+  local r = tools.ma3_command.handler({ command = "Label Sequence 12 \"Luanne\"" }, ctx)
+  h.truthy(r, "a name containing 'Lua' is fine")
+  tools.ma3_command.handler({ command = "Copy Sequence 12 At 13" }, ctx)
+  h.eq(fake.last_cmd, "Copy Sequence 12 At 13 /NoConfirmation", "copy onto a slot can ask to overwrite")
+end)

@@ -43,7 +43,14 @@ Smoke test in Claude Code: ask for `ma3_status`; it returns the show name.
 - After tapping the window, tap the command line before typing a command; the overlay
   keeps keyboard focus otherwise.
 - Command-line arguments: `Plugin "MA3 MCP" "off"`, `"status"`, `"pin"`, `"lua on"`,
-  `"lua off"`, `"regen"`, `"<port>"` (takes effect at the next start).
+  `"lua off"`, `"regen"`, `"bind 10.11.3.10"` or `"bind auto"`, `"<port>"` (bind and
+  port take effect at the next start).
+- If the startup line says `listening on 127.0.0.1` on the console, the plugin did not find
+  the production-network address by itself: run `Plugin "MA3 MCP" "bind 10.11.3.10"` once,
+  then stop and start it.
+- Optional pool-button colour: store an Appearance named exactly `MA3 MCP` (any colour you
+  like). While the server runs the plugin's pool button wears it; when stopped it is cleared.
+  Without that Appearance the button never changes.
 - Settings (PIN, port, display, backups, clients) live in
   `gma3_library/ma3_mcp_settings.json` on the console, not in the show file.
 - Log: `onpc/temp/ma3_mcp.log` on onPC; the console's temp folder on hardware.

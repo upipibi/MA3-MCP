@@ -57,15 +57,27 @@ local function accept_new(self)
     pcall(function() sock:setoption("tcp-nodelay", true) end)
     local ip = "?"
     pcall(function() ip = select(1, sock:getpeername()) or "?" end)
-    self.clients[#self.clients + 1] = { sock = sock, ip = ip, buf = "", out = nil, out_i = 1, since = self.now(), done = false }
+    self.clients[#self.clients + 1] = { sock = sock, ip = ip, buf = "", out = nil, out_i = 1, since = self.now(), last_rx = self.now(), done = false, complete = false }
   end
 end
 
+-- Reads everything the socket has right now, up to READ_CAP bytes per pass, so a 1 MB body
+-- arrives within a frame or two instead of 4 KB per frame.
+M.READ_CAP = 1024 * 1024 + 64 * 1024
+
 local function read_client(self, c)
-  local data, err, partial = c.sock:receive(4096)
-  local chunk = data or partial
-  if chunk and #chunk > 0 then c.buf = c.buf .. chunk end
-  if err == "closed" then c.peer_closed = true end
+  local got = 0
+  while got < M.READ_CAP do
+    local data, err, partial = c.sock:receive(4096)
+    local chunk = data or partial
+    if chunk and #chunk > 0 then
+      c.buf = c.buf .. chunk
+      got = got + #chunk
+      c.last_rx = self.now()
+    end
+    if err == "closed" then c.peer_closed = true return end
+    if not data then return end       -- "timeout": nothing more right now
+  end
 end
 
 local function respond(c, status, headers, body)
@@ -97,12 +109,13 @@ function M:step()
     if not c.done then read_client(self, c) end
   end
 
-  -- parse; serve the oldest complete request only
+  -- parse; serve the oldest complete request only (others wait, and are never dropped as idle)
   local served = false
   for i, c in ipairs(self.clients) do
     if not c.done then
       local req, st = http.parse(c.buf)
       if st == "ok" then
+        c.complete = true
         if not served then
           served = true
           self.stats.requests = self.stats.requests + 1
@@ -132,7 +145,7 @@ function M:step()
       flush(self, i)
     elseif c.peer_closed then
       close_client(self, i, "peer closed")
-    elseif now - c.since > self.idle_timeout then
+    elseif not c.complete and now - c.last_rx > self.idle_timeout then
       close_client(self, i, "idle")
     end
   end

@@ -4,7 +4,14 @@ local console = require("console")
 
 local M = {}
 
-local NOCONFIRM_PREFIXES = { "delete", "store", "oops", "import", "export", "cut", "merge", "off", "assign" }
+local NOCONFIRM_PREFIXES = { "delete", "store", "oops", "import", "export", "cut", "merge", "off", "assign", "copy", "move", "clone" }
+
+-- First keywords ma3_command never sends: Lua would bypass the ma3_lua gate; show-file
+-- commands open dialogs on the plugin thread (ma3_save / ma3_backup are the save paths).
+local REFUSED = {
+  lua = "use ma3_lua (it is gated by the window toggle)", luafile = "use ma3_lua (it is gated by the window toggle)",
+  saveshow = "use ma3_save or ma3_backup", loadshow = "refused: load shows from the console", newshow = "refused: create shows from the console",
+}
 
 local function needs_noconfirmation(cmd)
   local first = cmd:match("^%s*(%a+)")
@@ -125,12 +132,14 @@ function M.register(tools, c, ctx)
   }
 
   tools.ma3_command = {
-    description = "Run one command-line command exactly as typed on the console (Store, Label, Assign, Delete, Go, ...). Returns the console's result string ('OK', 'Object not found', ...). Adds /NoConfirmation to Delete/Store/Oops/Import/Export/Cut/Merge/Off/Assign so no dialog can stall the plugin. {undo_group:'name'} groups commands into one console undo (close it with ma3_undo_close). A timeout proves nothing: check state before resending. Changes the live show.",
-    inputSchema = { type = "object", required = { "command" }, properties = { command = { type = "string" }, timeout_ms = { type = "integer" }, undo_group = { type = "string" } } },
+    description = "Run one command-line command exactly as typed on the console (Store, Label, Assign, Delete, Go, ...). Returns the console's result string ('OK', 'Object not found', ...). Adds /NoConfirmation to Delete/Store/Oops/Import/Export/Cut/Merge/Off/Assign/Copy/Move/Clone so no dialog can stall the plugin. Refuses Lua/LuaFile (use ma3_lua) and SaveShow/LoadShow/NewShow (use ma3_save/ma3_backup). {undo_group:'name'} groups commands into one console undo (close it with ma3_undo_close). The console cannot interrupt a command; a timeout proves nothing, check state before resending. Changes the live show.",
+    inputSchema = { type = "object", required = { "command" }, properties = { command = { type = "string" }, undo_group = { type = "string" } } },
     handler = function(args)
       local cmd = tostring(args.command or "")
       if cmd:match("^%s*$") then return nil, "command is empty" end
       if cmd:find("[%c]") then return nil, "command contains control characters" end
+      local first = (cmd:match("^%s*(%a+)") or ""):lower()
+      if REFUSED[first] then return nil, string.format("%s is not sent by ma3_command: %s", first, REFUSED[first]) end
       local added = false
       if needs_noconfirmation(cmd) and not cmd:lower():find("/noconfirmation", 1, true) then
         cmd = cmd .. " /NoConfirmation"

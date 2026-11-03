@@ -13,7 +13,9 @@ function Client:receive(n)
   local chunk = table.remove(self.chunks, 1)
   if chunk == nil then return nil, "timeout", "" end
   if chunk == "CLOSE" then self.closed_by_peer = true return nil, "closed", "" end
-  return nil, "timeout", chunk   -- partial-return form, like a non-blocking socket
+  -- like LuaSocket: a full n bytes comes back as data; less than n comes back as a partial with "timeout"
+  if n and #chunk >= n then return chunk end
+  return nil, "timeout", chunk
 end
 function Client:send(data, i)
   i = i or 1

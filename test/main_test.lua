@@ -12,7 +12,7 @@ local function setup(host_type)
   local files = fake_fs.new()
   local timers = {}
   local plugin = { props = { NAME = "MA3 MCP" } }
-  local my_handle = { Parent = function() return { Set = function(_, k, v) plugin.props[k:upper()] = v end, Get = function(_, k) return plugin.props[k:upper()] end, GetClass = function() return "UserPlugin" end } end }
+  local my_handle = { Parent = function() return { Set = function(_, k, v) plugin.props[k:upper()] = v end, Get = function(_, k) return plugin.props[k:upper()] end, GetClass = function() return "UserPlugin" end, ToAddr = function() return "Plugin 90" end } end }
   local deps = {
     socket = fs, console_api = fc.api, fs = files, settings_path = "/lib/ma3_mcp_settings.json", log_path = "/tmp/ma3_mcp.log",
     Timer = function(fn, delay, count) timers[#timers + 1] = { fn = fn, delay = delay, count = count } end,
@@ -152,4 +152,32 @@ h.describe("main window toggle: Off stops in place, On relaunches the plugin thr
   t.state.toggle()
   h.eq(t.state.running, false, "On does not start outside a Main session")
   h.eq(t.fc.indirect[#t.fc.indirect], 'Plugin "MA3 MCP"', "On asks the console to run the plugin, which starts a new Main")
+end)
+
+h.describe("main bind argument persists and is used on the next start", function()
+  local t = setup("Console")
+  t.Main(nil, "bind 10.11.3.10")
+  h.eq(json.decode(t.files.files["/lib/ma3_mcp_settings.json"]).bind, "10.11.3.10")
+  t.Main(nil, "")
+  h.eq(t.state.server.bind_host, "10.11.3.10")
+  t.Main(nil, "off")
+  t.Main(nil, "bind auto")
+  h.eq(json.decode(t.files.files["/lib/ma3_mcp_settings.json"]).bind, nil, "auto clears the override")
+  t.Main(nil, "bind nonsense")
+  h.truthy(table.concat(t.fc.echo, "\n"):find("bind"), "bad address reported")
+end)
+
+h.describe("main shows state on the pool button through an Appearance named MA3 MCP when one exists", function()
+  local t = setup("onPC")
+  t.fc.by_addr['Appearance "MA3 MCP"'] = t.fc.by_addr["Root 14.5"]  -- any object: the name exists
+  t.Main(nil, "")
+  local joined = table.concat(t.fc.cmds, "\n")
+  h.truthy(joined:find('Set Plugin 90 Property "Appearance" "MA3 MCP"', 1, true), joined)
+  t.Main(nil, "off")
+  joined = table.concat(t.fc.cmds, "\n")
+  h.truthy(joined:find('Set Plugin 90 Property "Appearance" ""', 1, true), "cleared on stop: " .. joined)
+  local t2 = setup("onPC")
+  t2.Main(nil, "")
+  h.eq(#t2.fc.cmds, 0, "no Appearance named MA3 MCP: nothing is sent")
+  t2.Main(nil, "off")
 end)

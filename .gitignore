@@ -8,3 +8,4 @@ spike/out/
 # os / editor
 .DS_Store
 .vscode/
+ma3_mcp*.log

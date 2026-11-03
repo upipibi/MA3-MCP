@@ -55,3 +55,15 @@ h.describe("ma3_lua deadline", function()
   local r2 = tools.ma3_lua.handler({ code = "return 'still works'" }, ctx)
   h.eq(r2.returned, "still works", "hook removed afterwards")
 end)
+
+h.describe("ma3_lua sandbox closes the file system and hook escapes", function()
+  local _, tools, ctx = setup(true)
+  for _, code in ipairs({ "return require", "return package", "return loadfile", "return dofile", "return debug", "return lfs", "return rawget(_G, 'io')", "return _G.io" }) do
+    local r, err = tools.ma3_lua.handler({ code = code }, ctx)
+    h.truthy(r and r.returned == nil, code .. " -> " .. tostring(r and r.returned) .. " " .. tostring(err))
+  end
+  local r = tools.ma3_lua.handler({ code = "return load('return io')()" }, ctx)
+  h.eq(r.returned, nil, "load() stays inside the sandbox")
+  local r2 = tools.ma3_lua.handler({ code = "local f = load('return 2+2') return f()" }, ctx)
+  h.eq(r2.returned, 4, "load still works for plain code")
+end)

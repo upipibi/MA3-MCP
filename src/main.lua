@@ -94,8 +94,21 @@ local function persist()
   if not ok then S.log:add("could not save settings: %s", tostring(err)) end
 end
 
+-- Pool-button state: if the show has an Appearance named "MA3 MCP", the plugin wears it while
+-- running and drops it when stopped. The plugin's name never changes, so Plugin "MA3 MCP"
+-- commands keep working. Without that Appearance nothing is sent.
+local function show_state_on_button(running)
+  if not (S.my_handle and S.c) then return end
+  pcall(function()
+    if not S.c:object('Appearance "MA3 MCP"') then return end
+    local addr = S.my_handle:Parent():ToAddr()
+    S.c:cmd(string.format('Set %s Property "Appearance" "%s"', addr, running and "MA3 MCP" or ""))
+  end)
+end
+
 local function stop(why)
   if S.server then S.server:stop() end
+  show_state_on_button(false)
   S.running = false
   persist()
   if S.deps and S.deps.ui and S.deps.ui.close and why ~= "window" then pcall(S.deps.ui.close) end
@@ -152,6 +165,7 @@ local function start()
     return false
   end
   S.running = true
+  show_state_on_button(true)
   S.log:add("listening on %s (%s)", address, how)
   c:echo("MA3 MCP v%s: listening on %s (%s). PIN: %s", M.VERSION, address, how, S.auth.pin)
   deps.Timer(function()
@@ -248,6 +262,19 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
       persist()
       S.c:echo("MA3 MCP: new PIN %s", pin) return
     end
+    local bind_arg = lower:match("^bind%s+(%S+)$")
+    if bind_arg then
+      S.settings = S.settings or settings.load(deps.fs, deps.settings_path)
+      if bind_arg == "auto" then
+        S.settings.bind = nil
+      elseif bind_arg:match("^%d+%.%d+%.%d+%.%d+$") then
+        S.settings.bind = bind_arg
+      else
+        S.c:echo('MA3 MCP: bind needs an IPv4 address or "auto", got "%s"', bind_arg) return
+      end
+      persist()
+      S.c:echo("MA3 MCP: bind set to %s (takes effect at the next start)", S.settings.bind or "auto") return
+    end
     local port = tonumber(arg)
     if port and port == math.floor(port) and port > 0 and port < 65536 then
       S.settings = S.settings or settings.load(deps.fs, deps.settings_path)
@@ -255,7 +282,7 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
       persist()
       S.c:echo("MA3 MCP: port set to %d (takes effect at the next start)", port) return
     end
-    S.c:echo('MA3 MCP: unknown argument "%s" (use: off, status, pin, lua on, lua off, regen, <port>)', arg)
+    S.c:echo('MA3 MCP: unknown argument "%s" (use: off, status, pin, lua on, lua off, regen, bind <ip>|auto, <port>)', arg)
   end
 
   local function cleanup()

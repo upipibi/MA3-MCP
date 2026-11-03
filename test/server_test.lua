@@ -113,3 +113,30 @@ h.describe("server start failure and stop", function()
   local ip, port = srv2:address(); h.eq(ip, "127.0.0.1"); h.eq(port, 9800)
   srv2:stop(); h.eq(srv2.running, false)
 end)
+
+h.describe("server reads a large body within one pass and keeps a queued client alive", function()
+  local fs, srv, calls = make()
+  local big = string.rep("x", 900 * 1024)
+  local chunks = {}
+  local raw = "POST /mcp HTTP/1.1\r\nHost: x\r\ncontent-length: " .. #big .. "\r\n\r\n" .. big
+  for i = 1, #raw, 4096 do chunks[#chunks + 1] = raw:sub(i, i + 4095) end
+  local c = fake.client({ chunks = chunks })
+  table.insert(fs.pending, c)
+  srv:step()
+  h.eq(#calls, 1, "whole body read in one pass"); h.eq(#calls[1].req.body, #big)
+  -- a slow trickle: one byte every pass, 6 s apart, must not be dropped as idle
+  local fs2, srv2, calls2 = make()
+  local slow = fake.client({ chunks = {} })
+  table.insert(fs2.pending, slow)
+  local raw2 = REQ
+  for i = 1, #raw2 do fs2.feed(slow, raw2:sub(i, i)); fs2.now = fs2.now + 2; srv2:step() end
+  h.eq(#calls2, 1, "idle is measured from the last byte, not from connect")
+  -- a client queued behind a long handler is served afterwards, not dropped
+  local fs3, srv3, calls3 = make(function() fs3.now = fs3.now + 8 return 200, {}, "{}" end)
+  local a = fake.client({ chunks = { REQ }, ip = "10.11.4.71" })
+  local b = fake.client({ chunks = { REQ }, ip = "10.11.4.72" })
+  table.insert(fs3.pending, a); table.insert(fs3.pending, b)
+  srv3:step()
+  srv3:step()
+  h.eq(#calls3, 2, "queued complete request survives a long handler"); h.eq(calls3[2].ip, "10.11.4.72")
+end)

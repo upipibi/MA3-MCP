@@ -7,9 +7,12 @@ local M = {}
 
 M.BLOCKED_OS = { "exit", "execute", "remove", "rename", "tmpname" }
 
+-- Names a chunk must never reach: the file system, module loading, and the debug library
+-- (which could remove the deadline hook).
+M.BLOCKED_GLOBALS = { io = true, require = true, package = true, loadfile = true, dofile = true, debug = true, lfs = true, loadstring = true }
+
 local function build_env(globals, output)
-  local env = setmetatable({}, { __index = globals })
-  env.io = nil
+  local env = {}
   env.os = {}
   for k, v in pairs(globals.os or os) do env.os[k] = v end
   for _, k in ipairs(M.BLOCKED_OS) do env.os[k] = nil end
@@ -19,9 +22,12 @@ local function build_env(globals, output)
     output[#output + 1] = ok and s or tostring(fmt)
   end
   env.print = env.Echo
-  -- Lookups: the injected globals first (the console API), then the standard library; never io.
+  env._G = env
+  -- load() inside the chunk compiles into the same sandbox, never the real globals.
+  env.load = function(chunk, name, _, custom_env) return load(chunk, name or "=mcp-inner", "t", custom_env or env) end
+  -- Lookups: the injected globals first (the console API), then the standard library; never a blocked name.
   return setmetatable(env, { __index = function(_, k)
-    if k == "io" then return nil end
+    if M.BLOCKED_GLOBALS[k] then return nil end
     local v = globals[k]
     if v == nil then v = _G[k] end
     return v
@@ -47,7 +53,7 @@ end
 function M.register(tools, c, ctx, globals)
   globals = globals or _G
   tools.ma3_lua = {
-    description = "Run a Lua chunk inside the console with the full grandMA3 API (ObjectList, Cmd, DataPool, ...). Refused unless 'Allow Lua execution' is on in the MA3 MCP window. Returns {returned, output}; Echo/Printf output is captured. The chunk cannot use io or os.exit/execute/remove/rename. timeout_ms (default 5000) is a wall-clock deadline; a timeout proves nothing about side effects already done. Changes the live show if the code does.",
+    description = "Run a Lua chunk inside the console with the full grandMA3 API (ObjectList, Cmd, DataPool, ...). Refused unless 'Allow Lua execution' is on in the MA3 MCP window. Returns {returned, output}; Echo/Printf output is captured. The chunk cannot use io, require, package, loadfile, dofile, debug, lfs, or os.exit/execute/remove/rename. timeout_ms (default 5000) is a wall-clock deadline; a timeout proves nothing about side effects already done. Changes the live show if the code does.",
     inputSchema = { type = "object", required = { "code" }, properties = { code = { type = "string" }, timeout_ms = { type = "integer" } } },
     handler = function(args)
       if not ctx.lua_enabled() then return nil, "Lua execution is off; turn it on in the MA3 MCP window (or Plugin \"MA3 MCP\" \"lua on\")" end

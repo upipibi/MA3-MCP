@@ -47,7 +47,7 @@ Save the show. The plugin ships off; start it with one tap after each show load.
 ## Configuration
 
 - Window: On/Off, Regenerate PIN, Allow Lua execution (off at every start), display picker.
-- Command line: `Plugin "MA3 MCP" "off" | "status" | "pin" | "lua on" | "lua off" | "regen" | "<port>"`.
+- Command line: `Plugin "MA3 MCP" "off" | "status" | "pin" | "lua on" | "lua off" | "regen" | "bind <ip>" | "bind auto" | "<port>"`.
 - Settings file on the console: `gma3_library/ma3_mcp_settings.json` (`pin`, `port`, `bind` override, `display`, `backups`, `clients`).
 - `docs/CONVENTIONS.md`: how the show is organized, read by models before a job.
 
