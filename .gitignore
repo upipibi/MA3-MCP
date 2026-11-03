@@ -9,3 +9,5 @@ spike/out/
 .DS_Store
 .vscode/
 ma3_mcp*.log
+# machine-specific MCP wiring (absolute paths)
+.mcp.json
