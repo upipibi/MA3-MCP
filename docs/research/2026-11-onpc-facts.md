@@ -63,6 +63,15 @@ Layout facts: `obj[1][i]` addresses row i and `obj[2][i]` column i when setting 
 grid cell. After a tap on the window, keyboard input stays with the overlay until the command line
 is tapped (typed commands silently go nowhere) — documented for the operator.
 
-## Gate zero on the real console (Task 2, Aaron)
+## Real console (grandMA3 light, 2.5.1.1), 2026-11-03
 
-(to be filled when Aaron runs `spike/gate-zero`; see its README)
+Gate zero was passed by the plugin itself, no separate spike needed. Aaron imported v0.1.0 from
+a USB stick (`Import Plugin Library "MA3 MCP.xml" At Plugin 91`, `Plugin "MA3 MCP"`); the plugin
+found the production address by itself and `ma3_status` from Aaron's laptop returned
+`host_type: Console, address: 10.11.3.10:9800, show: Christmas 2026`. Claude Code 2.1.295 with
+the server registered in user scope read status, three sequences with cue counts and a page.
+First-run bug found and fixed on the console: the window did not redraw after Off (the redraw
+lived in Main's loop, which Off ends); Off now redraws immediately.
+
+Still unverified on the console: `ma3_backup` (saves the show, then copies the file), the
+optional pool-button Appearance, and any write through `ma3_command`.
