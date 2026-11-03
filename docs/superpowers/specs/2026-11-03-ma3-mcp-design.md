@@ -1,8 +1,8 @@
 # MA3 MCP — design
 
 **Date:** 2026-11-03
-**Status:** draft for Aaron's approval
-**Target:** grandMA3 light, software 2.5.1.1, Worship Center, production network 10.11.0.0/20
+**Status:** approved by Aaron 2026-11-03 (summary approval; calls marked "Claude's call" are Claude's)
+**Target:** grandMA3 light, software 2.5.1.1, Worship Center, production network 10.11.0.0/20, console address **10.11.3.10** (DHCP reservation)
 **Repo (to be created):** `NorthwoodsCommunityChurch/avl-ma3-mcp`, topic `lighting-tools`, MIT
 
 ---
@@ -340,13 +340,9 @@ and so on).
 
 Only what changes what gets built:
 
-1. **Is the console's production-network IP fixed** (static or a DHCP reservation with the
-   MSP)? Clients are configured by address. If it can change, the design adds a small
-   "find the console" step (an mDNS/hostname entry via the MSP, or a documented check in
-   the window) rather than an address in every client config.
-2. **OK to run the gate-zero socket test on the real console** at a time you pick? It is
-   read-only toward the showfile (it stores and runs one throwaway plugin, then you delete
-   it) but it is the production console.
+1. ~~Is the console's production-network IP fixed?~~ **Answered 2026-11-03:** 10.11.3.10 by
+   DHCP reservation. Clients are configured by address; no lookup step.
+2. ~~OK to run the gate-zero socket test on the real console?~~ **Answered 2026-11-03:** yes.
 
 Everything else the builder check raised was settled in this document and marked
 "Claude's call": plain HTTP with the PIN (§7.3), the v1 client set (§7.5), best-effort
