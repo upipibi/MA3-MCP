@@ -109,3 +109,16 @@ h.describe("ui.adapter drives the window from the plugin state", function()
   a.tick(S)
   h.truthy(display.ScreenOverlay:find_all("BaseInput")[1]:find_text("STALLED: a dialog is open on the console; dismiss it"))
 end)
+
+h.describe("ui.adapter.refresh redraws at once, ignoring the tick throttle", function()
+  local display, G = fake_display.new()
+  local S = { running = true, auth = { pin = "ABCD2345", clients = {} }, ctx = { address = "127.0.0.1:9800", backups = {}, budget_ms = 10000 },
+    lua_on = false, settings = { display = 1 }, server = { last_step = 1000 }, signal_table = {}, my_handle = {}, deps = { now = function() return 1000 end } }
+  local a = ui.adapter(G)
+  a.open_or_focus(S)
+  local base = display.ScreenOverlay:find_all("BaseInput")[1]
+  h.truthy(base:find_text("Off"), "shows Off while running")
+  S.running = false
+  a.refresh(S)
+  h.truthy(base:find_text("Off: tap On to start")); h.truthy(base:find_text("On"), "button reads On after a stop")
+end)

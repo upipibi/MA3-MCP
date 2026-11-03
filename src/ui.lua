@@ -226,6 +226,9 @@ function M.adapter(G)
     A.last = now
     A.win:refresh(model_of(S))
   end
+  function A.refresh(S)
+    if A.win and A.win:is_open() then A.win:refresh(model_of(S)) end
+  end
   function A.close()
     if A.win then A.win:close() end
   end

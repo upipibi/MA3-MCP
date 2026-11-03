@@ -111,7 +111,13 @@ local function stop(why)
   show_state_on_button(false)
   S.running = false
   persist()
-  if S.deps and S.deps.ui and S.deps.ui.close and why ~= "window" then pcall(S.deps.ui.close) end
+  if S.deps and S.deps.ui then
+    if why == "window" then
+      if S.deps.ui.refresh then pcall(S.deps.ui.refresh, S) end   -- Main's loop is ending; redraw now
+    elseif S.deps.ui.close then
+      pcall(S.deps.ui.close)
+    end
+  end
   if S.log then S.log:add("stopped (%s)", why or "off") end
   if S.c then S.c:echo("MA3 MCP: stopped (%s)", why or "off") end
 end

@@ -181,3 +181,15 @@ h.describe("main shows state on the pool button through an Appearance named MA3 
   h.eq(#t2.fc.cmds, 0, "no Appearance named MA3 MCP: nothing is sent")
   t2.Main(nil, "off")
 end)
+
+h.describe("main window Off redraws the window immediately", function()
+  local t = setup("onPC")
+  local events = {}
+  t.state.deps.ui = { open_or_focus = function() events[#events + 1] = "open" end, tick = function() end,
+    close = function() events[#events + 1] = "close" end, refresh = function(S) events[#events + 1] = "refresh:" .. tostring(S.running) end }
+  t.Main(nil, "")
+  t.state.toggle()
+  h.eq(t.state.running, false)
+  h.eq(events[#events], "refresh:false", "window redrawn after the stop: " .. table.concat(events, ","))
+  h.truthy(not table.concat(events, ","):find("close"), "window stays open after Off")
+end)
