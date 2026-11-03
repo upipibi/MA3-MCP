@@ -20,7 +20,7 @@ local ui = require("ui")
 local M = {}
 M.VERSION = "0.1.0"
 M.PORT = 9800
-M.PROD_PREFIX = "^10%.11%.(%d+)%."   -- 10.11.0.0/20 = 10.11.0.x .. 10.11.15.x
+M.PROD_PREFIX = "^10%.11%.(%d+)%."   -- the production /20 this plugin was built for; override with Plugin "MA3 MCP" "bind <ip>"
 M.SETTINGS_FILE = "ma3_mcp_settings.json"
 
 M.INSTRUCTIONS = [[MA3 MCP: this server runs inside a grandMA3 console. Read first, then act.

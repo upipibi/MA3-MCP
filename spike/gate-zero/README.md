@@ -13,20 +13,20 @@ empty pool slot.
 
    ```
    Import Plugin Library "MA3 MCP Gate Zero.xml" At Plugin 90
-   Plugin "MA3 MCP Gate Zero" "10.11.3.10"
+   Plugin "MA3 MCP Gate Zero" "<console-ip>"
    ```
 
    (Plugin 90 must be empty; pick another empty slot if not, and use it below.)
-3. The command line history / System Monitor shows `GateZero: listening on 10.11.3.10:9800 for 60 s`.
+3. The command line history / System Monitor shows `GateZero: listening on <console-ip>:9800 for 60 s`.
    The listener stops by itself after 60 seconds.
 
 ## From the laptop (within those 60 seconds)
 
 ```
-curl -s http://10.11.3.10:9800/
+curl -s http://<console-ip>:9800/
 ```
 
-Expected: `MA3 MCP OK`. The console prints `GateZero: served 10.11.x.x (...)`.
+Expected: `MA3 MCP OK`. The console prints `GateZero: served <production network> (...)`.
 While it runs, touch a view or two on the console: the UI must stay responsive.
 
 ## Afterwards

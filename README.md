@@ -1,5 +1,7 @@
 # MA3 MCP
 
+**Alpha.** Working on a grandMA3 light and onPC 2.5.1.1; see CHANGELOG.md for what is not yet verified.
+
 A grandMA3 Lua plugin that turns the console into an MCP server, so an AI model on the production network can read the whole showfile and run console commands.
 
 ![The MA3 MCP window on grandMA3 onPC](docs/images/window-onpc.png)
@@ -38,7 +40,7 @@ Save the show. The plugin ships off; start it with one tap after each show load.
 2. On your machine:
 
    ```
-   claude mcp add --transport http ma3 http://10.11.3.10:9800/mcp --header "Authorization: Bearer <PIN>" --scope user
+   claude mcp add --transport http ma3 http://<console-ip>:9800/mcp --header "Authorization: Bearer <PIN>" --scope user
    ```
 
 3. In Claude Code, ask for `ma3_status`. Then give it a job: "list the sequences that are on page 6", "build groups for the new Portman instances", "remove the old song sequences and add the ones in this list".
@@ -54,8 +56,8 @@ Save the show. The plugin ships off; start it with one tap after each show load.
 ## Building from source
 
 ```
-git clone https://github.com/NorthwoodsCommunityChurch/avl-ma3-mcp.git
-cd avl-ma3-mcp
+git clone https://github.com/upipibi/MA3-MCP.git
+cd MA3-MCP
 brew install lua lua@5.4 luarocks && luarocks install luasocket && luarocks --lua-version=5.4 install luasocket
 make test            # unit tests on Lua 5.5 (the console's version); make test LUAV=5.4 for 5.4
 make build           # dist/MA3 MCP.lua + dist/MA3 MCP.xml

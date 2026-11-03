@@ -1,6 +1,6 @@
 # Installing MA3 MCP on the grandMA3 light
 
-Target: grandMA3 light, software 2.5.1.1, production-network address 10.11.3.10. The plugin
+Target: grandMA3 light, software 2.5.1.1, production-network address <console-ip>. The plugin
 listens on port 9800 on that address only.
 
 ## Files
@@ -20,7 +20,7 @@ From the release zip: `MA3 MCP.lua` and `MA3 MCP.xml`.
 3. Save the show so the plugin stays in it.
 4. Start it: tap the plugin in the Plugins pool, or type `Plugin "MA3 MCP"`.
    The window opens with the address, the PIN and the On/Off button.
-   The command line history shows `MA3 MCP v0.1.0: listening on 10.11.3.10:9800`.
+   The command line history shows `MA3 MCP v0.1.0: listening on <console-ip>:9800`.
 
 The plugin ships off. After every show load, start it again (one tap).
 
@@ -29,7 +29,7 @@ The plugin ships off. After every show load, start it again (one tap).
 On a machine on the production network:
 
 ```
-claude mcp add --transport http ma3 http://10.11.3.10:9800/mcp --header "Authorization: Bearer <PIN>" --scope user
+claude mcp add --transport http ma3 http://<console-ip>:9800/mcp --header "Authorization: Bearer <PIN>" --scope user
 ```
 
 The PIN is in the window (Regenerate makes a new one; reconnect clients afterwards).
@@ -43,10 +43,10 @@ Smoke test in Claude Code: ask for `ma3_status`; it returns the show name.
 - After tapping the window, tap the command line before typing a command; the overlay
   keeps keyboard focus otherwise.
 - Command-line arguments: `Plugin "MA3 MCP" "off"`, `"status"`, `"pin"`, `"lua on"`,
-  `"lua off"`, `"regen"`, `"bind 10.11.3.10"` or `"bind auto"`, `"<port>"` (bind and
+  `"lua off"`, `"regen"`, `"bind <console-ip>"` or `"bind auto"`, `"<port>"` (bind and
   port take effect at the next start).
 - If the startup line says `listening on 127.0.0.1` on the console, the plugin did not find
-  the production-network address by itself: run `Plugin "MA3 MCP" "bind 10.11.3.10"` once,
+  the production-network address by itself: run `Plugin "MA3 MCP" "bind <console-ip>"` once,
   then stop and start it.
 - Optional pool-button colour: store an Appearance named exactly `MA3 MCP` (any colour you
   like). While the server runs the plugin's pool button wears it; when stopped it is cleared.
