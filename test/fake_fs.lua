@@ -6,6 +6,7 @@ function M.new()
     files = files,
     read = function(path) return files[path] end,
     write = function(path, data) if files.readonly then return nil, "read-only" end files[path] = data return true end,
+    append = function(path, data) if files.readonly then return nil, "read-only" end files[path] = (files[path] or "") .. data return true end,
   }
 end
 return M

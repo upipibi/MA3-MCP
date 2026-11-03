@@ -111,7 +111,8 @@ local function executor(no, label, assigned, extra)
 end
 
 function M.default_tree()
-  local cues = { { class = "Cue", addr = "Sequence 12 Cue 0", name = "CueZero", no = 0 } }
+  local cues = { { class = "Cue", addr = "Sequence 12 Cue 0", name = "CueZero", no = 0 },
+    { class = "Cue", addr = "Sequence 12 OffCue", name = "OffCue", no = nil } }
   for i = 1, 4 do cues[#cues + 1] = { class = "Cue", addr = "Sequence 12 Cue " .. i, name = "Cue " .. i, no = i,
     props = { { "TRIGTYPE", "String", i == 2 and "Follow" or "Go" } } } end
   -- Fixture 201: a multi-instance fixture with 8 instances (CID 1..8); fixtures 1-3 plain dimmers.

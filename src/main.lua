@@ -38,7 +38,22 @@ local function io_fs()
   return {
     read = function(path) local f = io.open(path, "r") if not f then return nil end local d = f:read("a") f:close() return d end,
     write = function(path, data) local f, err = io.open(path, "w") if not f then return nil, err end f:write(data) f:close() return true end,
+    append = function(path, data) local f, err = io.open(path, "a") if not f then return nil, err end f:write(data) f:close() return true end,
   }
+end
+
+-- A log that also appends to a file (rolled when it passes ~256 KB) so a stalled or
+-- crashed start can be read back from the console's temp folder.
+local function make_log(deps)
+  local path = deps.log_path
+  local sink
+  if path and deps.fs.append then
+    sink = function(line)
+      local stamp = os.date("%Y-%m-%d %H:%M:%S")
+      deps.fs.append(path, stamp .. " " .. line .. "\n")
+    end
+  end
+  return log.new(200, sink)
 end
 
 local function real_dns_ips()
@@ -82,12 +97,14 @@ local function stop(why)
   if S.server then S.server:stop() end
   S.running = false
   persist()
+  if S.log then S.log:add("stopped (%s)", why or "off") end
   if S.c then S.c:echo("MA3 MCP: stopped (%s)", why or "off") end
 end
 
 local function start()
   local deps, c = S.deps, S.c
-  S.log = S.log or log.new(200, function(line) end)
+  S.log = S.log or make_log(deps)
+  S.log:add("starting v%s", M.VERSION)
   S.settings = settings.load(deps.fs, deps.settings_path)
   if S.settings.generated then settings.save(deps.fs, deps.settings_path, S.settings) end
   local bind, how = pick_bind(deps, c, S.settings)
@@ -160,6 +177,7 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
   deps.Timer = deps.Timer or Timer
   deps.dns_ips = deps.dns_ips or real_dns_ips
   deps.now = deps.now or deps.socket.gettime
+  deps.idle = deps.idle or function() coroutine.yield(0.2) end
   S.deps = deps
   S.plugin_name = pluginName
   S.my_handle = my_handle
@@ -169,16 +187,32 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
     local ok, lib = pcall(function() return S.c:path("Library") end)
     deps.settings_path = ((ok and lib) or ".") .. "/" .. M.SETTINGS_FILE
   end
-  S.log = log.new(200)
+  if not deps.log_path then
+    local ok, tmp = pcall(function() return S.c:path("Temp") end)
+    deps.log_path = ((ok and tmp) or ".") .. "/ma3_mcp.log"
+  end
+  S.log = make_log(deps)
+  S.log:add("loaded v%s as plugin %q component %q", M.VERSION, tostring(pluginName), tostring(componentName))
 
   local function Main(display_handle, argument)
     local arg = tostring(argument or ""):gsub("^%s+", ""):gsub("%s+$", "")
     local lower = arg:lower()
     if lower == "" then
-      if not S.running then
-        if not start() then return end
+      if S.running then
+        -- a second tap while running: just bring the window back
+        if deps.ui then pcall(deps.ui.open_or_focus, S, display_handle) end
+        return
       end
+      if not start() then return end
       if deps.ui then pcall(deps.ui.open_or_focus, S, display_handle) end
+      -- The console runs cleanup as soon as Main returns, so Main stays alive for as long
+      -- as the server runs. This loop is also where the window gets refreshed.
+      S.generation = (S.generation or 0) + 1
+      local mine = S.generation
+      while S.running and S.generation == mine do
+        if deps.ui then pcall(deps.ui.tick, S) end
+        deps.idle()
+      end
       return
     end
     if lower == "off" or lower == "stop" then stop("off") return end
@@ -209,7 +243,17 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
     if S.running then stop("cleanup") end
   end
 
-  return Main, cleanup
+  local function guarded(fn, label)
+    return function(...)
+      local ok, err = xpcall(fn, debug.traceback, ...)
+      if not ok then
+        S.log:add("%s failed: %s", label, tostring(err))
+        pcall(function() S.c:echo("MA3 MCP: %s failed: %s", label, tostring(err):match("^[^\n]*")) end)
+      end
+    end
+  end
+
+  return guarded(Main, "Main"), guarded(cleanup, "cleanup")
 end
 
 return M

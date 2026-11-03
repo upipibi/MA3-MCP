@@ -14,13 +14,29 @@ local function setup(host_type)
   local plugin = { props = { NAME = "MA3 MCP" } }
   local my_handle = { Parent = function() return { Set = function(_, k, v) plugin.props[k:upper()] = v end, Get = function(_, k) return plugin.props[k:upper()] end, GetClass = function() return "UserPlugin" end } end }
   local deps = {
-    socket = fs, console_api = fc.api, fs = files, settings_path = "/lib/ma3_mcp_settings.json",
+    socket = fs, console_api = fc.api, fs = files, settings_path = "/lib/ma3_mcp_settings.json", log_path = "/tmp/ma3_mcp.log",
     Timer = function(fn, delay, count) timers[#timers + 1] = { fn = fn, delay = delay, count = count } end,
     now = fs.gettime, dns_ips = function() return { "127.0.0.1", "10.11.3.10", "192.168.1.5" } end,
     ui = nil,
   }
   local Main, cleanup = main.entry("MA3 MCP", "ma3_mcp", {}, my_handle, deps)
-  return { fs = fs, fc = fc, files = files, timers = timers, plugin = plugin, Main = Main, cleanup = cleanup, state = main.state() }
+  local t = { fs = fs, fc = fc, files = files, timers = timers, plugin = plugin, cleanup = cleanup, state = main.state() }
+  -- Main("") blocks (yields) while the server runs, like the console expects; drive it as a coroutine.
+  t.mains = {}
+  t.Main = function(display, argument)
+    if argument == nil or argument == "" then
+      local co = coroutine.create(function() Main(display, argument) end)
+      local ok, err = coroutine.resume(co)
+      if not ok then error(err) end
+      t.mains[#t.mains + 1] = co
+      return co
+    end
+    Main(display, argument)
+    -- let blocked Mains notice a stop
+    for _, co in ipairs(t.mains) do if coroutine.status(co) == "suspended" then coroutine.resume(co) end end
+  end
+  t.main_alive = function() for _, co in ipairs(t.mains) do if coroutine.status(co) == "suspended" then return true end end return false end
+  return t
 end
 
 local function run_timer(t, passes)
@@ -43,8 +59,12 @@ h.describe("main start on onPC binds loopback and launches the server loop", fun
   h.eq(#t.state.auth.pin, 8)
   local echoed = table.concat(t.fc.echo, "\n")
   h.truthy(echoed:find("listening on 127.0.0.1:9800"), echoed)
+  h.truthy((t.files.files["/tmp/ma3_mcp.log"] or ""):find("listening on 127.0.0.1:9800"), "log file written")
+  h.eq(t.main_alive(), true, "Main stays alive while running (console runs cleanup when it returns)")
   t.Main(nil, "off")
   h.eq(t.state.running, false)
+  h.eq(t.main_alive(), false, "Main returns once stopped")
+  h.truthy((t.files.files["/tmp/ma3_mcp.log"] or ""):find("stopped"), "stop logged")
 end)
 
 h.describe("main start on a console binds the production address", function()
@@ -111,6 +131,8 @@ h.describe("main second tap while running does not restart", function()
   h.eq(t.state.server, srv); h.eq(#t.timers, 1)
   t.cleanup()
   h.eq(t.state.running, false)
+  for _, co in ipairs(t.mains) do if coroutine.status(co) == "suspended" then coroutine.resume(co) end end
+  h.eq(t.main_alive(), false)
 end)
 
 h.describe("main bind failure reports and stays off", function()

@@ -20,9 +20,32 @@ typed into the command line. Raw outputs sit next to this file (`onpc-2.5.1.1-*.
 | (f) overlay | `GetFocusDisplay().ScreenOverlay:Append("BaseInput")` with `TitleBar`/`TitleButton`/`CloseButton`/`UIObject` children rendered a floating box and `IsObjectValid` stayed true for the full 45 s; `GetDisplayByIndex(1).ScreenOverlay` resolves (`Display 1.11`); `GetDisplayCollect()` returns an object (iterate with `:Children()`), not a plain table | overlay is viable; **not yet verified**: survival across a view change or a tap elsewhere (System Events clicks did not reach the GL window), so Task 11's live step checks it by hand and keeps the spec's fallback |
 | typing | `osascript` keystrokes into the onPC command line execute commands; `Lua "<one line>"` with single quotes inside runs a chunk | live checks on onPC can be driven from this Mac without a hand on the keyboard |
 
-## Live smoke (Task 10)
+## Live smoke (Task 10), 2026-11-03
 
-(to be filled)
+Bundle v0.1.0 imported as Plugin 91 into onPC 2.5.1.1 (show "Christmas 2026", not saved), started
+with `Plugin "MA3 MCP"`. Listener confirmed with `lsof` on 127.0.0.1:9800. Over curl: `ma3_status`
+returned the show name and version; a request without the PIN got `401`; `ma3_sequences {limit:2}`
+returned Sequence 1 "Thank The Lord" (26 cues, Page 6 executor 106 "Sept 13") and Sequence 2.
+Claude Code 2.1.295 (`claude -p` with `--mcp-config`) connected on the modern 2026-07-28 path,
+called `ma3_status`, `ma3_pages {limit:2}` and `ma3_command {command:"Echo hello from claude"}`
+and answered: `Christmas 2026` / `Busking Base, 0 executors` / `OK`. onPC stayed responsive.
+
+Things learned the hard way, now in the code and tests:
+
+- The console calls the plugin's `cleanup` as soon as `Main` returns, so `Main` must stay alive
+  (yield loop) while the server runs. The first live start listened for ~0 s and stopped.
+- `package.loaded` is shared by every plugin and survives `ReloadAllPlugins`, so a bundle built on
+  `package.preload` kept serving the first version's modules after every reload. The bundle now
+  carries its own module table and `require` shim and never touches `package`.
+- `ReloadAllPlugins` re-reads a component from `shared/resource/lib_plugins/<Path>/<FileName>`;
+  `Import Plugin Library` reads from `gma3_library/datapools/plugins/`. The install target copies
+  the Lua to both so a reload picks up new code without a re-import.
+- rxi json encodes an empty table as `[]`; Claude Code refused `capabilities: {"tools": []}`.
+  Every object MCP requires is kept non-empty or encoded by hand.
+- Claude Code 2.1.295 validates `tools/list` against the 2026 schema: `ttlMs` without `cacheScope`
+  is rejected (`expected "public"|"private"`). The server sends `cacheScope: "private"`.
+- A plugin's `Echo`/`Printf` output is invisible from outside; the plugin writes a log to
+  `GetPath(Temp)/ma3_mcp.log` and the bundle writes `ma3_mcp_load.txt` (`loaded` or `FAILED: ...`).
 
 ## Gate zero on the real console (Task 2, Aaron)
 

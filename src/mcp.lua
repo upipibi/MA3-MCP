@@ -41,8 +41,14 @@ local function rpc_error(status, id, code, message, data)
   return reply(status, { jsonrpc = "2.0", id = id, error = e })
 end
 
--- rxi json encodes an empty table as [] ; MCP wants objects for capabilities.
-local function obj(t) return setmetatable(t or {}, { __jsontype = "object" }) end
+-- rxi json (the console's encoder) writes an empty table as [], so every object MCP
+-- requires is kept non-empty or encoded by hand.
+local CAPABILITIES = { tools = { listChanged = false } }
+
+local function encode_result(res)
+  if type(res) == "table" and next(res) == nil then return "{}" end
+  return json.encode(res)
+end
 
 function M:tool_list()
   local names = {}
@@ -51,7 +57,13 @@ function M:tool_list()
   local out = {}
   for _, name in ipairs(names) do
     local t = self.tools[name]
-    out[#out + 1] = { name = name, description = t.description or "", inputSchema = t.inputSchema or { type = "object" } }
+    local schema = t.inputSchema or { type = "object" }
+    if type(schema.properties) == "table" and next(schema.properties) == nil then
+      local copy = {}
+      for k, v in pairs(schema) do if k ~= "properties" then copy[k] = v end end
+      schema = copy
+    end
+    out[#out + 1] = { name = name, description = t.description or "", inputSchema = schema }
   end
   return out
 end
@@ -68,7 +80,7 @@ function M:call_tool(params, ctx)
   elseif res == nil then
     text, is_error = tostring(err or "tool returned nothing"), true
   else
-    text, is_error = json.encode(res), false
+    text, is_error = encode_result(res), false
   end
   return {
     resultType = "complete",
@@ -127,23 +139,24 @@ function M:handle(req, ctx)
     result = {
       resultType = "complete",
       supportedVersions = { "2026-07-28" },
-      capabilities = obj({ tools = obj({}) }),
+      capabilities = CAPABILITIES,
       instructions = self.instructions,
       ttlMs = 60000,
+      cacheScope = "private",
       _meta = { [META_SERVER] = self:server_info() },
     }
   elseif method == "initialize" then
     local requested = params and params.protocolVersion
     result = {
       protocolVersion = SUPPORTED_SET[requested] and requested or "2025-11-25",
-      capabilities = obj({ tools = obj({}) }),
+      capabilities = CAPABILITIES,
       serverInfo = self:server_info(),
       instructions = self.instructions,
     }
   elseif method == "ping" then
-    result = obj({})
+    result = { pong = true }
   elseif method == "tools/list" then
-    result = { tools = self:tool_list(), ttlMs = 60000 }
+    result = { tools = self:tool_list(), ttlMs = 60000, cacheScope = "private" }
     if modern then result.resultType = "complete"; result._meta = { [META_SERVER] = self:server_info() } end
   elseif method == "tools/call" then
     local r, err = self:call_tool(params, ctx)

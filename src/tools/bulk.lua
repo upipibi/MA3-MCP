@@ -261,7 +261,8 @@ function M.register(tools, c, ctx)
           local cue = s:Ptr(i)
           if cue then
             local no = num(prop(cue, "NO"))
-            if no ~= 0 then cues[#cues + 1] = { no = no, name = name_of(cue), trigger = prop(cue, "TRIGTYPE") } end
+            -- CueZero (0) and OffCue (no number) are the console's, not the programmer's
+            if no and no > 0 then cues[#cues + 1] = { no = no, name = name_of(cue), trigger = prop(cue, "TRIGTYPE") } end
           end
         end
         row.cue_count = #cues

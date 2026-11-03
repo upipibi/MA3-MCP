@@ -24,11 +24,15 @@ build:
 
 # onPC imports plugins from the library's datapools/plugins folder:
 #   Import Plugin Library "MA3 MCP.xml" At Plugin <n>
+# ... and after the first import, ReloadAllPlugins re-reads the component from
+# shared/resource/lib_plugins/<Path>/<FileName>, so the Lua goes to both places.
 ONPC_LIBRARY := $(HOME)/MALightingTechnology/gma3_library/datapools/plugins
+ONPC_LIB_PLUGINS := $(HOME)/MALightingTechnology/gma3_2.5.1/shared/resource/lib_plugins/ma3_mcp
 install-onpc: build
-	@mkdir -p "$(ONPC_LIBRARY)"
+	@mkdir -p "$(ONPC_LIBRARY)" "$(ONPC_LIB_PLUGINS)"
 	@cp "dist/MA3 MCP.lua" "dist/MA3 MCP.xml" spike/gate-zero/*.lua spike/gate-zero/*.xml "$(ONPC_LIBRARY)/"
-	@ls -1 "$(ONPC_LIBRARY)" | grep 'MA3 MCP'
+	@cp "dist/MA3 MCP.lua" spike/gate-zero/*.lua "$(ONPC_LIB_PLUGINS)/"
+	@ls -1 "$(ONPC_LIB_PLUGINS)" | grep 'MA3 MCP'
 
 release: build
 	@mkdir -p dist
