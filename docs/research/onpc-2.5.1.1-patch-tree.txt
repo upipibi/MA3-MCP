@@ -1,0 +1,38 @@
+Patch=Root 14.9 class=Patch count=15
+ child Root 14.9.1 DmxCurves n=1
+ child Root 14.9.2 AttributeDefinitions n=4
+ child FixtureLayer  Layers n=24
+ child FixtureClass  Classes n=0
+ child Root 14.9.5 PsrExtraData n=2
+ child FixtureType  FixtureTypes n=26
+ child Stage  Stages n=1
+ child Root 14.9.8 UIChannels n=11208
+ child Root 14.9.9 RTChannels n=11208
+ child Root 14.9.10 IDTypes n=12
+ child DMXUniverse  DmxUniverses n=1024
+ child Root 14.9.13 DmxAddresses n=524288
+ child Root 14.9.14 FixtureTypesOverview n=26
+ child Root 14.9.15 PatchFilter n=0
+Stages=Stage 
+Stage1=Stage 1
+  s1 child Stage 1.1 Spaces n=5
+  s1 child Stage 1.2 Fixtures n=16
+Fixtures=Stage 1.2 n=16
+  fx Generic 1 class=Fixture fid=None idtype=Generic n=0
+  fx Fixture 88888 class=Fixture fid=88888 idtype=Fixture n=478
+  fx Fixture 2000 class=Fixture fid=2000 idtype=Fixture n=401
+  fx Fixture 4000 class=Fixture fid=4000 idtype=Fixture n=3
+  fx Fixture 1900 class=Fixture fid=1900 idtype=Fixture n=4
+  fx Fixture 99999 class=Fixture fid=99999 idtype=Fixture n=6
+  fx Fixture 1000 class=Fixture fid=1000 idtype=Fixture n=2
+  fx Fixture 3000 class=Fixture fid=3000 idtype=Fixture n=2
+  fx Fixture 1800 class=Fixture fid=1800 idtype=Fixture n=11
+  fx Fixture 700 class=Fixture fid=700 idtype=Fixture n=9
+  fx Fixture 800 class=Fixture fid=800 idtype=Fixture n=11
+  fx Fixture 900 class=Fixture fid=900 idtype=Fixture n=11
+  fx Fixture 600 class=Fixture fid=600 idtype=Fixture n=26
+  fx Fixture 1100 class=Fixture fid=1100 idtype=Fixture n=22
+  fx Fixture 1200 class=Fixture fid=1200 idtype=Fixture n=6
+  fx Fixture 1300 class=Fixture fid=1300 idtype=Fixture n=5
+SUB Fixture 1 name=Dimmer 1 class=Fixture fid=1 cid=None idtype=Fixture patch=1.001 sub n=0
+ok=true nil
