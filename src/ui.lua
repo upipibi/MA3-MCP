@@ -22,7 +22,9 @@ local function label(parent, text, font, col, row)
   o.Font = font or "Regular18"
   o.TextalignmentH = "Left"
   o.HasHover = "No"
-  o.Padding = { left = 10, right = 10, top = 4, bottom = 4 }
+  o.ContentDriven = "No"
+  o.TextAutoAdjust = "No"
+  o.Padding = { left = 8, right = 4, top = 2, bottom = 2 }
   o.Anchors = anchors(col or 0, row or 0)
   return o
 end
@@ -99,8 +101,8 @@ function M.open(G, display_index, model, actions, wiring)
   local base = overlay:Append("BaseInput")
   self.base = base
   base.Name = M.WINDOW_NAME
-  base.W = 620
-  base.H = 560
+  base.W = 640
+  base.H = 720
   base.Columns = 1
   base.Rows = 2
   base[1][1].SizePolicy = "Fixed"
@@ -131,12 +133,12 @@ function M.open(G, display_index, model, actions, wiring)
   frame.Columns = 1
   frame.Rows = 6
   frame.Anchors = anchors(0, 1)
-  local sizes = { "50", "60", "44", "230", "120", "44" }
+  local sizes = { "50", "60", "44", "290", "160", "44" }
   for i, s in ipairs(sizes) do frame[1][i].SizePolicy = "Fixed"; frame[1][i].Size = s end
 
   -- row 1: state + On/Off
   local r1 = frame:Append("UILayoutGrid"); r1.Columns = 2; r1.Rows = 1; r1.Anchors = anchors(0, 0)
-  r1[2][1].SizePolicy = "Fixed"; r1[2][1].Size = "140"
+  r1[2][2].SizePolicy = "Fixed"; r1[2][2].Size = "120"   -- obj[2][i] is column i (obj[1][i] is row i)
   self.widgets.state = label(r1, "", "Regular18", 0, 0)
   self.widgets.toggle = button(r1, "Off", "MA3MCP_Toggle", wiring, 1, 0)
 
@@ -173,7 +175,7 @@ function M.open(G, display_index, model, actions, wiring)
 
   -- row 6: display picker
   local r6 = frame:Append("UILayoutGrid"); r6.Columns = 2; r6.Rows = 1; r6.Anchors = anchors(0, 5)
-  r6[2][1].SizePolicy = "Fixed"; r6[2][1].Size = "160"
+  r6[2][2].SizePolicy = "Fixed"; r6[2][2].Size = "160"
   label(r6, "Show this window on", "Regular16", 0, 0)
   self.widgets.display = button(r6, "Display " .. used_index, "MA3MCP_Display", wiring, 1, 0)
 

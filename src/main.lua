@@ -186,7 +186,12 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
   S.signal_table = signalTable
   if deps.ui == nil and not deps.console_api then deps.ui = ui.adapter(_G) end
   -- window actions
-  S.toggle = function() if S.running then stop("window") else start() end end
+  -- Off stops in place; On must come through the console so a new Main session owns the
+  -- run (the console calls cleanup when a Main returns, which would stop a server started
+  -- from a button handler).
+  S.toggle = function()
+    if S.running then stop("window") else S.c:cmd_indirect(string.format('Plugin "%s"', tostring(S.plugin_name))) end
+  end
   S.regenerate = function() if S.auth then S.auth:regenerate(); persist() end end
   S.next_display = function()
     if not S.settings then return end

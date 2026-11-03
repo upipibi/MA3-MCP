@@ -47,6 +47,22 @@ Things learned the hard way, now in the code and tests:
 - A plugin's `Echo`/`Printf` output is invisible from outside; the plugin writes a log to
   `GetPath(Temp)/ma3_mcp.log` and the bundle writes `ma3_mcp_load.txt` (`loaded` or `FAILED: ...`).
 
+## Window (Task 11), 2026-11-03
+
+Built from `BaseInput > TitleBar(TitleButton, CloseButton) + DialogFrame > UILayoutGrid` rows with
+`UIObject`, `Button`, `CheckBox`; buttons wired with `PluginComponent = my_handle` and
+`Clicked = "<signal name>"` to `signalTable` handlers (MA's own example pattern). Verified live on
+onPC with real mouse events (`cliclick`): Regenerate changed the PIN in the settings file; the Lua
+checkbox flipped `lua_enabled` as read back through `ma3_status`; Off stopped the listener; On
+relaunched the plugin (`CmdIndirect('Plugin "MA3 MCP"')`) and it stayed up. **The overlay survived a
+view change** (switched to the 3D view and back while the window stayed on top), so the spec's
+fallback window mode is not needed. Screenshot: `docs/images/window-onpc.png`.
+
+Layout facts: `obj[1][i]` addresses row i and `obj[2][i]` column i when setting `SizePolicy`/`Size`;
+`UIObject` labels need `ContentDriven = "No"` and `TextAutoAdjust = "No"` to show full text in a
+grid cell. After a tap on the window, keyboard input stays with the overlay until the command line
+is tapped (typed commands silently go nowhere) — documented for the operator.
+
 ## Gate zero on the real console (Task 2, Aaron)
 
 (to be filled when Aaron runs `spike/gate-zero`; see its README)
