@@ -361,3 +361,35 @@ stem (§7.4), sliced bulk reads (§7.3), and the Lua sandbox list (§7.4).
 - [MacTirney/GrandMA3-API-Documentation](https://github.com/MacTirney/GrandMA3-API-Documentation), [hossimo/GMA3Plugins](https://github.com/hossimo/GMA3Plugins): community Lua API references
 - [MCP spec 2026-07-28, Streamable HTTP](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http)
 - [grandMA3 manual 2.5](https://help.malighting.com/grandMA3/2.5/HTML/)
+
+## 12. Addendum (2026-11-03, after approval; facts found while planning)
+
+- **MA ships its own HTTP server library** in the console:
+  `shared/resource/lib_plugins/requirements/gma3_webserver.lua`, with an example plugin
+  (`examples/webserver_example`). It binds `socket.bind("*", port)`, runs its accept loop
+  under `Timer(serverMain, 0, 1)` (a console task separate from the plugin's `Main`), and
+  `coroutine.yield()`s per pass. This is MA's blessing of a listening socket inside a
+  plugin. We do **not** use the library itself: its header parsing is case-sensitive
+  (`Content-Length` only) and Node clients send lowercase headers, and its reads time out
+  at 10 ms. We copy its lifecycle shape (`Timer` task for the server, `Main` for the
+  window, `cleanup` on stop) and write our own parser.
+- **Plugin entry contract** (from MA's examples): a component receives
+  `pluginName, componentName, signalTable, my_handle` as `...`, returns `Main[, cleanup]`;
+  `Main(display_handle, argument)` runs as a coroutine when the pool button is tapped or
+  `Plugin "<name>" "<argument>"` is run.
+- **Claude Code 2.1.295 traffic, captured** against a stub on 2026-11-03: it first POSTs
+  `server/discover` with headers `mcp-method: server/discover`,
+  `mcp-protocol-version: 2026-07-28` and the `_meta` client block; if that returns a
+  JSON-RPC error it falls back to `initialize` (`protocolVersion` `2025-11-25`, no
+  `mcp-method` header), `notifications/initialized` (expects 202), a `GET /mcp` for an
+  event stream (405 is accepted), then `tools/list` and `tools/call` as plain POSTs.
+  Headers arrive lowercase. The fallback flow completed a real tool call end to end
+  against a 40-line stub, so the legacy path is the baseline and `server/discover` is the
+  upgrade.
+- Useful console API for the tools (community docs): `GetObjApiDescriptor()` prints the
+  object-handle API (the spike records it), `GetSubfixture`/`GetSubfixtureCount`,
+  `CreateUndo`/`CloseUndo` (one Oops for a whole job; `ma3_command` accepts an
+  `undo_group` so a job can be undone from the console), `GetDisplayByIndex`,
+  `GetDisplayCollect`, `Timer`, `HookObjectChange`, `GetPath(Enums.PathType.*)`.
+- The console's Lua is 5.4-class (`string.split` is an MA extension; the bundle must not
+  rely on it). Tests run on Homebrew `lua@5.4`.
