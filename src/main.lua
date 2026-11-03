@@ -15,6 +15,7 @@ local generic = require("tools.generic")
 local bulk = require("tools.bulk")
 local show = require("tools.show")
 local lua_exec = require("tools.lua_exec")
+local ui = require("ui")
 
 local M = {}
 M.VERSION = "0.1.0"
@@ -97,6 +98,7 @@ local function stop(why)
   if S.server then S.server:stop() end
   S.running = false
   persist()
+  if S.deps and S.deps.ui and S.deps.ui.close and why ~= "window" then pcall(S.deps.ui.close) end
   if S.log then S.log:add("stopped (%s)", why or "off") end
   if S.c then S.c:echo("MA3 MCP: stopped (%s)", why or "off") end
 end
@@ -181,6 +183,18 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
   S.deps = deps
   S.plugin_name = pluginName
   S.my_handle = my_handle
+  S.signal_table = signalTable
+  if deps.ui == nil and not deps.console_api then deps.ui = ui.adapter(_G) end
+  -- window actions
+  S.toggle = function() if S.running then stop("window") else start() end end
+  S.regenerate = function() if S.auth then S.auth:regenerate(); persist() end end
+  S.next_display = function()
+    if not S.settings then return end
+    S.settings.display = (S.settings.display or 1) % 4 + 1
+    persist()
+    if deps.ui and deps.ui.close then deps.ui.close() end
+    if deps.ui then pcall(deps.ui.open_or_focus, S) end
+  end
   S.c = deps.console_api and console.new(deps.console_api) or console.real()
   if deps.now and not deps.console_api then S.c.now_fn = deps.now end
   if not deps.settings_path then
