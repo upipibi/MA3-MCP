@@ -34,6 +34,9 @@ install-onpc: build
 	@cp "dist/MA3 MCP.lua" spike/gate-zero/*.lua "$(ONPC_LIB_PLUGINS)/"
 	@ls -1 "$(ONPC_LIB_PLUGINS)" | grep 'MA3 MCP'
 
+VERSION := $(shell sed -n 's/^M.VERSION = "\(.*\)"/\1/p' src/main.lua)
 release: build
-	@mkdir -p dist
-	@cd dist && rm -f avl-ma3-mcp-*.zip && zip -q "avl-ma3-mcp-$$($(LUA) -e 'print(require("main").VERSION)' 2>/dev/null || echo dev).zip" "MA3 MCP.lua" "MA3 MCP.xml" ../docs/CONVENTIONS.md ../docs/INSTALL-CONSOLE.md && ls -1 avl-ma3-mcp-*.zip
+	@rm -f dist/avl-ma3-mcp-*.zip
+	@mkdir -p dist/stage && cp "dist/MA3 MCP.lua" "dist/MA3 MCP.xml" docs/CONVENTIONS.md docs/INSTALL-CONSOLE.md dist/stage/
+	@cd dist/stage && zip -q "../avl-ma3-mcp-$(VERSION).zip" "MA3 MCP.lua" "MA3 MCP.xml" CONVENTIONS.md INSTALL-CONSOLE.md
+	@rm -rf dist/stage && ls -1 dist/avl-ma3-mcp-*.zip
