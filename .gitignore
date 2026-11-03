@@ -1,0 +1,10 @@
+# build and release outputs
+dist/
+*.zip
+# scratch
+test/out/
+spike/out/
+.superpowers/
+# os / editor
+.DS_Store
+.vscode/

@@ -1,0 +1,6 @@
+local h = require("helpers")
+h.describe("toolchain", function()
+  h.eq(_VERSION, "Lua 5.4")
+  h.truthy(require("json").encode({a=1}) == '{"a":1}')
+  h.truthy(require("socket").tcp)
+end)
