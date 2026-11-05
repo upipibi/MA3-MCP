@@ -102,6 +102,14 @@ any fan, selection order or new key group. All eight are on universe 31: 1812 at
 (Aaron moved it from 21.001 on 2026-11-04; read back 2026-11-05). Group 700 `Key` holds six (no 1815, no 1818); Group 702 `All Key` holds
 all eight plus six Fuze Washes.
 
+## Layouts
+
+Layout 1 (`Portmans`) is Aaron's main selection layout; he arranges it himself and asks for help
+with the dense parts. The pattern for a multi-part fixture is a 50 x 50 master tile he can tap, with
+its parts drawn against it in the fixture's real shape: each Portman is two 7-cell hexes under its
+master; each Tornado bar is five hollow 3 x 3 rings of 10 x 10 cells stacked against its ring master
+(colour only, names hidden, not meant to be tapped). Do not move or resize elements he placed.
+
 ## Names
 
 Lower key is Aaron's taste; song names copy PCO exactly, except that the console drops commas

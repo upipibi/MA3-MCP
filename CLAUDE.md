@@ -7,7 +7,10 @@ v0.2.0-alpha.3 runs on the console, stored in the show file `Christmas 2026`, an
 
 **This repo is public.** No console or network addresses, no PIN, no private paths in anything that
 gets committed. Raw data read from Aaron's shows (per-show reports, exports, his stage plot, the
-production schedule) stays local: see the "raw show data" block in `.gitignore`.
+production schedule) is git-ignored (the "raw show data" block in `.gitignore`) and backed up to the
+project's OneDrive secrets folder (`VS Code/MA3 MCP/` in Aaron's OneDrive, the tier described in the
+org's `FILE-ORGANIZATION.md`), same sub-paths (Aaron, 2026-11-05: "we just keep show data in the OneDrive secrets"). `/save` copies
+new ignored files under `docs/` there.
 
 ## Read first
 
@@ -30,7 +33,9 @@ production schedule) stays local: see the "raw show data" block in `.gitignore`.
 | Stage model | Imported from Capture as MVR; Aaron switched its 3D selection off himself. |
 | Portman layout | 90 elements + box in Layout 1, verified. |
 | Agenda | 15 entries for the Christmas 2026 run (`Agenda 14-28`). |
-| Tornado XYZ | NOT possible for a five-head bar as one fixture. Waiting on Aaron: leave it off, or split each bar into single-head fixtures (new session). |
+| Tornado XYZ | Closed: not possible for a five-head bar as one fixture, and Aaron dropped it (2026-11-05). |
+| Tornado rings in Layout 1 | 24 ring masters with their 960 ring sections arranged as tiny rings against them, verified. |
+| Release | 0.2.0-alpha.3 published on GitHub as a pre-release (the build that runs on the console). |
 | Cue Display timecode + fades | Design paused mid-brainstorm (section below). |
 
 Job records:
@@ -41,6 +46,7 @@ Job records:
 | `docs/jobs/2026-11-05-stick-delivery/` | Plugin alpha.3, Cue Display, stage MVR (`strip_layers.py`), Portman layout (`portman-layout-plan.md`, `plan_portmans.py`, `run_portmans.py`). `README.md` is the day's log. |
 | `docs/jobs/2026-11-05-tornado-xyz/` | `FINDINGS.md`: the rules MA applies before it allows XYZ on a DMX mode, and why the Tornado cannot have it. Scripts for the scratch-copy build. |
 | `docs/jobs/2026-11-05-agenda/` | The agenda entries and the proven Agenda syntax. |
+| `docs/jobs/2026-11-05-tornado-rings-layout/` | Ring sections arranged against their masters in Layout 1 (`rings.py`). |
 
 ## Running a job
 
@@ -103,15 +109,13 @@ unverified, nothing was rolling); cue fades are in the cue's Part 0. I had offer
 he said "push pause on this". Resume by offering the mockups again. Brainstorming skill gate: no
 product code until he approves the description. Version bump is his call.
 
-## Tornado XYZ (waiting on Aaron)
+## Tornado XYZ (closed 2026-11-05)
 
-Read `docs/jobs/2026-11-05-tornado-xyz/FINDINGS.md`. Short version: MA allows XYZ on a DMX mode only
-with Pan on the outer axis, a tilt axis with zero rotation relative to it, and the tilt pivot on the
-pan axis. A faithful re-description of the Tornado passed all of that on a scratch copy, but MA then
-creates the XYZ controls for one pan/tilt pair per fixture only, so a five-head bar gets XYZ on one
-head. Aaron's options: leave it off, or split each bar into five single-head fixtures plus a bar
-fixture (two new fixture types, full re-patch, groups/layouts/presets rebuilt). His Tornado groups
-are recorded locally in `groups-before/` in that folder.
+Aaron dropped it ("I think we're done with tornado xyz"). The record is
+`docs/jobs/2026-11-05-tornado-xyz/FINDINGS.md`: MA allows XYZ on a DMX mode only with Pan on the outer
+axis, a tilt axis with zero rotation relative to it, and the tilt pivot on the pan axis; and it
+creates the XYZ controls for one pan/tilt pair per fixture, so a five-head bar cannot have it. The
+only route would be splitting each bar into single-head fixtures. Do not reopen unasked.
 
 ## Open items
 

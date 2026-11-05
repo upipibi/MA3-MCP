@@ -133,5 +133,6 @@ still says `Version="0.1.0.0"`; bump it with the Lua version.
   events are points in time (no duration); pool names are forced unique (`#2` appended). Job: `docs/jobs/2026-11-05-agenda/`.
 - Layout: `Assign Fixture <id[.instance]> At Layout n`, `Store Layout n.m` (empty element), `Set Layout n.m Property
   "PosX" -520`; visibility values are "Hidden"/"Visible". Job: `docs/jobs/2026-11-05-stick-delivery/portman-layout-plan.md`.
+- `Set Layout n.<a> Thru <b> Property "Width" 10` works on a range of layout elements (1,926 commands for 960 elements ran in 5.8 s).
 - Fixture types are only writable in the edit copy (`Root 14.10`, exists while the Patch menu is open); the rules MA
   applies before it allows XYZ on a DMX mode are in `docs/jobs/2026-11-05-tornado-xyz/FINDINGS.md`.
