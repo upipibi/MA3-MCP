@@ -85,3 +85,13 @@ Then save the show. The settings file and log can be left or deleted.
 `ma3_backup` saves `<first 16 characters of the show name>_mcp_<MMDD_HHMM>` and then
 saves the current show again under its own name. The plugin never deletes show files;
 prune old `_mcp_` backups from the console's show file list when you like.
+
+
+## Aaron's way (GUI, no commands)
+
+With the stick in: open an empty plugin cell in the Plugins pool, Edit, then Import and pick
+`MA3 MCP.xml` from the stick. Start it from the pool button. The PIN and settings live in the
+console's library folder, so they survive a show load. The plugin's code is stored in the showfile
+(InStream; check the component's InStream setting in the plugin editor after import and set it to
+Yes if it is not), so it survives a console restart once the show is saved. A different show needs
+its own import.

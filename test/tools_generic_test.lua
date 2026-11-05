@@ -38,7 +38,7 @@ h.describe("ma3_children pages", function()
   local r2 = tools.ma3_children.handler({ address = "Sequence 12", offset = 2, limit = 10 }, ctx)
   h.eq(#r2.children, 4); h.eq(r2.next_offset, nil); h.eq(r2.children[1].name, "Cue 1")
   local r3 = tools.ma3_children.handler({ address = "Sequence 12", fields = { "NOTE", "NO" } }, ctx)
-  h.eq(r3.children[3].properties.NO, 1)
+  h.eq(r3.children[3].properties.NO, 1000)
 end)
 
 h.describe("ma3_dump", function()
@@ -112,4 +112,51 @@ h.describe("ma3_command refuses Lua and show-file commands", function()
   h.truthy(r, "a name containing 'Lua' is fine")
   tools.ma3_command.handler({ command = "Copy Sequence 12 At 13" }, ctx)
   h.eq(fake.last_cmd, "Copy Sequence 12 At 13 /NoConfirmation", "copy onto a slot can ask to overwrite")
+end)
+
+h.describe("ma3_commands runs a batch in order in one undo group", function()
+  fake.cmd_result = "OK"
+  local before = #fake.cmds
+  local r = tools.ma3_commands.handler({ commands = { 'Store Sequence 1 "A"', 'Label Sequence 1 "B"', "Delete Sequence 2" }, undo_group = "batch1" }, ctx)
+  h.eq(r.sent, 3); h.eq(r.total, 3); h.eq(r.stopped_at, nil); h.eq(#r.results, 3)
+  h.eq(fake.cmds[before + 1], 'Store Sequence 1 "A" /NoConfirmation'); h.eq(fake.cmds[before + 2], 'Label Sequence 1 "B"'); h.eq(fake.cmds[before + 3], "Delete Sequence 2 /NoConfirmation")
+  h.eq(r.results[1].noconfirmation_added, true); h.eq(r.results[2].noconfirmation_added, false); h.eq(r.results[3].result, "OK")
+  h.eq(fake.last_created_undo.name, "batch1"); h.eq(fake.last_undo, fake.last_created_undo); h.eq(r.undo_closed, false)
+  h.truthy(ctx.undos.batch1, "group stays open")
+  local r2 = tools.ma3_commands.handler({ commands = { "Label Sequence 1 \"C\"" }, undo_group = "batch1", close_undo = true }, ctx)
+  h.eq(r2.undo_closed, true); h.eq(fake.closed_undo.name, "batch1"); h.eq(ctx.undos.batch1, nil)
+end)
+
+h.describe("ma3_commands validates everything before sending anything", function()
+  local before = #fake.cmds
+  local r, err = tools.ma3_commands.handler({ commands = { "Label Sequence 1 \"ok\"", 'Lua "x"', "Label Sequence 2 \"ok\"" } }, ctx)
+  h.eq(r, nil); h.truthy(err:find("command 2 rejected")); h.truthy(err:find("ma3_lua"))
+  h.eq(#fake.cmds, before, "nothing reached the console")
+  local _, e2 = tools.ma3_commands.handler({ commands = {} }, ctx); h.truthy(e2:find("non%-empty"))
+  local _, e3 = tools.ma3_commands.handler({}, ctx); h.truthy(e3)
+  local big = {} for i = 1, 201 do big[i] = "Echo " .. i end
+  local _, e4 = tools.ma3_commands.handler({ commands = big }, ctx); h.truthy(e4:find("200"))
+end)
+
+h.describe("ma3_commands stops at the first non-OK result unless told not to", function()
+  local n = 0
+  local saved = fake.api.Cmd
+  fake.api.Cmd = function(text, undo) n = n + 1; table.insert(fake.cmds, text); fake.last_cmd = text; return n == 2 and "Object not found" or "OK" end
+  local r = tools.ma3_commands.handler({ commands = { "Echo a", "Echo b", "Echo c" } }, ctx)
+  h.eq(r.sent, 2); h.eq(r.stopped_at, 2); h.eq(#r.results, 2); h.eq(r.results[2].result, "Object not found")
+  n = 0
+  local r2 = tools.ma3_commands.handler({ commands = { "Echo a", "Echo b", "Echo c" }, stop_on_error = false }, ctx)
+  h.eq(r2.sent, 3); h.eq(r2.stopped_at, nil); h.eq(r2.results[2].result, "Object not found"); h.eq(r2.results[3].result, "OK")
+  n = 0
+  fake.api.Cmd = function(text) n = n + 1; if n == 1 then error("boom") end return "OK" end
+  local r3 = tools.ma3_commands.handler({ commands = { "Echo a", "Echo b" } }, ctx)
+  h.eq(r3.stopped_at, 1); h.truthy(r3.results[1].result:find("command failed: .*boom"))
+  fake.api.Cmd = saved
+end)
+
+h.describe("ma3_commands yields every 10 commands", function()
+  local y0 = fake.yields
+  local many = {} for i = 1, 25 do many[i] = "Echo " .. i end
+  local r = tools.ma3_commands.handler({ commands = many }, ctx)
+  h.eq(r.sent, 25); h.eq(fake.yields - y0, 2)
 end)

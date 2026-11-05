@@ -11,7 +11,8 @@ A grandMA3 Lua plugin that turns the console into an MCP server, so an AI model 
 - The console is the server: one plugin, HTTP on the console's production-network address, nothing to install or keep running anywhere else.
 - Full read access to the showfile: any object by address, its properties, its children, a text dump.
 - Fast bulk reads for housekeeping: the patch as a tree with every multi-instance fixture's instances, groups with their members, sequences with cue counts and every page/executor they sit on, pages with executor assignments, presets, macros.
-- Writes through the console's own command line (`ma3_command`) and property sets (`ma3_set`), with undo groups so one Oops reverts a whole job.
+- Writes through the console's own command line (`ma3_command`, or a whole list per request with `ma3_commands`) and property sets (`ma3_set`), with undo groups so one Oops reverts a whole job.
+- Deep reads: `ma3_cue_timing` (fades and delays per cue), `ma3_timecode` (tracks and events), `ma3_history` (last command and response, undo list), `ma3_export` (an object's XML, the only way to see the values inside cues). Bulk reads take filters (`from`/`to`/`name` on sequences, `page` on pages, `summary` on fixtures).
 - Backup save before destructive jobs, plain save, and arbitrary Lua behind an operator-only switch.
 - A window on the console: On/Off, the PIN, Regenerate, Allow Lua, the last ten clients (bad PINs included), the last five backups, display picker.
 - PIN authentication on every request, lockout after five bad PINs, refuses the one call known to hang grandMA3 2.5.1.
@@ -76,14 +77,17 @@ src/                 plugin modules (bundled into one file by tools/bundle.lua)
   settings.lua       settings file (deterministic JSON)
   console.lua        thin wrapper over the grandMA3 Lua API
   addr.lua           address validator ([unsafe-range])
-  tools/             generic, bulk, show (backup/save), lua_exec
+  tools/             generic, bulk, deep (cue timing, timecode, history, export), show (backup/save), lua_exec
   ui.lua             the window
   main.lua           plugin entry, lifecycle, command arguments
 plugin/MA3 MCP.xml   plugin descriptor
 tools/bundle.lua     builds dist/MA3 MCP.lua
+tools/mcp_call.py    call one tool on the console's server from a shell (URL and PIN from Claude Code's config)
+tools/show_digest.py bulk-read dumps of a show -> one Markdown report
+tools/cue_timing.py, cue_values.py   cue fade table / per-cue values from a dump or an export
 test/                plain-Lua test runner, fakes (console, socket, fs, display), tests
 spike/               throwaway console probes (gate zero, onPC facts)
-docs/                design, plan, research facts, conventions, install guide
+docs/                design, plan, research facts, conventions, programming style, install guide, job records (docs/jobs/)
 .claude/skills/      the ma3-housekeeping skill
 ```
 
@@ -97,6 +101,7 @@ See [SECURITY.md](SECURITY.md). Plain HTTP with a bearer PIN on the production V
 | --- | --- |
 | Nothing listens after `Plugin "MA3 MCP"` | `ma3_mcp_load.txt` in the console temp folder (`FAILED:` names the error), then `ma3_mcp.log` |
 | `401` | wrong or missing PIN; the window lists bad-PIN attempts |
+| `429`, or "Needs Auth" in an editor's MCP panel | five wrong PINs in a minute lock that machine out for five minutes. Do not use an Authenticate button (the plugin has no sign-in page; each try counts as a wrong PIN). Fix the saved PIN, wait, reconnect once |
 | `429` | five bad PINs in a minute from that address; wait five minutes |
 | A tool call times out | a dialog may be open on the console (the window shows STALLED); dismiss it, re-read state before resending |
 | Typed commands do nothing after using the window | tap the command line first |

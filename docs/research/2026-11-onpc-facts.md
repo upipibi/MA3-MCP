@@ -75,3 +75,63 @@ lived in Main's loop, which Off ends); Off now redraws immediately.
 
 Still unverified on the console: `ma3_backup` (saves the show, then copies the file), the
 optional pool-button Appearance, and any write through `ma3_command`.
+
+## Real console writes (stage-flip job), 2026-11-03
+
+First write job on the grandMA3 light through the plugin (`docs/jobs/2026-11-03-stage-flip.md`).
+Verified by re-reading after each phase:
+
+- `ma3_backup` works on the console: `Christmas 2026_mcp_1103_2358` (6.7 MB) in a few seconds.
+- `Store Sequence <n> "<name>"` on an empty programmer creates the sequence with one empty cue and
+  the name applied (child count 3 = CueZero, Cue 1, OffCue). No Label pass needed.
+- The console strips commas from object names through Store, Label and the object API `Set("NAME")`.
+- `Delete Sequence 1 Thru 89` on 22 objects took 6 ms. Deleting a sequence removes its executor
+  objects from every page (the executor shell does not survive; `Delete Page 2.106` then returns
+  `Object not found`).
+- `Delete Page <n>`, `Copy Page <a> At Page <b>` (into a free slot), `Label Page <n> "..."` and
+  `Assign Sequence <s> At Page <n>.<e>` all return `OK` and do what they say. `Copy Page` carries
+  every executor with its width, height, key and fader settings.
+- A freshly assigned executor has HEIGHT 1, KEYPRESS `Temp`, FADER `Master`. Its lower half
+  (`Page n.2xx`, class `Proxy`) exists once HEIGHT is 2 and lists no KEYPRESS/FADER in its property
+  dump, yet `Set("KEYPRESS","Select")` and `Set("FADER","Master")` on it work and read back.
+- `ma3_set` writes land outside any `ma3_command` undo group.
+- The plugin stayed responsive through ~130 calls, including batches of 31 and 26 parallel requests.
+
+## Plugin would not start after a console restart, 2026-11-05
+
+Aaron: after powering the console on, the plugin would not start; deleting the pool slot and importing
+again fixed it. Read from the running console: `Plugin 36.1` (ComponentLua) has `INSTREAM=false`,
+`INSTALLED=false`, `ISRESOURCE=true`, `FILEEXISTS=false`, `FULLPATH=/home/ma/MALightingTechnology/
+gma3_2.5.1/shared/resource/lib_plugins/ma3_mcp/MA3 MCP.lua`, with the source only in `FILECONTENT`
+(memory). The 2.5 manual: InStream Yes = "the Lua code is saved in the show file and streamed in the
+session"; No = "locally saved on the hard drive"; Installed Yes forces InStream No. So after a GUI
+import from the stick the code is neither in the showfile nor on the console's disk, and a restart
+leaves an empty component. The property cannot be changed on this component: `Set("INSTREAM", true)` reads
+back false, `Set Plugin 36.1 Property "InStream" "Yes"` returns `Illegal property`, and `ISRESOURCE`
+cannot be cleared (all tried 2026-11-05).
+
+**Root cause: our XML.** `<UserPlugin Name=... Path="/ma3_mcp">` is the form MA's own library plugins
+use (`shared/resource/lib_plugins/hw_test/hardware_test.xml` has `Path="/hw_test"`), so the console
+makes the component a resource reference into `lib_plugins` and locks InStream. Aaron's Cue Display
+plugin on the same console ships `<Plugin Name=...><ComponentLua ... /></Plugin>` with no `Path`, and
+its install guide sets InStream so it "travels with the show and survives a console reboot". Fix in
+0.2.0-alpha.3: the XML is now a plain `<Plugin>`; after import read the component and, if `INSTREAM`
+is not already true, set it (property or plugin editor), then save the show. A first attempt at a
+workaround (the plugin writing its own file into `lib_plugins` at start) was built and removed the
+same day: it wrote into MA's resource folder to imitate what the proper setting does. Still unproven
+until one console restart. On onPC the old form worked only because `make install-onpc` copies the
+Lua into `lib_plugins`.
+
+Also 2026-11-05: `Root 14.26` lists the console's 85 window types (WindowPluginPool, WindowSmartView,
+WindowSpecialDialog, ...). None hosts plugin-drawn content, so a plugin UI can only be an overlay on a
+display; the pool button in a Plugin pool window is the only part that docks in a view. The plugin XML
+still says `Version="0.1.0.0"`; bump it with the Lua version.
+
+## Agenda, fixture-type and layout writes proven on the console, 2026-11-05
+
+- Agenda: `Store Agenda n "name"`, `Set Agenda n Property "StartDate" "DD.MM.YYYY"` / `"StartTime" "HH:MM:SS"`;
+  events are points in time (no duration); pool names are forced unique (`#2` appended). Job: `docs/jobs/2026-11-05-agenda/`.
+- Layout: `Assign Fixture <id[.instance]> At Layout n`, `Store Layout n.m` (empty element), `Set Layout n.m Property
+  "PosX" -520`; visibility values are "Hidden"/"Visible". Job: `docs/jobs/2026-11-05-stick-delivery/portman-layout-plan.md`.
+- Fixture types are only writable in the edit copy (`Root 14.10`, exists while the Patch menu is open); the rules MA
+  applies before it allows XYZ on a DMX mode are in `docs/jobs/2026-11-05-tornado-xyz/FINDINGS.md`.

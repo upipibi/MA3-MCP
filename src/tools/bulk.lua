@@ -180,8 +180,8 @@ end
 
 function M.register(tools, c, ctx)
   tools.ma3_fixtures = {
-    description = "The whole patch as a tree: every fixture with id, fid, cid, name, idtype, patch (universe.address), fixture_type, mode, sf_index, address, and its children (sub-fixtures / instances of multi-instance fixtures, or fixtures inside a grouping fixture) recursively. Also lists fixture_types. Filters: type (fixture type name substring), id_from/id_to (FID range). Paged over top-level fixtures (offset, limit, next_offset); partial=true means the time budget ran out and the next call should resume at next_offset. Read-only.",
-    inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" }, type = { type = "string" }, id_from = { type = "integer" }, id_to = { type = "integer" } } },
+    description = "The whole patch as a tree: every fixture with id, fid, cid, name, idtype, patch (universe.address), fixture_type, mode, sf_index, address, and its children (sub-fixtures / instances of multi-instance fixtures, or fixtures inside a grouping fixture) recursively. Also lists fixture_types. Filters: type (fixture type name substring), id_from/id_to (FID range), summary:true (top-level entries only, no children; cheap). Paged over top-level fixtures (offset, limit, next_offset); partial=true means the time budget ran out and the next call should resume at next_offset. Read-only.",
+    inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" }, type = { type = "string" }, id_from = { type = "integer" }, id_to = { type = "integer" }, summary = { type = "boolean" } } },
     handler = function(args)
       args = args or {}
       local b = budget(c, ctx)
@@ -191,7 +191,8 @@ function M.register(tools, c, ctx)
       local types, type_names = fixture_types(c)
       local rows = {}
       local next_offset, partial = walk_pool(fx, offset, limit, b, function(h)
-        local row = fixture_row(h, nil, type_names, b, 0)
+        local row = fixture_row(h, nil, type_names, b, args.summary and 6 or 0)
+        if args.summary then row.child_count = h:Count() end
         if matches_type(row, args.type) and matches_range(row, num(args.id_from), num(args.id_to)) then
           rows[#rows + 1] = row
         else
@@ -242,8 +243,8 @@ function M.register(tools, c, ctx)
   }
 
   tools.ma3_sequences = {
-    description = "Every sequence: no, name, note, tags, appearance, address, cue_count (excluding CueZero), first_cue, last_cue, and executors = every page/executor it is assigned to ({page, executor, page_name, label}). include_cues:true adds cues [{no, name, trigger}]. Paged (offset, limit, next_offset, partial). Built without any Page/Executor range. Read-only.",
-    inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" }, include_cues = { type = "boolean" } } },
+    description = "Every sequence: no, name, note, tags, appearance, address, cue_count (excluding CueZero), first_cue, last_cue, and executors = every page/executor it is assigned to ({page, executor, page_name, label}). include_cues:true adds cues [{no (console-internal thousandths: 1000 = Cue 1), name, trigger}]. Filters: from/to (sequence number range), name (case-insensitive substring). Paged (offset, limit, next_offset, partial). Built without any Page/Executor range. Read-only.",
+    inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" }, include_cues = { type = "boolean" }, from = { type = "integer" }, to = { type = "integer" }, name = { type = "string" } } },
     handler = function(args)
       args = args or {}
       local b = budget(c, ctx)
@@ -252,8 +253,13 @@ function M.register(tools, c, ctx)
       if not pool then return nil, "no Sequences pool" end
       local _, index = read_pages(c, b)
       local rows = {}
+      local from, to, needle = num(args.from), num(args.to), args.name and args.name:lower() or nil
       local next_offset, partial = walk_pool(pool, offset, limit, b, function(s, slot)
-        local row = { no = num(prop(s, "NO")) or slot, name = name_of(s), note = prop(s, "NOTE"), tags = prop(s, "TAGS"),
+        local sno = num(prop(s, "NO")) or slot
+        if (from and sno < from) or (to and sno > to) then return false end
+        local sname = name_of(s)
+        if needle and not tostring(sname or ""):lower():find(needle, 1, true) then return false end
+        local row = { no = sno, name = sname, note = prop(s, "NOTE"), tags = prop(s, "TAGS"),
           appearance = prop(s, "APPEARANCE"), address = s:ToAddr(), executors = index[s:ToAddr()] or {} }
         local n = s:Count()
         local cues = {}
@@ -276,13 +282,19 @@ function M.register(tools, c, ctx)
   }
 
   tools.ma3_pages = {
-    description = "Every page with its executors: {no, name, address, executors=[{executor, label, assigned (object address), assigned_name, key, fader, width, height}]}, sorted by executor number. Walks one page and one executor at a time (never a range). Paged over pages (offset, limit, next_offset). Read-only.",
-    inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" } } },
+    description = "Every page with its executors: {no, name, address, executors=[{executor, label, assigned (object address), assigned_name, key, fader, width, height}]}, sorted by executor number. {page:n} returns that page only. Walks one page and one executor at a time (never a range). Paged over pages (offset, limit, next_offset). Read-only.",
+    inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" }, page = { type = "integer" } } },
     handler = function(args)
       args = args or {}
       local b = budget(c, ctx)
       local offset, limit = limits(args)
       local pages = read_pages(c, b)
+      local want = num(args.page)
+      if want then
+        local only = {}
+        for _, pg in ipairs(pages) do if pg.no == want then only[#only + 1] = pg end end
+        pages = only
+      end
       local rows = {}
       local i = offset + 1
       while i <= #pages and #rows < limit do rows[#rows + 1] = pages[i]; i = i + 1 end

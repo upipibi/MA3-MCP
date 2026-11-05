@@ -28,6 +28,11 @@ function Handle:Get(name)
   if type(p.v) == "table" and p.v.addr then return p.v end -- handle-valued
   return p.v
 end
+function Handle:Export(path, filename)
+  local fake = rawget(self, "fake_ref")
+  if fake then fake.exported = { addr = self.addr, path = path, filename = filename } end
+  return true
+end
 function Handle:Set(name, value)
   local p = self.props[name:upper()]
   if not p then return false end
@@ -37,7 +42,7 @@ function Handle:Set(name, value)
 end
 
 local function node(fake, spec, parent, idx)
-  local h = setmetatable({ class = spec.class, addr = spec.addr, kids = {}, props = {}, order = {}, parent = parent, idx = idx }, Handle)
+  local h = setmetatable({ class = spec.class, addr = spec.addr, kids = {}, props = {}, order = {}, parent = parent, idx = idx, fake_ref = fake }, Handle)
   local function prop(n, t, v) h.props[n] = { t = t, v = v }; h.order[#h.order + 1] = n end
   prop("NAME", "String", spec.name or "")
   prop("NO", "UInt32", spec.no)
@@ -113,8 +118,9 @@ end
 function M.default_tree()
   local cues = { { class = "Cue", addr = "Sequence 12 Cue 0", name = "CueZero", no = 0 },
     { class = "Cue", addr = "Sequence 12 OffCue", name = "OffCue", no = nil } }
-  for i = 1, 4 do cues[#cues + 1] = { class = "Cue", addr = "Sequence 12 Cue " .. i, name = "Cue " .. i, no = i,
-    props = { { "TRIGTYPE", "String", i == 2 and "Follow" or "Go" } } } end
+  for i = 1, 4 do cues[#cues + 1] = { class = "Cue", addr = "Sequence 12 Cue " .. i, name = "Cue " .. i, no = i * 1000,
+    props = { { "TRIGTYPE", "String", i == 2 and "Follow" or "Go" }, { "TRIGTIME", "Double", 0 } },
+    children = { { class = "Part", addr = "Sequence 12 Cue " .. i .. " Part 0", name = "Part 0", props = { { "CUEINFADE", "Double", i == 2 and 2 or 4 }, { "CUEINDELAY", "Double", 0 }, { "CUEOUTFADE", "String", "CueTiming" }, { "CUEOUTDELAY", "String", "CueTiming" }, { "SNAPDELAY", "Double", 0 }, { "COMMANDDELAY", "Double", 0 }, { "MIBMODE", "String", "" } } } } } end
   -- Fixture 201: a multi-instance fixture with 8 instances (CID 1..8); fixtures 1-3 plain dimmers.
   local inst = {}
   for i = 1, 8 do inst[i] = fixture({ cid = i, no = i, name = "Cell " .. i, addr = "Fixture 201." .. i, sf_index = 100 + i, idtype = "Fixture" }) end
@@ -144,6 +150,15 @@ function M.default_tree()
           { class = "PresetPool", addr = "Preset 1", name = "Dimmer", no = 1, count = 1000, children = { { class = "Preset", addr = "Preset 1.1", name = "Full", no = 1, slot = 1, count = 3 } } },
           { class = "PresetPool", addr = "Preset 4", name = "Color", no = 4, count = 1000, children = { { class = "Preset", addr = "Preset 4.1", name = "Red", no = 1, slot = 1, tags = "Song:0" }, { class = "Preset", addr = "Preset 4.7", name = "Blue", no = 7, slot = 7 } } },
         } },
+        { class = "Timecodes", addr = "DataPool 1 Timecodes", name = "Timecodes", count = 1000, children = {
+          { class = "Timecode", addr = "Timecode 1", name = "Carol", no = 1, slot = 1, props = { { "DURATION", "String", "3m27:00" }, { "TCSLOT", "UInt32", 1 }, { "FRAMEREADOUT", "String", "S1<30 fps>" } }, children = {
+            { class = "TrackGroup", addr = "Timecode 1.1", name = "TrackGroup 1", no = 1, children = {
+              { class = "MarkerTrack", addr = "Timecode 1.1.0", name = "Marker", no = 0, children = { { class = "Marker", addr = "Timecode 1.1.0.1", name = "Verse", no = 1, props = { { "TIME", "Double", 12.5 } } } } },
+              { class = "Track", addr = "Timecode 1.1.1", name = "<Carol>", no = 1, props = { { "TARGET", "String", "Sequence 12" } }, children = {
+                { class = "TimeRange", addr = "Timecode 1.1.1.1", name = "TimeRange 1", no = 1, props = { { "START", "Double", 0 }, { "DURATION", "String", "3m27.00>" }, { "SPEEDFACTOR", "Double", 1 } }, children = {
+                  { class = "CmdSubTrack", addr = "Timecode 1.1.1.1.1", name = "CmdSubTrack 1", no = 1, children = {
+                    { class = "CmdEvent", addr = "Timecode 1.1.1.1.1.1", name = "Go+", no = 1, props = { { "TIME", "Double", 9.1 }, { "CUEDESTINATION", "String", "Sequence 12.2000" }, { "EXECUTECOMMAND", "String", "---" } } },
+                    { class = "CmdEvent", addr = "Timecode 1.1.1.1.1.2", name = "Go+", no = 2, props = { { "TIME", "Double", 0.7 }, { "CUEDESTINATION", "String", "Sequence 12.1000" }, { "EXECUTECOMMAND", "String", "---" } } } } } } } } } } } } } } },
         { class = "Macros", addr = "DataPool 1 Macros", name = "Macros", count = 1000, children = {
           { class = "Macro", addr = "Macro 1", name = "Relays On", no = 1, slot = 1, children = {
             { class = "MacroLine", addr = "Macro 1.1", name = "MacroLine 1", no = 1, props = { { "COMMAND", "String", "Park Group 1100 At 100" }, { "WAIT", "String", "Follow" }, { "ENABLED", "Bool", true } } },
@@ -172,6 +187,13 @@ function M.default_tree()
       } },
     } },
     { class = "MAnetSocket", addr = "Root 14.5", name = "MAnetSocket", props = { { "SHOWFILE", "String", "TestShow" }, { "HOSTNAME", "String", "test-host" } } },
+    { class = "Temp", addr = "Root 20", name = "Temp", children = {
+      { class = "Cmdlines", addr = "Root 20.1", name = "Cmdlines", children = {
+        { class = "Cmdline", addr = "Root 20.1.1", name = "Cmdline 1", no = 1, props = { { "USER", "String", "User 5" }, { "PROFILE", "String", "UserProfile 5" }, { "LASTCOMMAND", "String", 'OK: Label Sequence 68 "Joyful"' }, { "LASTCOMMANDEXECUTIONTIME", "UInt64", 3 } }, children = {
+          { class = "Undos", addr = "Root 20.1.1.1", name = "Undos", children = {
+            { class = "Undo", addr = "Root 20.1.1.1.1", name = "\27[92mClear\27[97m", no = 1, props = { { "SESSIONTIME", "String", "14:00:00" }, { "ELAPSEDTIME", "Int64", 100 } } },
+            { class = "Undo", addr = "Root 20.1.1.1.2", name = "\27[92mStore Sequence \27[96m1\27[97m", no = 2, props = { { "SESSIONTIME", "String", "14:00:05" }, { "ELAPSEDTIME", "Int64", 5100 } } },
+            { class = "Undo", addr = "Root 20.1.1.1.3", name = "Full", no = 3, props = { { "SESSIONTIME", "String", "14:00:09" }, { "ELAPSEDTIME", "Int64", 9000 } } } } } } } } } } },
   } }
 end
 

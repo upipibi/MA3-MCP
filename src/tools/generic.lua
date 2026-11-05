@@ -1,4 +1,4 @@
--- The generic "full window" tools: status, object, children, dump, set, command, undo close.
+-- The generic "full window" tools: status, object, children, dump, set, command, commands (batch), undo close.
 local addr = require("addr")
 local console = require("console")
 
@@ -131,33 +131,82 @@ function M.register(tools, c, ctx)
     end,
   }
 
+  -- Validates one command-line string and appends /NoConfirmation where a dialog could open.
+  -- Returns the command to send and whether the option was added, or nil + reason.
+  local function prepare(raw)
+    local cmd = tostring(raw or "")
+    if cmd:match("^%s*$") then return nil, nil, "command is empty" end
+    if cmd:find("[%c]") then return nil, nil, "command contains control characters" end
+    local first = (cmd:match("^%s*(%a+)") or ""):lower()
+    if REFUSED[first] then return nil, nil, string.format("%s is not sent by ma3_command: %s", first, REFUSED[first]) end
+    local added = false
+    if needs_noconfirmation(cmd) and not cmd:lower():find("/noconfirmation", 1, true) then
+      cmd = cmd .. " /NoConfirmation"
+      added = true
+    end
+    return cmd, added
+  end
+
+  local function undo_for(name)
+    if not name then return nil end
+    local undo = ctx.undos[name]
+    if not undo then
+      undo = c:create_undo(name)
+      ctx.undos[name] = undo
+    end
+    return undo
+  end
+
   tools.ma3_command = {
     description = "Run one command-line command exactly as typed on the console (Store, Label, Assign, Delete, Go, ...). Returns the console's result string ('OK', 'Object not found', ...). Adds /NoConfirmation to Delete/Store/Oops/Import/Export/Cut/Merge/Off/Assign/Copy/Move/Clone so no dialog can stall the plugin. Refuses Lua/LuaFile (use ma3_lua) and SaveShow/LoadShow/NewShow (use ma3_save/ma3_backup). {undo_group:'name'} groups commands into one console undo (close it with ma3_undo_close). The console cannot interrupt a command; a timeout proves nothing, check state before resending. Changes the live show.",
     inputSchema = { type = "object", required = { "command" }, properties = { command = { type = "string" }, undo_group = { type = "string" } } },
     handler = function(args)
-      local cmd = tostring(args.command or "")
-      if cmd:match("^%s*$") then return nil, "command is empty" end
-      if cmd:find("[%c]") then return nil, "command contains control characters" end
-      local first = (cmd:match("^%s*(%a+)") or ""):lower()
-      if REFUSED[first] then return nil, string.format("%s is not sent by ma3_command: %s", first, REFUSED[first]) end
-      local added = false
-      if needs_noconfirmation(cmd) and not cmd:lower():find("/noconfirmation", 1, true) then
-        cmd = cmd .. " /NoConfirmation"
-        added = true
-      end
-      local undo
-      if args.undo_group then
-        undo = ctx.undos[args.undo_group]
-        if not undo then
-          undo = c:create_undo(args.undo_group)
-          ctx.undos[args.undo_group] = undo
-        end
-      end
+      local cmd, added, why = prepare(args.command)
+      if not cmd then return nil, why end
+      local undo = undo_for(args.undo_group)
       local t0 = c:now()
       local ok, res = pcall(function() return c:cmd(cmd, undo) end)
       if not ok then return nil, "command failed: " .. tostring(res) end
       return { command = cmd, result = res ~= nil and tostring(res) or "", noconfirmation_added = added,
         undo_group = args.undo_group, duration_ms = math.floor((c:now() - t0) * 1000 + 0.5) }
+    end,
+  }
+
+  tools.ma3_commands = {
+    description = "Run a list of command-line commands in order in one request (up to 200). Each command gets the same checks and /NoConfirmation handling as ma3_command, and the whole list is validated before anything is sent, so a refused command stops the batch before the console sees it. Stops at the first result that is not 'OK' unless {stop_on_error:false}. {undo_group:'name'} puts every command in one console undo; {close_undo:true} closes that group at the end. Returns per-command results, sent count, and stopped_at (1-based index of the failing command). Changes the live show.",
+    inputSchema = { type = "object", required = { "commands" }, properties = {
+      commands = { type = "array", items = { type = "string" }, minItems = 1, maxItems = 200 },
+      undo_group = { type = "string" }, stop_on_error = { type = "boolean" }, close_undo = { type = "boolean" } } },
+    handler = function(args)
+      local list = args.commands
+      if type(list) ~= "table" or #list == 0 then return nil, "commands must be a non-empty array" end
+      if #list > 200 then return nil, "at most 200 commands per batch" end
+      local prepared = {}
+      for i, raw in ipairs(list) do
+        local cmd, added, why = prepare(raw)
+        if not cmd then return nil, string.format("command %d rejected, nothing sent: %s", i, why) end
+        prepared[i] = { command = cmd, noconfirmation_added = added }
+      end
+      local stop = args.stop_on_error ~= false
+      local undo = undo_for(args.undo_group)
+      local t0 = c:now()
+      local results, sent, stopped_at = {}, 0, nil
+      for i, p in ipairs(prepared) do
+        local ok, res = pcall(function() return c:cmd(p.command, undo) end)
+        sent = sent + 1
+        local text = ok and (res ~= nil and tostring(res) or "") or ("command failed: " .. tostring(res))
+        results[i] = { command = p.command, result = text, noconfirmation_added = p.noconfirmation_added }
+        if (not ok or text ~= "OK") and stop then stopped_at = i break end
+        if i % 10 == 0 then c:yield() end
+      end
+      local closed = false
+      if args.close_undo and undo then
+        pcall(function() c:close_undo(undo) end)
+        ctx.undos[args.undo_group] = nil
+        closed = true
+      end
+      return { sent = sent, total = #prepared, stopped_at = stopped_at, results = results, undo_group = args.undo_group,
+        undo_closed = closed, duration_ms = math.floor((c:now() - t0) * 1000 + 0.5) }
     end,
   }
 

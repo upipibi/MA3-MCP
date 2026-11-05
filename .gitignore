@@ -11,3 +11,11 @@ spike/out/
 ma3_mcp*.log
 # machine-specific MCP wiring (absolute paths)
 .mcp.json
+__pycache__/
+# raw show data read from Aaron's console (per-show reports, exports, stage plot, schedule):
+# local only, this repo is public
+docs/research/shows/
+docs/jobs/**/layout1-*
+docs/jobs/**/groups-before/
+docs/jobs/**/capture-*.png
+docs/jobs/**/entries.json

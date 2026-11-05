@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GMA3 DataVersion="2.5.1.1">
-    <UserPlugin Name="MA3 MCP" Version="0.1.0.0" Path="/ma3_mcp">
+    <Plugin Name="MA3 MCP" Author="Aaron Larson" Version="0.2.0.3">
         <ComponentLua Name="ma3_mcp" FileName="MA3 MCP.lua" />
-    </UserPlugin>
+    </Plugin>
 </GMA3>

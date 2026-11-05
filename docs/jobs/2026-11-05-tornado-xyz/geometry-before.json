@@ -1,0 +1,913 @@
+{
+ "Root 14.10.6.25.5.4.1": {
+  "name": "LED Array",
+  "class": "Geometry",
+  "POSX": 0,
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0.043113000690937,
+  "POSZ": -0.025105999782681,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2": {
+  "name": "BEAM Array",
+  "class": "Geometry",
+  "POSX": 0,
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.1": {
+  "name": "Yoke 6",
+  "class": "Axis",
+  "POSX": -0.39500001072884,
+  "MODEL": "FixtureType 25.4.8",
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": -0.22952499985695,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.1.1": {
+  "name": "Array 6",
+  "class": "Geometry",
+  "POSX": 0,
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": 0,
+  "ROTZ": 90.000007629395
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1": {
+  "name": "Head 6",
+  "class": "Axis",
+  "POSX": 0,
+  "MODEL": "FixtureType 25.4.7",
+  "ROTY": 0,
+  "ROTX": -90,
+  "POSY": 0,
+  "POSZ": -0.048078998923302,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.1": {
+  "name": "LED 1",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000015258789,
+  "ROTX": -90,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.1.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.2": {
+  "name": "LED 2",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": -90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.2.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.3": {
+  "name": "LED 3",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000015258789,
+  "ROTX": -90.000015258789,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.3.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.4": {
+  "name": "LED 4",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.4.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.5": {
+  "name": "LED 5",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.5.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.6": {
+  "name": "LED 6",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.6.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.7": {
+  "name": "LED 7",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.7.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.8": {
+  "name": "LED 8",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 90
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.8.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.9": {
+  "name": "Beam 1",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<BEAM >",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "Beam 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.1.1.1.9.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2": {
+  "name": "Yoke 7",
+  "class": "Axis",
+  "POSX": -0.19499999284744,
+  "MODEL": "FixtureType 25.4.8",
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": -0.23000000417233,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.2.1": {
+  "name": "Array 7",
+  "class": "Geometry",
+  "POSX": 0,
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": 0,
+  "ROTZ": 90.000007629395
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1": {
+  "name": "Head 7",
+  "class": "Axis",
+  "POSX": 0,
+  "MODEL": "FixtureType 25.4.7",
+  "ROTY": 0,
+  "ROTX": -90,
+  "POSY": 0,
+  "POSZ": -0.048000000417233,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.1": {
+  "name": "LED 9",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000015258789,
+  "ROTX": -90,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.1.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.2": {
+  "name": "LED 10",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": -90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.2.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.3": {
+  "name": "LED 11",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000015258789,
+  "ROTX": -90.000015258789,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.3.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.4": {
+  "name": "LED 12",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.4.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.5": {
+  "name": "LED 13",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.5.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.6": {
+  "name": "LED 14",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.6.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.7": {
+  "name": "LED 15",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.7.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.8": {
+  "name": "LED 16",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 90
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.8.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.9": {
+  "name": "Beam 2",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<BEAM >",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "Beam 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.2.1.1.9.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3": {
+  "name": "Yoke 8",
+  "class": "Axis",
+  "POSX": 0,
+  "MODEL": "FixtureType 25.4.8",
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": -0.23000000417233,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.3.1": {
+  "name": "Array 8",
+  "class": "Geometry",
+  "POSX": 0,
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": 0,
+  "ROTZ": 90.000007629395
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1": {
+  "name": "Head 8",
+  "class": "Axis",
+  "POSX": 0,
+  "MODEL": "FixtureType 25.4.7",
+  "ROTY": 0,
+  "ROTX": -90,
+  "POSY": 0,
+  "POSZ": -0.048000000417233,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.1": {
+  "name": "LED 17",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000015258789,
+  "ROTX": -90,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.1.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.2": {
+  "name": "LED 18",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": -90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.2.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.3": {
+  "name": "LED 19",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000015258789,
+  "ROTX": -90.000015258789,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.3.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.4": {
+  "name": "LED 20",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.4.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.5": {
+  "name": "LED 21",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.5.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.6": {
+  "name": "LED 22",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.6.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.7": {
+  "name": "LED 23",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.7.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.8": {
+  "name": "LED 24",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 90
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.8.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.9": {
+  "name": "Beam 3",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<BEAM >",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "Beam 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.3.1.1.9.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4": {
+  "name": "Yoke 9",
+  "class": "Axis",
+  "POSX": 0.19499999284744,
+  "MODEL": "FixtureType 25.4.8",
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": -0.23000000417233,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.4.1": {
+  "name": "Array 9",
+  "class": "Geometry",
+  "POSX": 0,
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": 0,
+  "ROTZ": 90.000007629395
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1": {
+  "name": "Head 9",
+  "class": "Axis",
+  "POSX": 0,
+  "MODEL": "FixtureType 25.4.7",
+  "ROTY": 0,
+  "ROTX": -90,
+  "POSY": 0,
+  "POSZ": -0.048000000417233,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.1": {
+  "name": "LED 25",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000015258789,
+  "ROTX": -90,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.1.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.2": {
+  "name": "LED 26",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": -90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.2.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.3": {
+  "name": "LED 27",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000015258789,
+  "ROTX": -90.000015258789,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.3.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.4": {
+  "name": "LED 28",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.4.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.5": {
+  "name": "LED 29",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.5.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.6": {
+  "name": "LED 30",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.6.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.7": {
+  "name": "LED 31",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.7.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.8": {
+  "name": "LED 32",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 90
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.8.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.9": {
+  "name": "Beam 4",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<BEAM >",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "Beam 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.4.1.1.9.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5": {
+  "name": "Yoke 10",
+  "class": "Axis",
+  "POSX": 0.39500001072884,
+  "MODEL": "FixtureType 25.4.8",
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": -0.23000000417233,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.5.1": {
+  "name": "Array 10",
+  "class": "Geometry",
+  "POSX": 0,
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": 0,
+  "POSZ": 0,
+  "ROTZ": 90.000007629395
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1": {
+  "name": "Head 10",
+  "class": "Axis",
+  "POSX": 0,
+  "MODEL": "FixtureType 25.4.7",
+  "ROTY": 0,
+  "ROTX": -90,
+  "POSY": 0,
+  "POSZ": -0.048000000417233,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.1": {
+  "name": "LED 33",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000015258789,
+  "ROTX": -90,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.1.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.2": {
+  "name": "LED 34",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": -90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.2.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.3": {
+  "name": "LED 35",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000015258789,
+  "ROTX": -90.000015258789,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 180
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.3.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.4": {
+  "name": "LED 36",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": -90
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.4.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.5": {
+  "name": "LED 37",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.5.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.6": {
+  "name": "LED 38",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.6.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.7": {
+  "name": "LED 39",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -45.000007629395,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.7.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.8": {
+  "name": "LED 40",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<2-LED>",
+  "ROTY": -90,
+  "ROTX": 0,
+  "GEOMETRY": "LED 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 90
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.8.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.9": {
+  "name": "Beam 5",
+  "class": "GeometryReference",
+  "POSX": 0,
+  "MODEL": "<BEAM >",
+  "ROTY": 0,
+  "ROTX": 90.000007629395,
+  "GEOMETRY": "Beam 170CH",
+  "POSY": 0.03999999910593,
+  "POSZ": 0,
+  "ROTZ": 0
+ },
+ "Root 14.10.6.25.5.4.2.5.1.1.9.1": {
+  "name": "Break 1 offset",
+  "class": "Break"
+ },
+ "Root 14.10.6.25.5.4.3": {
+  "name": "Pigtail2",
+  "class": "Geometry",
+  "POSX": -0.19625000655651,
+  "MODEL": "FixtureType 25.4.1",
+  "ROTY": 0,
+  "ROTX": 0,
+  "POSY": -0.0037259999662638,
+  "POSZ": -0.035681001842022,
+  "ROTZ": 0
+ }
+}
