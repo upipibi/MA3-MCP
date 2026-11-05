@@ -29,12 +29,14 @@ new ignored files under `docs/` there.
 | Thing | State |
 | --- | --- |
 | Plugin on the console | 0.2.0-alpha.3, `Plugin 36`, lives in the show file (`INSTREAM` true). Unproven: one console restart with the USB stick out. |
-| Cue Display plugin (`../MA3 Cue Display/`) | Fixed and re-imported as `Plugin 38`, verified. Details in that project's CLAUDE.md. |
+| Cue Display plugin (`../MA3 Cue Display/`) | Fixed and re-imported as `Plugin 38`, verified; released as 2.0.1 (the console copy still reports 2.0.0 until the next import). Details in that project's CLAUDE.md. |
 | Stage model | Imported from Capture as MVR; Aaron switched its 3D selection off himself. |
-| Portman layout | 90 elements + box in Layout 1, verified. |
+| Portman layout | 90 elements + box in Layout 1. Aaron re-arranged them (master with two hexes stacked below); scaled to 45 x 45 to fit the default 1920 x 1080 area. |
 | Agenda | 15 entries for the Christmas 2026 run (`Agenda 14-28`). |
+| Q40 block in Layout 1 | 11 panels at default 50 x 50, master to the left of its 2 x 2, three rows from today's rig, in the slot between `R1` and `Key`. |
+| Group 706 `Ladder LEDs` | All 600 ladder LEDs, one ladder per selection-grid row. Aaron confirmed the number and that the `Test` set stays out. |
 | Tornado XYZ | Closed: not possible for a five-head bar as one fixture, and Aaron dropped it (2026-11-05). |
-| Tornado rings in Layout 1 | 24 ring masters with their 960 ring sections arranged as tiny rings against them, verified. |
+| Tornado rings and yokes in Layout 1 | Ring masters with 960 ring sections as tiny rings, yoke masters with 120 yoke sections as cells, each in a column hanging below its master, rows 200 apart (Aaron's own re-spacing of the rings set that pattern). Verified. |
 | Release | 0.2.0-alpha.3 published on GitHub as a pre-release (the build that runs on the console). |
 | Cue Display timecode + fades | Design paused mid-brainstorm (section below). |
 
@@ -47,6 +49,10 @@ Job records:
 | `docs/jobs/2026-11-05-tornado-xyz/` | `FINDINGS.md`: the rules MA applies before it allows XYZ on a DMX mode, and why the Tornado cannot have it. Scripts for the scratch-copy build. |
 | `docs/jobs/2026-11-05-agenda/` | The agenda entries and the proven Agenda syntax. |
 | `docs/jobs/2026-11-05-tornado-rings-layout/` | Ring sections arranged against their masters in Layout 1 (`rings.py`). |
+| `docs/jobs/2026-11-05-tornado-yokes-layout/` | Yoke sections under their masters, same pattern (`yokes.py`). |
+| `docs/jobs/2026-11-05-portman-resize/` | Portman block scaled to 0.9 to fit the default layout area (`resize.py`). |
+| `docs/jobs/2026-11-05-ladder-group/` | Group 706 `Ladder LEDs`: all 600 ladder LEDs, one ladder per selection-grid row. |
+| `docs/jobs/2026-11-05-q40-layout/` | Q40 block in Layout 1: old show's look, today's rig arrangement from patch positions (`q40.py`). |
 
 ## Running a job
 

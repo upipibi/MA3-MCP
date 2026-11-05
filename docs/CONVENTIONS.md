@@ -104,11 +104,21 @@ all eight plus six Fuze Washes.
 
 ## Layouts
 
+Aaron is fitting Layout 1 into the default layout area: the 1920 x 1080 canvas centred on the
+origin (x -960..960, y -540..540). Family boxes tile it from the top-left (`Infini Bars`, `Tornado`).
+To make a block fit, scale positions and sizes together about its top-left corner.
+By 2026-11-05 the area is tiled: `Infini Bars`, `Tornado` and `Dimmers` on the left, `Portmans` in the
+middle, and `Era`, `R1`, `Q40`, `Key` stacked on the right. The layout reads as a plan view: upstage
+at the top, key light at the bottom, layout left = negative patch X. When a family's old-show
+arrangement does not match this year's rig, keep the old look and arrange from today's patch positions.
+
 Layout 1 (`Portmans`) is Aaron's main selection layout; he arranges it himself and asks for help
 with the dense parts. The pattern for a multi-part fixture is a 50 x 50 master tile he can tap, with
 its parts drawn against it in the fixture's real shape: each Portman is two 7-cell hexes under its
-master; each Tornado bar is five hollow 3 x 3 rings of 10 x 10 cells stacked against its ring master
-(colour only, names hidden, not meant to be tapped). Do not move or resize elements he placed.
+master; each Tornado bar is five hollow 3 x 3 rings of 10 x 10 cells in a 30-wide column hanging below its
+ring master, and five 30 x 30 yoke cells in the same kind of column below its yoke master (colour
+only, names hidden, not meant to be tapped); master rows sit 200 apart, head 1 nearest the master.
+Do not move or resize elements he placed unless the pattern cannot fit otherwise, and say so.
 
 ## Names
 

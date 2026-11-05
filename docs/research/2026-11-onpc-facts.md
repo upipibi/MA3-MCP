@@ -134,5 +134,6 @@ still says `Version="0.1.0.0"`; bump it with the Lua version.
 - Layout: `Assign Fixture <id[.instance]> At Layout n`, `Store Layout n.m` (empty element), `Set Layout n.m Property
   "PosX" -520`; visibility values are "Hidden"/"Visible". Job: `docs/jobs/2026-11-05-stick-delivery/portman-layout-plan.md`.
 - `Set Layout n.<a> Thru <b> Property "Width" 10` works on a range of layout elements (1,926 commands for 960 elements ran in 5.8 s).
+- Building a group with a 2D selection grid: `ClearSelection`, then per row `Grid 0/<row>` + `Fixture a Thru b`, then `Store Group n "name"` (600 fixtures on 12 rows, read back correct).
 - Fixture types are only writable in the edit copy (`Root 14.10`, exists while the Patch menu is open); the rules MA
   applies before it allows XYZ on a DMX mode are in `docs/jobs/2026-11-05-tornado-xyz/FINDINGS.md`.
