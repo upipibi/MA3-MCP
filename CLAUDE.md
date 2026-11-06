@@ -19,18 +19,20 @@ saved through `ma3_save` at this `/save` (so both live in the show file).
 
 - **MA3 MCP 0.2.0-alpha.4**, verified on the desk: `ma3_sequences {}` 0.46 s for 130 rows (was no
   rows), `ma3_pages {}` 0.43 s (was 10.5 s), `ma3_children` on `Page` 0.19 s (was 6.14 s),
-  `ma3_groups` 0.68 s (was 2.96 s). I chose the alpha.4 label myself. Committed at this `/save`;
-  no GitHub release yet (offered).
+  `ma3_groups` 0.68 s (was 2.96 s). I chose the alpha.4 label myself. Released on GitHub as
+  pre-release `v0.2.0-alpha.4` (2026-11-06, Aaron: "push both update to git").
 - **Cue Display 2.1.0** (grid view), running on the desk: `/health` = `ok 2.1.0`, `/grid` serves,
-  eight empty slots and two stopped clocks with nothing in range running. Committed in its repo
-  at this `/save`; no GitHub release yet.
+  eight empty slots and two stopped clocks with nothing in range running. Released on GitHub as
+  `v2.1.0`, marked pre-release by me until Sunday's test (one command makes it a full release).
+  Its repo was PRIVATE until 2026-11-06; made public on Aaron's word ("Make sure both are in my
+  personal git, and public") after a scan of its whole history found nothing private.
 - **Sunday 2026-11-08 (Aaron: "We'll run timecode and songs on sunday"):** with timecode rolling,
   check the TC clocks move (the one read never proven: `TimecodeSlot` `TIME` live for a plugin);
   with a song and its key running, check slots, cue names and fade bars. Handy: poll the Cue
   Display's `/api/state` five times a second and log changes while he runs it.
 - **Still to ask him:** did the desk feel normal during the alpha.4 reads (the 10 ms slice in
   `src/console.lua`); does he want the PIN fix (the PIN changed on every import, three times now);
-  GitHub releases for alpha.4 and 2.1.0.
+  after Sunday, whether to mark Cue Display 2.1.0 a full release.
 - **Lua was ON in the MCP plugin window** when this was written (he turned it on for the
   diagnosis). Remind him to turn it off.
 - **Reaching the console:** a session started before 2026-11-06 holds an old PIN in its
@@ -78,9 +80,9 @@ saved through `ma3_save` at this `/save` (so both live in the show file).
 | Group 706 `Ladder LEDs` | All 600 ladder LEDs, one ladder per selection-grid row. Aaron confirmed the number and that the `Test` set stays out. |
 | Tornado XYZ | Closed: not possible for a five-head bar as one fixture, and Aaron dropped it (2026-11-05). |
 | Tornado rings and yokes in Layout 1 | Ring masters with 960 ring sections as tiny rings, yoke masters with 120 yoke sections as cells, each in a column hanging below its master, rows 200 apart (Aaron's own re-spacing of the rings set that pattern). Verified. |
-| Release | 0.2.0-alpha.3 published on GitHub as a pre-release (the build that runs on the console). |
+| Release | 0.2.0-alpha.4 published on GitHub as a pre-release (the build that runs on the console). |
 | Timecode pool | 28 shows, one per song, same number and name as the song sequence (1-13, 54-68), each with one track targeting the song. No events yet. |
-| Cue Display grid view (timecode + fades) | 2.1.0 runs on the console (after a bundler fix); timecode rolling and a running song still to be checked on Sunday 2026-11-08; no GitHub release yet. |
+| Cue Display grid view (timecode + fades) | 2.1.0 runs on the console (after a bundler fix) and is on GitHub as a pre-release; timecode rolling and a running song still to be checked on Sunday 2026-11-08. |
 
 Job records:
 
