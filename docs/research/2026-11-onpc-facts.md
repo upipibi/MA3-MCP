@@ -137,3 +137,12 @@ still says `Version="0.1.0.0"`; bump it with the Lua version.
 - Building a group with a 2D selection grid: `ClearSelection`, then per row `Grid 0/<row>` + `Fixture a Thru b`, then `Store Group n "name"` (600 fixtures on 12 rows, read back correct).
 - Fixture types are only writable in the edit copy (`Root 14.10`, exists while the Patch menu is open); the rules MA
   applies before it allows XYZ on a DMX mode are in `docs/jobs/2026-11-05-tornado-xyz/FINDINGS.md`.
+- Timecode: `Store Timecode n "name"` makes an empty show; `Assign Sequence s At Timecode n.1.1` then creates the track
+  group, marker track and a track targeting the sequence with one time range (storing the track first gives two ranges).
+  New shows take the user's defaults (here slot 1, 30 fps, offset 1h). `TimecodeSlot n` has `TIMESTRING` and `TIME`
+  (`TIME` = seconds x 2^24). Job: `docs/jobs/2026-11-05-song-timecodes/`.
+- Yield cost on console hardware (grandMA3 light, 2.5.1.1, 2026-11-05): one bare `coroutine.yield()` in the plugin's
+  server coroutine costs about 31 ms, one console frame. Measured through `ma3_children` on the 9,999-slot Page pool
+  when the tool still yielded every 50 slots: 6.14 s for all slots, 0.64 s for 999 empty ones, 0.06 s for the first five
+  pages. The reads themselves are microseconds per empty slot. Never yield by count; `console.pace` yields by elapsed time.
+- Pool sizes that make count-based walks expensive: Page 9,999 slots, 390 slots per page, Sequence 2,000, Timecode 1,000.

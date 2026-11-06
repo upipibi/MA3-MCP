@@ -87,8 +87,20 @@ function M.new(tree)
     DirList = function() return fake.dirlist or {} end,
     GetSubfixture = function(i) return fake.subfixtures[i] end,
     GetSubfixtureCount = function() local n = 0 for _ in pairs(fake.subfixtures) do n = n + 1 end return n end,
-    yield = function() fake.yields = fake.yields + 1; if fake.slow then fake.clock = fake.clock + 0.001 end end,
-    now = function() if fake.slow then fake.clock = fake.clock + 0.001 end return fake.clock end,
+    -- Time model. slow: every clock read and every yield costs 1 ms (the original budget tests).
+    -- yield_cost: seconds one yield takes; on the console a bare coroutine.yield() costs a whole
+    -- frame, about 31 ms (measured 2026-11-05). work_cost: seconds that pass per clock read, a
+    -- stand-in for the work done between two reads.
+    yield = function()
+      fake.yields = fake.yields + 1
+      if fake.slow then fake.clock = fake.clock + 0.001 end
+      fake.clock = fake.clock + (fake.yield_cost or 0)
+    end,
+    now = function()
+      if fake.slow then fake.clock = fake.clock + 0.001 end
+      fake.clock = fake.clock + (fake.work_cost or 0)
+      return fake.clock
+    end,
     Enums = { PathType = { Temp = "temp", Library = "library", Showfiles = "shows" } },
   }
   return fake

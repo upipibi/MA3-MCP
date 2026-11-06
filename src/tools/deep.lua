@@ -75,6 +75,7 @@ function M.register(tools, c, ctx, deps)
     inputSchema = { type = "object", properties = { sequence = { type = "integer" }, address = { type = "string" } } },
     handler = function(args)
       args = args or {}
+      c:start_slice()
       local address = args.address or (args.sequence and ("Sequence " .. tostring(args.sequence)))
       local s, err = resolve(c, address)
       if not s then return nil, err end
@@ -99,7 +100,7 @@ function M.register(tools, c, ctx, deps)
             cues[#cues + 1] = row
           end
         end
-        if i % 20 == 0 then c:yield() end
+        c:pace()
       end
       return { address = s:ToAddr(), name = name_of(s), settings = settings, cue_count = #cues, cues = cues }
     end,
@@ -110,6 +111,7 @@ function M.register(tools, c, ctx, deps)
     inputSchema = { type = "object", properties = { timecode = { type = "integer" }, address = { type = "string" }, max_events = { type = "integer" } } },
     handler = function(args)
       args = args or {}
+      c:start_slice()
       local address = args.address or (args.timecode and ("Timecode " .. tostring(args.timecode)))
       local tc, err = resolve(c, address)
       if not tc then return nil, err end
@@ -139,7 +141,7 @@ function M.register(tools, c, ctx, deps)
             end
             out.tracks[#out.tracks + 1] = track
           end
-          c:yield()
+          c:pace()
         end
       end
       return out
@@ -151,6 +153,7 @@ function M.register(tools, c, ctx, deps)
     inputSchema = { type = "object", properties = { limit = { type = "integer" } } },
     handler = function(args)
       args = args or {}
+      c:start_slice()
       local limit = math.min(500, math.max(1, math.floor(num(args.limit) or 50)))
       local root = c:root()
       local temp = child_of_class(root, "Temp")
@@ -179,7 +182,7 @@ function M.register(tools, c, ctx, deps)
             local u = undos:Ptr(i)
             if u then out.undo[#out.undo + 1] = { index = i, name = strip_ansi(name_of(u)), session_time = prop(u, "SESSIONTIME"), elapsed_ms = prop(u, "ELAPSEDTIME") } end
             i = i - 1
-            if (total - i) % 50 == 0 then c:yield() end
+            c:pace()
           end
         end
       end
@@ -192,6 +195,7 @@ function M.register(tools, c, ctx, deps)
     inputSchema = { type = "object", required = { "address" }, properties = { address = { type = "string" }, max_bytes = { type = "integer" }, strip_dependencies = { type = "boolean" } } },
     handler = function(args)
       args = args or {}
+      c:start_slice()
       local h, err = resolve(c, args.address)
       if not h then return nil, err end
       local fs = deps.fs

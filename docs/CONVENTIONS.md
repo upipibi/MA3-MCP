@@ -40,7 +40,20 @@ design", a job never deletes a song, and "remove old songs" in a weekly job mean
 nothing more than unassigning them from the new page. At a stage flip, list every song
 with name, cue count and the pages it sits on, and wait for a go before deleting.
 
+## Timecode
+
+One timecode show per song, at the **same pool number and name as the song sequence** (`Timecode 54
+Rocking Around the Christmas Tree` drives `Sequence 54`). Built 2026-11-05 for songs 1-13 and 54-68.
+Each has one track targeting the song sequence; events are Aaron's. A new song that needs timecode
+gets `Store Timecode <n> "<title>"` + `Assign Sequence <n> At Timecode <n>.1.1`. The `(key)` twins
+have no show of their own.
+
 ## Pages and executors
+
+*Page numbers moved since this section was written: read 2026-11-05, `Weekend Base` is Page 1,
+`Nov 8`..`Dec 13` are Pages 2-7 and `Christmas 1`..`Christmas 5` are Pages 8-12. Read the pages
+fresh before any page job; the numbers below are the older layout.*
+
 
 **One page per weekend**, named by date as `Nov 8`, `Nov 15`, `Nov 22`, `Nov 29` (month
 abbreviation, day, no year). Pages 4–7 are the current run (the November weekends).

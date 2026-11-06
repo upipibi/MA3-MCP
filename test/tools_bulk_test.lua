@@ -106,8 +106,137 @@ h.describe("ma3_macros", function()
   h.eq(r.rows[1].lines[1].command, "Park Group 1100 At 100"); h.eq(r.rows[1].lines[1].wait, "Follow"); h.eq(r.rows[1].lines[2].enabled, false)
 end)
 
-h.describe("bulk tools yield while walking", function()
+h.describe("bulk tools give the console time when the work takes time", function()
   local fake, tools, ctx = setup()
-  tools.ma3_sequences.handler({}, ctx)
-  h.truthy(fake.yields > 0, "yielded at least once over a 2000-slot pool")
+  fake.work_cost = 0.0001          -- 2,000 sequence slots x 0.1 ms = 0.2 s of work
+  tools.ma3_sequences.handler({ executors = false }, ctx)
+  h.truthy(fake.yields >= 10, "a 0.2 s walk is broken up: " .. fake.yields)
+  h.truthy(fake.yields <= 40, "about one yield per 10 ms of work, not one per slot: " .. fake.yields)
+end)
+
+-- ---------------------------------------------------------------------------------------------
+-- Regression, 2026-11-05: on Aaron's console ma3_sequences returned no rows, partial = true and
+-- next_offset = 0. The tools yielded once per 50 pool slots visited, empty slots included, and
+-- one yield costs a console frame (about 31 ms). The Page pool has 9,999 slots and every page 390,
+-- so the executor index alone used the whole 10 s budget once the show had 17 pages.
+-- ---------------------------------------------------------------------------------------------
+
+-- The default tree plus pages 4..(pages), each a copy of a small weekend page, like his show.
+local function big_show(pages)
+  local tree = fake_console.default_tree()
+  local function find_class(node, class)
+    for _, k in ipairs(node.children or {}) do
+      if k.class == class then return k end
+      local hit = find_class(k, class)
+      if hit then return hit end
+    end
+  end
+  local pool = find_class(tree, "Pages")
+  for p = 4, pages do
+    pool.children[#pool.children + 1] = { class = "Page", addr = "Page " .. p, name = "Nov " .. p, no = p, count = 390, slot = p, children = {
+      { class = "Executor", addr = "Page " .. p .. ".106", name = "Song", no = 106, slot = 6,
+        props = { { "OBJECT", "Handle", { addr = "Sequence 14", ToAddr = function(self) return self.addr end } }, { "KEYPRESS", "String", "Go+" },
+          { "FADER", "String", "Master" }, { "WIDTH", "UInt32", 1 }, { "HEIGHT", "UInt32", 2 } } } } }
+  end
+  local fake = fake_console.new(tree)
+  local c = console.new(fake.api)
+  local tools = {}
+  local ctx = { budget_ms = 10000, lua_enabled = function() return false end }
+  bulk.register(tools, c, ctx)
+  return fake, tools, ctx
+end
+
+-- Pages through a tool the way a client does and returns every row; fails if paging stalls.
+local function page_through(tool, ctx, args)
+  local rows, offset, calls = {}, 0, 0
+  while offset do
+    calls = calls + 1
+    if calls > 500 then error("paging did not terminate") end
+    local a = {}
+    for k, v in pairs(args or {}) do a[k] = v end
+    a.offset = offset
+    local r = tool.handler(a, ctx)
+    for _, row in ipairs(r.rows) do rows[#rows + 1] = row end
+    if r.next_offset ~= nil and r.next_offset <= offset then error("next_offset did not advance: " .. tostring(r.next_offset)) end
+    offset = r.next_offset
+  end
+  return rows, calls
+end
+
+h.describe("ma3_sequences answers on a 17-page show where a yield costs a console frame", function()
+  local fake, tools, ctx = big_show(19)   -- 17 pages: 1, 3 and 4..19
+  fake.yield_cost = 0.031; fake.work_cost = 0.000002
+  local r = tools.ma3_sequences.handler({}, ctx)
+  h.eq(#r.rows, 6, "every sequence"); h.eq(r.partial, false); h.eq(r.next_offset, nil)
+  h.eq(#find(r.rows, "no", 14).executors, 17, "Song B sits on page 1 and on pages 4..19")
+  h.truthy(fake.yields <= 20, "yields by elapsed time, not once per 50 slots: " .. fake.yields)
+  h.truthy(fake.clock < 1, "well inside the budget: " .. fake.clock .. " s")
+end)
+
+h.describe("empty pool slots cost no yields", function()
+  local fake, tools, ctx = setup()
+  fake.yield_cost = 0.031
+  local r = tools.ma3_pages.handler({}, ctx)
+  h.eq(#r.rows, 2); h.eq(fake.yields, 0, "9,999 page slots and 780 executor slots, no time passed")
+end)
+
+h.describe("a paged read always advances, even with no budget at all", function()
+  local fake, tools, ctx = big_show(19)
+  fake.yield_cost = 0.031; fake.work_cost = 0.000002
+  ctx.budget_ms = 0
+  local seqs = page_through(tools.ma3_sequences, ctx)
+  h.eq(#seqs, 6, "sequences")
+  local pages = page_through(tools.ma3_pages, ctx)
+  h.eq(#pages, 18, "pages"); h.eq(pages[18].no, 19)
+  local groups = page_through(tools.ma3_groups, ctx); h.eq(#groups, 2, "groups")
+  local macros = page_through(tools.ma3_macros, ctx); h.eq(#macros, 1, "macros")
+  local presets = page_through(tools.ma3_presets, ctx); h.truthy(#presets >= 2, "presets")
+  local fixtures = page_through(tools.ma3_fixtures, ctx); h.eq(#fixtures, 3, "fixtures")
+end)
+
+h.describe("a partial answer always carries at least one row", function()
+  local fake, tools, ctx = big_show(19)
+  fake.work_cost = 0.000002; ctx.budget_ms = 0
+  local r = tools.ma3_sequences.handler({}, ctx)
+  h.eq(r.partial, true); h.eq(#r.rows, 1); h.eq(r.next_offset, 12, "resume after slot 12")
+  local filtered = tools.ma3_sequences.handler({ from = 300 }, ctx)
+  h.eq(#filtered.rows, 1, "a filter that skips rows still reaches its first match"); h.eq(filtered.rows[1].no, 300)
+end)
+
+h.describe("the executor index does not eat the row budget", function()
+  local fake, tools, ctx = big_show(19)
+  fake.work_cost = 0.00002     -- the page walk alone is ~17,000 slots x 20 us = 0.34 s
+  ctx.budget_ms = 100          -- the sequence walk (2,000 slots, ~0.05 s) fits; the index does not
+  local r = tools.ma3_sequences.handler({}, ctx)
+  h.eq(#r.rows, 6); h.eq(r.partial, false)
+end)
+
+h.describe("ma3_sequences executors:false skips the page walk", function()
+  local fake, tools, ctx = setup()
+  local r = tools.ma3_sequences.handler({ executors = false }, ctx)
+  h.eq(#r.rows, 6); h.eq(find(r.rows, "no", 12).executors, nil)
+  h.eq(#fake.objectlist_calls, 0, "no assigned object was looked up")
+  local with = tools.ma3_sequences.handler({}, ctx)
+  h.eq(#find(with.rows, "no", 12).executors, 2, "the default still lists executors")
+end)
+
+h.describe("ma3_pages reads only the page asked for", function()
+  local fake, tools, ctx = setup()
+  local r = tools.ma3_pages.handler({ page = 3 }, ctx)
+  h.eq(#r.rows, 1); h.eq(r.rows[1].no, 3); h.eq(r.rows[1].name, "Busking"); h.eq(r.rows[1].executors[1].assigned, "Sequence 12")
+  h.eq(r.next_offset, nil); h.eq(r.partial, false)
+  for _, call in ipairs(fake.objectlist_calls) do h.truthy(call ~= "Sequence 14" and call ~= "Sequence 20", "page 1 was not read: " .. call) end
+  h.eq(#tools.ma3_pages.handler({ page = 2 }, ctx).rows, 0, "a page that does not exist")
+end)
+
+h.describe("ma3_pages pages by page, not by slot", function()
+  local _, tools, ctx = big_show(8)   -- pages 1, 3, 4..8
+  local a = tools.ma3_pages.handler({ limit = 3 }, ctx)
+  h.eq(#a.rows, 3); h.eq(a.rows[3].no, 4); h.eq(a.next_offset, 3); h.eq(a.partial, false)
+  local b = tools.ma3_pages.handler({ offset = 3, limit = 3 }, ctx)
+  h.eq(#b.rows, 3); h.eq(b.rows[1].no, 5); h.eq(b.next_offset, 6)
+  local c2 = tools.ma3_pages.handler({ offset = 6, limit = 3 }, ctx)
+  h.eq(#c2.rows, 1); h.eq(c2.rows[1].no, 8); h.eq(c2.next_offset, nil)
+  local exact = tools.ma3_pages.handler({ limit = 7 }, ctx)
+  h.eq(#exact.rows, 7); h.eq(exact.next_offset, nil, "nothing left after the last page")
 end)

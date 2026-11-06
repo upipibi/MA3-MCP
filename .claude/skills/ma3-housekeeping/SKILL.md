@@ -16,6 +16,8 @@ You are working on a production lighting console. Read first, show the plan, the
 3. Read what the job touches with the bulk tools, paging with `next_offset` until
    `partial` is false: `ma3_sequences` (with `include_cues` only if cue detail matters),
    `ma3_pages`, `ma3_groups`, `ma3_fixtures`, `ma3_presets`, `ma3_macros`.
+   `ma3_sequences {executors:false}` skips the walk over every page when the job does not need
+   to know where a sequence is assigned; `ma3_pages {page:n}` reads one page.
    Use `ma3_object` / `ma3_children` / `ma3_dump` for anything the bulk reads do not show.
 
 ## 2. Plan

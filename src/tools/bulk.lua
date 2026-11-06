@@ -1,11 +1,12 @@
 -- Bulk reads: the fast path for housekeeping jobs. Every walk goes object by object
--- (never a Page/Executor range), yields between slices, and returns partial rows with
--- next_offset when the request budget runs out.
+-- (never a Page/Executor range), gives the console time by elapsed time (console.pace, never
+-- by slot count), and returns partial rows with next_offset when the request budget runs out.
+-- A paged read always produces at least one row before it may report partial, so paging
+-- always advances.
 local console = require("console")
 
 local M = {}
 
-local SLICE = 50
 local MAX_ROWS = 500
 
 local function num(v)
@@ -20,16 +21,15 @@ local function limits(args)
   return offset, limit
 end
 
--- A budget object: over() becomes true once the request has used its time.
+-- A budget object: over() becomes true once the request has used its time; tick() gives the
+-- console time when enough work has been done since the last yield. Create it where the
+-- budgeted work starts: time spent before that (building an index) is not charged to it.
 local function budget(c, ctx)
+  c:start_slice()
   local t0 = c:now()
   local ms = num(ctx.budget_ms) or 10000
-  local n = 0
   return {
-    tick = function()
-      n = n + 1
-      if n % SLICE == 0 then c:yield() end
-    end,
+    tick = function() c:pace() end,
     over = function() return (c:now() - t0) * 1000 > ms end,
   }
 end
@@ -45,7 +45,9 @@ local function walk_pool(pool, offset, limit, b, fn)
   local i = offset + 1
   while i <= total do
     if rows >= limit then return i - 1, false end
-    if b.over() then return i - 1, true end
+    -- Never stop on the budget before the first row: an answer with no rows and the same
+    -- offset would make the client ask the same question forever.
+    if rows > 0 and b.over() then return i - 1, true end
     local h = pool:Ptr(i)
     if h then
       if fn(h, i) ~= false then rows = rows + 1 end
@@ -136,44 +138,51 @@ end
 
 ----------------------------------------------------------------------------- executors index
 
--- Walks every page and every executor slot one object at a time. Returns
--- pages = { {no, name, handle, executors = {...}} } and index[assigned address] = { {page, executor, page_name, label} }.
-local function read_pages(c, b)
-  local pool = c:datapool().Pages
-  local pages, index, names = {}, {}, {}
-  if not pool then return pages, index end
-  local total = pool:Count()
-  for p = 1, total do
-    local pg = pool:Ptr(p)
-    if pg then
-      local page = { no = num(prop(pg, "NO")) or p, name = name_of(pg), address = pg:ToAddr(), executors = {} }
-      for i = 1, pg:Count() do
-        local ex = pg:Ptr(i)
-        if ex then
-          local assigned = prop(ex, "OBJECT")
-          local row = {
-            executor = num(prop(ex, "NO")) or i, label = name_of(ex), assigned = assigned,
-            key = prop(ex, "KEYPRESS"), fader = prop(ex, "FADER"), width = num(prop(ex, "WIDTH")), height = num(prop(ex, "HEIGHT")),
-          }
-          if assigned then
-            if names[assigned] == nil then
-              local okN, obj = pcall(function() return c:object(assigned) end)
-              names[assigned] = (okN and obj and name_of(obj)) or false
-            end
-            row.assigned_name = names[assigned] or nil
-            index[assigned] = index[assigned] or {}
-            table.insert(index[assigned], { page = page.no, executor = row.executor, page_name = page.name, label = row.label })
-          end
-          page.executors[#page.executors + 1] = row
+-- Reads one page: every executor slot, one object at a time. names caches assigned-object
+-- names across pages; index (optional) collects index[assigned address] = { {page, executor,
+-- page_name, label} }.
+local function read_page(c, b, pg, slot, names, index)
+  local page = { no = num(prop(pg, "NO")) or slot, name = name_of(pg), address = pg:ToAddr(), executors = {} }
+  for i = 1, pg:Count() do
+    local ex = pg:Ptr(i)
+    if ex then
+      local assigned = prop(ex, "OBJECT")
+      local row = {
+        executor = num(prop(ex, "NO")) or i, label = name_of(ex), assigned = assigned,
+        key = prop(ex, "KEYPRESS"), fader = prop(ex, "FADER"), width = num(prop(ex, "WIDTH")), height = num(prop(ex, "HEIGHT")),
+      }
+      if assigned then
+        if names[assigned] == nil then
+          local okN, obj = pcall(function() return c:object(assigned) end)
+          names[assigned] = (okN and obj and name_of(obj)) or false
         end
-        b.tick()
+        row.assigned_name = names[assigned] or nil
+        if index then
+          index[assigned] = index[assigned] or {}
+          table.insert(index[assigned], { page = page.no, executor = row.executor, page_name = page.name, label = row.label })
+        end
       end
-      table.sort(page.executors, function(a, z) return a.executor < z.executor end)
-      pages[#pages + 1] = page
+      page.executors[#page.executors + 1] = row
     end
     b.tick()
   end
-  return pages, index
+  table.sort(page.executors, function(a, z) return a.executor < z.executor end)
+  return page
+end
+
+-- Walks every page for the executor index: index[assigned address] = { {page, executor,
+-- page_name, label} }. It is a whole-show read with no paging, so its caller gives it its own
+-- budget object (for pacing only) and starts the row budget afterwards.
+local function executor_index(c, b)
+  local pool = c:datapool().Pages
+  local index, names = {}, {}
+  if not pool then return index end
+  for p = 1, pool:Count() do
+    local pg = pool:Ptr(p)
+    if pg then read_page(c, b, pg, p, names, index) end
+    b.tick()
+  end
+  return index
 end
 
 ----------------------------------------------------------------------------- register
@@ -243,15 +252,21 @@ function M.register(tools, c, ctx)
   }
 
   tools.ma3_sequences = {
-    description = "Every sequence: no, name, note, tags, appearance, address, cue_count (excluding CueZero), first_cue, last_cue, and executors = every page/executor it is assigned to ({page, executor, page_name, label}). include_cues:true adds cues [{no (console-internal thousandths: 1000 = Cue 1), name, trigger}]. Filters: from/to (sequence number range), name (case-insensitive substring). Paged (offset, limit, next_offset, partial). Built without any Page/Executor range. Read-only.",
-    inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" }, include_cues = { type = "boolean" }, from = { type = "integer" }, to = { type = "integer" }, name = { type = "string" } } },
+    description = "Every sequence: no, name, note, tags, appearance, address, cue_count (excluding CueZero), first_cue, last_cue, and executors = every page/executor it is assigned to ({page, executor, page_name, label}; executors:false skips that page walk and leaves the field out). include_cues:true adds cues [{no (console-internal thousandths: 1000 = Cue 1), name, trigger}]. Filters: from/to (sequence number range), name (case-insensitive substring). Paged (offset, limit, next_offset, partial). Built without any Page/Executor range. Read-only.",
+    inputSchema = { type = "object", properties = { executors = { type = "boolean" }, offset = { type = "integer" }, limit = { type = "integer" }, include_cues = { type = "boolean" }, from = { type = "integer" }, to = { type = "integer" }, name = { type = "string" } } },
     handler = function(args)
       args = args or {}
       local b = budget(c, ctx)
       local offset, limit = limits(args)
       local pool = c:datapool().Sequences
       if not pool then return nil, "no Sequences pool" end
-      local _, index = read_pages(c, b)
+      -- The executor index is a walk over every page. It is done before the row budget
+      -- starts, so a show with many pages cannot leave the rows with no time.
+      local index = nil
+      if args.executors ~= false then
+        index = executor_index(c, b)
+        b = budget(c, ctx)
+      end
       local rows = {}
       local from, to, needle = num(args.from), num(args.to), args.name and args.name:lower() or nil
       local next_offset, partial = walk_pool(pool, offset, limit, b, function(s, slot)
@@ -260,7 +275,7 @@ function M.register(tools, c, ctx)
         local sname = name_of(s)
         if needle and not tostring(sname or ""):lower():find(needle, 1, true) then return false end
         local row = { no = sno, name = sname, note = prop(s, "NOTE"), tags = prop(s, "TAGS"),
-          appearance = prop(s, "APPEARANCE"), address = s:ToAddr(), executors = index[s:ToAddr()] or {} }
+          appearance = prop(s, "APPEARANCE"), address = s:ToAddr(), executors = index and (index[s:ToAddr()] or {}) or nil }
         local n = s:Count()
         local cues = {}
         for i = 1, n do
@@ -282,23 +297,52 @@ function M.register(tools, c, ctx)
   }
 
   tools.ma3_pages = {
-    description = "Every page with its executors: {no, name, address, executors=[{executor, label, assigned (object address), assigned_name, key, fader, width, height}]}, sorted by executor number. {page:n} returns that page only. Walks one page and one executor at a time (never a range). Paged over pages (offset, limit, next_offset). Read-only.",
+    description = "Every page with its executors: {no, name, address, executors=[{executor, label, assigned (object address), assigned_name, key, fader, width, height}]}, sorted by executor number. {page:n} reads that page only. Walks one page and one executor at a time (never a range). Paged over pages: offset counts pages, not pool slots (offset, limit, next_offset, partial); partial=true means the time budget ran out and the next call should resume at next_offset. Read-only.",
     inputSchema = { type = "object", properties = { offset = { type = "integer" }, limit = { type = "integer" }, page = { type = "integer" } } },
     handler = function(args)
       args = args or {}
       local b = budget(c, ctx)
       local offset, limit = limits(args)
-      local pages = read_pages(c, b)
+      local pool = c:datapool().Pages
+      if not pool then return { rows = {}, next_offset = nil, partial = false } end
+      local names = {}
+      local total = pool:Count()
+
       local want = num(args.page)
       if want then
-        local only = {}
-        for _, pg in ipairs(pages) do if pg.no == want then only[#only + 1] = pg end end
-        pages = only
+        -- A page normally sits in the pool slot of its number; look there first and fall
+        -- back to a scan (page handles only, no executors) if it does not.
+        local pg, slot = nil, nil
+        local direct = want >= 1 and want <= total and pool:Ptr(want) or nil
+        if direct and (num(prop(direct, "NO")) or want) == want then
+          pg, slot = direct, want
+        else
+          for p = 1, total do
+            local x = pool:Ptr(p)
+            if x and num(prop(x, "NO")) == want then pg, slot = x, p break end
+            b.tick()
+          end
+        end
+        local rows = {}
+        if pg and offset == 0 then rows[1] = read_page(c, b, pg, slot, names) end
+        return { rows = rows, next_offset = nil, partial = false }
       end
-      local rows = {}
-      local i = offset + 1
-      while i <= #pages and #rows < limit do rows[#rows + 1] = pages[i]; i = i + 1 end
-      return { rows = rows, next_offset = (i <= #pages) and (i - 1) or nil, partial = false }
+
+      local rows, seen, next_offset, partial = {}, 0, nil, false
+      for p = 1, total do
+        local pg = pool:Ptr(p)
+        if pg then
+          if seen >= offset then
+            -- Reaching here with the limit full means another page exists after it.
+            if #rows >= limit then next_offset = offset + #rows break end
+            if #rows > 0 and b.over() then next_offset = offset + #rows; partial = true break end
+            rows[#rows + 1] = read_page(c, b, pg, p, names)
+          end
+          seen = seen + 1
+        end
+        b.tick()
+      end
+      return { rows = rows, next_offset = next_offset, partial = partial }
     end,
   }
 
@@ -317,7 +361,8 @@ function M.register(tools, c, ctx)
         local pno = num(prop(pp, "NO"))
         if not want or want == pno then
           for i = 1, pp:Count() do
-            if #rows >= limit or b.over() then partial = b.over(); break end
+            if #rows >= limit then break end
+            if #rows > 0 and b.over() then partial = true break end
             local pr = pp:Ptr(i)
             if pr then
               seen = seen + 1

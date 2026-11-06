@@ -77,6 +77,7 @@ function M.register(tools, c, ctx)
     handler = function(args)
       local h, err = resolve(c, args.address)
       if not h then return nil, err end
+      c:start_slice()
       local total = h:Count()
       local offset = math.max(0, math.floor(tonumber(args.offset) or 0))
       local limit = math.min(500, math.max(1, math.floor(tonumber(args.limit) or 500)))
@@ -93,7 +94,7 @@ function M.register(tools, c, ctx)
           out[#out + 1] = row
         end
         i = i + 1
-        if (i - offset) % 50 == 0 then c:yield() end
+        c:pace()
       end
       local next_offset = (i <= total) and (i - 1) or nil
       return { address = h:ToAddr(), total = total, children = out, next_offset = next_offset }

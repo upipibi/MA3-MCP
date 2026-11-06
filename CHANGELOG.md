@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.2.0-alpha.4 (2026-11-06)
+
+- Fixed: `ma3_sequences` returned no rows, `partial: true` and `next_offset: 0` on a show with 17
+  pages, so paging never advanced. The tools yielded once per 50 pool slots visited, empty slots
+  included, and on the console one bare `coroutine.yield()` costs a whole frame, about 31 ms. The
+  Page pool has 9,999 slots and every page 390, so the executor index `ma3_sequences` builds first
+  cost 6.2 s for the empty pool walk plus 0.24 s per page: 10.5 s at 17 pages, the whole budget.
+  Measured on a grandMA3 light: `ma3_children` on `Page` took 6.14 s for all slots (17 rows),
+  0.64 s for 999 empty slots, 0.06 s for the first five pages.
+- Yields are now spent by elapsed time, never by count (`console.pace`, 10 ms of work per slice).
+  Walking empty slots no longer yields at all, which makes every bulk read faster: `ma3_pages`,
+  `ma3_sequences`, `ma3_groups`, `ma3_macros`, `ma3_presets`, `ma3_fixtures`, `ma3_children`,
+  `ma3_cue_timing`, `ma3_timecode`, `ma3_history`.
+- A paged read always returns at least one row before it may report `partial`, so `next_offset`
+  always advances.
+- `ma3_sequences`: the row budget starts after the executor index is built; `executors: false`
+  skips the page walk and leaves the field out.
+- `ma3_pages` honours the time budget (`partial` can now be true), `{page: n}` reads that page
+  only, and `offset` still counts pages.
+- Not yet verified on the console: the timings after the change, and that 10 ms slices leave the
+  desk responsive during a long read.
+
 ## 0.2.0-alpha.3 (2026-11-05)
 
 - The plugin XML is now a plain user plugin (`<Plugin>` with one `ComponentLua`, no `Path`).

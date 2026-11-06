@@ -19,7 +19,7 @@ local deep = require("tools.deep")
 local ui = require("ui")
 
 local M = {}
-M.VERSION = "0.2.0-alpha.3"
+M.VERSION = "0.2.0-alpha.4"
 M.PORT = 9800
 M.PROD_PREFIX = "^10%.11%.(%d+)%."   -- the production /20 this plugin was built for; override with Plugin "MA3 MCP" "bind <ip>"
 M.SETTINGS_FILE = "ma3_mcp_settings.json"

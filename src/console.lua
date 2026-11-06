@@ -49,6 +49,30 @@ end
 function M:yield() return self.yield_fn() end
 function M:now() return self.now_fn() end
 
+-- Pacing. A plugin shares the console's UI thread, so a long read has to give the console
+-- time. Yielding is not free: measured on a grandMA3 light (2.5.1.1, 2026-11-05) one bare
+-- coroutine.yield() costs a whole console frame, about 31 ms. The tools used to yield once
+-- per 50 pool slots visited, empty slots included; the Page pool has 9,999 slots, so walking
+-- it empty cost 6 s and one read used its entire 10 s budget on nothing.
+--
+-- So yields are spent by elapsed time, never by count: start_slice() marks the start of a
+-- piece of work, and pace() yields only once SLICE_SECONDS of work have passed since the
+-- last yield. Walking empty slots costs microseconds and no longer yields at all.
+M.SLICE_SECONDS = 0.010
+
+function M:start_slice() self.slice_t0 = self.now_fn() end
+
+-- Returns true when it yielded.
+function M:pace()
+  local now = self.now_fn()
+  local t0 = self.slice_t0
+  if t0 == nil or now < t0 then self.slice_t0 = now return false end
+  if now - t0 < M.SLICE_SECONDS then return false end
+  self.yield_fn()
+  self.slice_t0 = self.now_fn()
+  return true
+end
+
 -- The show name from the MAnetSocket object (SHOWFILE), nil if unavailable.
 function M:show_name()
   local ok, v = pcall(function()
