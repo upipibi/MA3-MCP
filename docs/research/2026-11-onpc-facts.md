@@ -146,3 +146,79 @@ still says `Version="0.1.0.0"`; bump it with the Lua version.
   when the tool still yielded every 50 slots: 6.14 s for all slots, 0.64 s for 999 empty ones, 0.06 s for the first five
   pages. The reads themselves are microseconds per empty slot. Never yield by count; `console.pace` yields by elapsed time.
 - Pool sizes that make count-based walks expensive: Page 9,999 slots, 390 slots per page, Sequence 2,000, Timecode 1,000.
+- Settings path (alpha.5, 2026-11-07): the PIN "changed" on each import (three times) and came back after a
+  restart. Working explanation, consistent with every observation but not yet proven on the stick: after a GUI
+  import from USB, `GetPath(Library)` follows the selected drive, so the plugin wrote a new settings file (new PIN)
+  to the stick and the restart read the internal one again. The plugin now derives the library folder from
+  `GetPath(Temp)` (`<root>/gma3_<ver>/<host>/temp` -> `<root>/gma3_library`) and logs the path. Check next time
+  the stick is on the Mac: `grandMA3/gma3_library/ma3_mcp_settings.json` on it would confirm the story.
+
+
+## DMX curves and the Patch menu from the command line (console + onPC, 2026-11-08)
+
+- Curves live in `Root 14.9.1` (LivePatch > DmxCurves); the Patch window's editable copy is
+  `Root 14.10.*`, empty until the window opens. Writes go to `Root 14.10...` and reach `Root 14.9` when
+  the patch is saved. Per-channel curve: `Set Root 14.10.9.<n> Property "DMXCURVE" <k>`, `k` = 0-based
+  pool index (0 = `DmxCurve 1`); a curve name is "Illegal value"; `""` clears. `Root 14.9.9` entries
+  are read one by one (`ma3_object`), about 50/s on onPC, 30/s on the console over the LAN.
+- Export a curve: `Export Root 14.9.1.<n> "<name>"` writes `gma3_library/patch/dmxcurves/<name>.xml`
+  (`Export DmxCurve 2 ...` is "Object not found": there is no `DmxCurve` keyword).
+- Import a curve: `Import Library "<name>.xml" At Root 14.10.1.<n>` (proven on onPC, file in the
+  local library). On the console the file was on the stick and every form failed with "Object not
+  found" (`If Drive 2`, `SelectDrive 2` first, `/Path "<absolute folder>"`); a failed Import still
+  creates a blank curve at the destination. Aaron imported in the GUI instead. Open item in
+  `docs/jobs/2026-11-08-dimmer-curves/README.md`.
+- **Trap:** an unknown keyword followed by a name, with the patch as the command-line destination,
+  stores a *fixture* with that name: `Store DmxCurve 4` made an unpatched fixture `4`, and
+  `Import "Rear House" At Root 14.10.1.5` (no `Library`) made a fixture `Rear House`. Read the
+  fixture count before and after any new syntax.
+- Drives: `Root 20.6` (`DriveCollect`), one `Drive` child each with `NAME` and `PATH`; the stick
+  appears as `MA3` at `/media/sdb2` on the console.
+- The stick's `gma3_library/ma3_mcp_settings.json` lists the console's backup names, which confirms
+  the console wrote its settings to the stick after an import (the `GetPath(Library)` problem alpha.5
+  fixes).
+
+## The console froze during a service from one plugin read (2026-11-08)
+
+- A client script ("class census") walked the console's object tree breadth-first: `ma3_object`
+  with `schema:true` on each object, `ma3_children` (500 per page) on up to three objects per
+  class, about 14 requests a second. 700 requests went through (298 classes read). One request
+  between 701 and 750 never returned; the client gave up after 180 s. The console's GUI froze;
+  playback and timecode kept running. Restart was the only way out.
+- **A plugin's Lua runs on the console's screen thread.** A console API call that does not return
+  freezes the GUI, and nothing in Lua can interrupt it. Keys and screens are dead with it.
+- The request in flight is not known (alpha.4 logs starts and errors, not requests). It was a
+  `ma3_object` read of one of 92 queued classes. Candidates, by ancestry: input devices and
+  displays (`Root > GraphicsRoot > PultCollect > Pult > Devices > Keyboard / Touch /
+  MouseCollect / GestureManager`, `... > DisplayCollect > Display`), the library file list
+  (`Root > Temp > Cmdlines > Cmdline > Library > File`), network discovery (`Root >
+  DeviceConfigurations > DMXProtocols > ArtNet / sACN > ... Node`), user-profile window settings
+  (`Root > ShowData > UserProfiles > UserProfile > TemporaryWindowSettings > ...`).
+- `GetClass()`, `Parent()`, `ToAddr()` and `Get("NO")` on those objects all returned during the
+  same walk (child listings of their parents). The hang came from reading an object's properties.
+- Root's children on the light (2.5.1.1): Addons, Certificates, Cloud, ColorTheme,
+  DeviceConfigurations, GraphicsRoot (Root 19), HardwareConfigurations, HardwareStatus,
+  Interfaces (Root 3), KeyRegistry, KeyboardLayouts, MAnetSocket (Root 5), Menus, MessageCenter
+  (Root 1), NDI, ShowData (Root 14), StationSettings (Root 2), Temp (Root 20), TimecodeSlots,
+  UsbNotifier, VirtualKeys, WebServer.
+- Response: plugin 0.2.0-alpha.6, the console guard (allow-list by class path, call journal and
+  quarantine, rate cap, Lua off at start on a console). Exploration of anything outside the
+  allow-list happens on onPC only. The census partial file is `.cache/census/console-2026-11-08.json`
+  (git-ignored).
+- One reply contained a byte that is not UTF-8 (0x89, the start of a PNG header: an image property
+  serialized raw). `tools/mcp_call.py` now decodes with replacement; the plugin's JSON encoder
+  should escape such bytes (open).
+
+## MA's own Lua ships with onPC (found 2026-11-08)
+
+- `~/MALightingTechnology/gma3_2.5.1/shared/resource/` holds MA's Lua: 1,148 files, about 183,000
+  lines. `lib_plugins/systemtests/db/` has 408 system tests (worked commands for nearly every
+  feature, 196 of 358 keywords), `lib_plugins/systemtests/gma3_api_meta.lua` typed signatures for
+  106 object-free functions, `lib_menus/` the menus' code. The offline help is also installed
+  (`shared/language/HTML/`). Index and use: `docs/atlas/README.md`.
+- From it: a channel's `DMXCURVE` value is the curve's `CurveIndex` (MA's pop-up lists
+  `Curve.Name, Curve.CurveIndex`); MA imports with `cd <destination>; cd ..` then
+  `import lib "<file>.xml" at <destination> /NC`; `Patch()` is the editable patch while the Patch
+  window is open, `ShowData().LivePatch` the live one. Details: `docs/atlas/topics/dmx-curves.md`.
+- From the help: the stick is selected with `Select Drive <n>` (two words); `/Path "/..."` starts at
+  the root of the selected drive, not the file system. Both explain the failed stick import.

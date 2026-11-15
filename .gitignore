@@ -19,3 +19,13 @@ docs/jobs/**/layout1-*
 docs/jobs/**/groups-before/
 docs/jobs/**/capture-*.png
 docs/jobs/**/entries.json
+docs/jobs/**/rt-*.json
+docs/jobs/**/ft-curves-*.json
+docs/jobs/**/fixtures-*.json
+
+# Local caches (MA help site download; MA content, never committed)
+.cache/
+docs/jobs/**/*-old*.xml
+docs/jobs/**/*-now*.xml
+docs/jobs/2026-11-08-dimmer-curves/*.xml
+docs/jobs/**/scan.log

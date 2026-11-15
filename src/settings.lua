@@ -5,7 +5,11 @@ local auth = require("auth")
 local M = {}
 
 local function defaults(rand)
-  return { pin = auth.new_pin(rand), port = 9800, bind = nil, display = 1, lua_default = false, backups = {}, clients = {} }
+  -- lua_default: whether the Lua tool is on when the plugin starts on onPC. On a console Lua
+  -- always starts off (console guard, 2026-11-08): arbitrary code cannot be kept away from
+  -- objects that can freeze the console. quarantine: requests the console stopped during
+  -- (src/guard.lua), refused until cleared from the console.
+  return { pin = auth.new_pin(rand), port = 9800, bind = nil, display = 1, lua_default = true, backups = {}, clients = {}, quarantine = {} }
 end
 
 local function valid_pin(p)
@@ -25,6 +29,7 @@ function M.load(fs, path, rand)
   if type(t.lua_default) == "boolean" then d.lua_default = t.lua_default end
   if type(t.backups) == "table" then d.backups = t.backups end
   if type(t.clients) == "table" then d.clients = t.clients end
+  if type(t.quarantine) == "table" then d.quarantine = t.quarantine end
   return d
 end
 
@@ -52,7 +57,7 @@ local function encode(v)
 end
 M.encode = encode
 
-local KEYS = { "pin", "port", "bind", "display", "lua_default", "backups", "clients" }
+local KEYS = { "pin", "port", "bind", "display", "lua_default", "backups", "clients", "quarantine" }
 
 function M.save(fs, path, s)
   local parts = {}

@@ -85,7 +85,9 @@ function M:check(req, ip)
   end
   local a = req.headers and req.headers["authorization"]
   if not a or a == "" then
-    note_bad(self, ip)
+    -- No header at all is a probe, a browser, or a client's discovery call (VS Code tries
+    -- OAuth endpoints first). It is not a guessed PIN, so it does not count toward the
+    -- lockout: on 2026-11-05 those discovery calls alone locked Aaron's Mac out.
     return false, 401, "missing"
   end
   local token = a:match("^[Bb]earer%s+(%S+)%s*$")

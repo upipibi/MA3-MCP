@@ -31,6 +31,14 @@ h.describe("auth check right, wrong, missing", function()
   h.eq(ok, false); h.eq(status, 401); h.eq(reason, "wrong")
   ok, status, reason = a:check(req(nil), "10.11.3.50")
   h.eq(ok, false); h.eq(status, 401); h.eq(reason, "missing")
+  -- A request with no Authorization header at all is a probe or a discovery call (VS Code's
+  -- OAuth lookups, a browser), not a guessed PIN. It must not count toward the lockout.
+  for _ = 1, 10 do a:check(req(nil), "10.11.3.77") end
+  ok, status = a:check(req("ABCD2345"), "10.11.3.77")
+  h.eq(ok, true, "missing-header requests never lock an address")
+  local listed = nil
+  for _, c in ipairs(a.clients) do if c.ip == "10.11.3.77" and c.bad_pin > 0 then listed = c end end
+  h.eq(listed, nil, "and are not listed as bad PINs")
   ok, status, reason = a:check(req("abcd2345"), "10.11.3.50")
   h.eq(ok, false, "case sensitive")
 end)

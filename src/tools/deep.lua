@@ -1,6 +1,5 @@
 -- Deep reads that the bulk tools leave out: cue timing, timecode events, command history,
 -- and a sequence/preset export (the only path to the values inside a cue).
-local addr = require("addr")
 local console = require("console")
 
 local M = {}
@@ -10,14 +9,7 @@ local function prop(h, name) return console.get(h, name) end
 local function name_of(h) local n = h.name; if n == nil or n == "" then n = prop(h, "NAME") end return n end
 local function strip_ansi(s) return (tostring(s or ""):gsub("\27%[[%d;]*m", "")) end
 
-local function resolve(c, address)
-  if address == nil then return nil, "address is required" end
-  local ok, why = addr.check(address)
-  if not ok then return nil, why .. " " .. tostring(address) end
-  local h = c:object(address)
-  if not h then return nil, "object not found: " .. address end
-  return h
-end
+local function resolve(c, address) return c:resolve(address) end
 
 local function child_of_class(h, class)
   for _, ch in ipairs(h:Children()) do if ch:GetClass() == class then return ch end end

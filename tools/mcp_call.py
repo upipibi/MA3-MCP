@@ -3,12 +3,17 @@
 
 Reads the URL and Authorization header of the `ma3` server from ~/.claude.json, so the PIN is never
 on a command line or in this repo. For when a session's own connector is stale (after a PIN change).
+Set MA3_MCP_URL (e.g. http://127.0.0.1:9800/mcp) and MA3_MCP_PIN to talk to onPC instead.
 usage: mcp_call.py <tool> ['<json arguments>']     e.g. mcp_call.py ma3_status
        mcp_call.py --list                          (tool names and input schemas)
 Prints the tool's result as JSON. Exit 1 on an error result, 2 on HTTP failure (429 = locked out)."""
 import json, os, sys, urllib.request, urllib.error
 
 def server():
+    # MA3_MCP_URL + MA3_MCP_PIN in the environment point at another server (onPC on this Mac) without
+    # touching the saved console connector.
+    if os.environ.get("MA3_MCP_URL"):
+        return os.environ["MA3_MCP_URL"], {"Authorization": "Bearer " + os.environ.get("MA3_MCP_PIN", "")}
     cfg = json.load(open(os.path.expanduser("~/.claude.json")))
     s = cfg["mcpServers"]["ma3"]
     return s["url"], s.get("headers", {})
@@ -19,7 +24,7 @@ def rpc(method, params, timeout=180):
     req = urllib.request.Request(url, data=body, headers={**headers, "Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            return json.loads(r.read())
+            return json.loads(r.read().decode("utf-8", "replace"))
     except urllib.error.HTTPError as e:
         print(f"HTTP {e.code}: {e.read().decode('utf-8', 'replace')[:300]}", file=sys.stderr); sys.exit(2)
 

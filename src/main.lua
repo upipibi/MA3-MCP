@@ -16,13 +16,28 @@ local bulk = require("tools.bulk")
 local show = require("tools.show")
 local lua_exec = require("tools.lua_exec")
 local deep = require("tools.deep")
+local guard = require("guard")
 local ui = require("ui")
 
 local M = {}
-M.VERSION = "0.2.0-alpha.4"
+M.VERSION = "0.2.0-alpha.6"
 M.PORT = 9800
 M.PROD_PREFIX = "^10%.11%.(%d+)%."   -- the production /20 this plugin was built for; override with Plugin "MA3 MCP" "bind <ip>"
 M.SETTINGS_FILE = "ma3_mcp_settings.json"
+M.JOURNAL_FILE = "ma3_mcp_inflight.json"
+
+-- The settings file lives in the console's own gma3_library. GetPath(Library) is not a safe
+-- way to find it: when the plugin is imported from a USB stick the console's library path
+-- follows the selected drive, and the plugin then wrote a fresh settings file (new PIN) onto
+-- the stick; the next restart read the internal file again, with the old PIN (2026-11-05 and
+-- 2026-11-06, three times). GetPath(Temp) always points inside the installation
+-- (<root>/gma3_<version>/<host>/temp), so the library is derived from it.
+function M.library_dir_from_temp(temp)
+  if type(temp) ~= "string" then return nil end
+  local root, sep = temp:match("^(.-)([/\\])gma3_[^/\\]+[/\\][^/\\]+[/\\]temp[/\\]?$")
+  if not root or root == "" then return nil end
+  return root .. sep .. "gma3_library"
+end
 
 M.INSTRUCTIONS = [[MA3 MCP: this server runs inside a grandMA3 console. Read first, then act.
 Start a job with ma3_status, then the bulk reads (ma3_fixtures, ma3_sequences, ma3_pages, ma3_groups, ma3_presets, ma3_macros).
@@ -31,6 +46,7 @@ Writes are ma3_command (one command), ma3_commands (a list in one request, prefe
 Deep reads: ma3_cue_timing (fades per cue), ma3_timecode (events), ma3_history (last command, undo list), ma3_export (XML with the values inside cues).
 Cue numbers from the bulk tools are console-internal thousandths (1000 = Cue 1); address cues as "Sequence n Cue 1".
 Never pass Thru, +, or * on Page/Executor addresses (the console hangs); the tools refuse them.
+On a console the plugin only touches objects proven safe there (show data, command history, drives, timecode slots); anything else is refused with [console-guard]: explore it on onPC first. Never run looping or exploratory reads against a console. At most 8 requests a second on a console.
 Group commands into ma3_command {undo_group} and close with ma3_undo_close so one Oops reverts the job.]]
 
 local S = { running = false }
@@ -93,6 +109,7 @@ local function persist()
   S.settings.clients = S.auth and S.auth.clients or S.settings.clients
   S.settings.backups = S.ctx and S.ctx.backups or S.settings.backups
   S.settings.pin = S.auth and S.auth.pin or S.settings.pin
+  if S.guard then S.settings.quarantine = S.guard.quarantine end
   local ok, err = settings.save(S.deps.fs, S.deps.settings_path, S.settings)
   if not ok then S.log:add("could not save settings: %s", tostring(err)) end
 end
@@ -130,18 +147,38 @@ local function start()
   S.log = S.log or make_log(deps)
   S.log:add("starting v%s", M.VERSION)
   S.settings = settings.load(deps.fs, deps.settings_path)
-  if S.settings.generated then settings.save(deps.fs, deps.settings_path, S.settings) end
+  if S.settings.generated then
+    S.log:add("no readable settings at %s: new PIN generated", deps.settings_path)
+    local ok_save, err = settings.save(deps.fs, deps.settings_path, S.settings)
+    if not ok_save then S.log:add("could not save settings: %s", tostring(err)) end
+  end
   local bind, how = pick_bind(deps, c, S.settings)
   local port = S.settings.port or M.PORT
   local address = bind .. ":" .. port
 
   S.auth = auth.new({ pin = S.settings.pin, now = deps.now, origin_allowed = "http://" .. address })
   S.auth.clients = S.settings.clients or {}
-  S.lua_on = false
+  -- Console guard (src/guard.lua). Anything that is not onPC is treated as a console.
+  S.console_host = c:host_type() ~= "onPC"
+  S.settings.quarantine = S.settings.quarantine or {}
+  local recovered = guard.recover(deps.fs, deps.journal_path, S.settings.quarantine, os.date("%Y-%m-%d %H:%M"))
+  if recovered then
+    local what = tostring(recovered.address or recovered.path or recovered.call or "")
+    S.log:add("quarantined: the console stopped during %s %s (journal)", recovered.tool, what)
+    c:echo("MA3 MCP: the last session stopped during %s %s; it is now refused (Plugin \"%s\" \"quarantine\")",
+      recovered.tool, what, tostring(S.plugin_name))
+    local ok_q, err_q = settings.save(deps.fs, deps.settings_path, S.settings)
+    if not ok_q then S.log:add("could not save settings: %s", tostring(err_q)) end
+  end
+  S.guard = guard.new({ console = S.console_host, fs = deps.fs, journal_path = deps.journal_path,
+    quarantine = S.settings.quarantine, now = deps.now, log = function(fmt, ...) S.log:add(fmt, ...) end })
+  c.guard = S.guard
+  S.lua_on = (not S.console_host) and S.settings.lua_default ~= false
   S.ctx = {
     budget_ms = 10000, lua_enabled = function() return S.lua_on end, plugin_version = M.VERSION,
     started_at = deps.now(), request_count = 0, last_backup = nil, log = S.log, address = address,
-    backups = S.settings.backups or {}, on_backup = function() persist() end,
+    backups = S.settings.backups or {}, on_backup = function() persist() end, guard = S.guard,
+    in_request = false, self_plugin = M.self_plugin(S.plugin_name, S.my_handle),
   }
   local tools = {}
   generic.register(tools, c, S.ctx)
@@ -162,7 +199,13 @@ local function start()
     if req.path ~= "/mcp" then return 404, { ["Content-Type"] = "text/plain" }, "not found" end
     S.ctx.request_count = S.ctx.request_count + 1
     S.auth:record_client(ip, mcp.client_name(req) or http.header(req, "user-agent"))
-    return S.dispatcher:handle(req, S.ctx)
+    -- While a client request runs, Main refuses arguments that change the plugin's state: a command
+    -- that reaches this plugin (Cmd is synchronous) must not switch Lua on or clear the quarantine.
+    S.ctx.in_request = true
+    local ok_h, status, hdrs, body = pcall(S.dispatcher.handle, S.dispatcher, req, S.ctx)
+    S.ctx.in_request = false
+    if not ok_h then error(status, 0) end
+    return status, hdrs, body
   end
 
   S.server = server.new({ bind = bind, port = port, socket = deps.socket, now = deps.now, handler = handler,
@@ -196,6 +239,13 @@ local function status_text()
   return lines
 end
 
+-- This plugin's name (lower case) and pool number, so ma3_command can refuse commands that call it.
+function M.self_plugin(name, my_handle)
+  local number
+  pcall(function() number = tonumber(tostring(my_handle:Parent():ToAddr()):match("(%d+)%s*$")) end)
+  return { name = tostring(name or "MA3 MCP"):lower(), number = number }
+end
+
 function M.entry(pluginName, componentName, signalTable, my_handle, deps)
   deps = deps or {}
   deps.socket = deps.socket or require("socket")
@@ -217,6 +267,12 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
     if S.running then stop("window") else S.c:cmd_indirect(string.format('Plugin "%s"', tostring(S.plugin_name))) end
   end
   S.regenerate = function() if S.auth then S.auth:regenerate(); persist() end end
+  -- The Lua switch is remembered: the window and "lua on"/"lua off" both land here.
+  -- On a console the switch holds for this session only: Lua starts off there every time.
+  S.set_lua = function(on)
+    S.lua_on = on and true or false
+    if S.settings and not S.console_host then S.settings.lua_default = S.lua_on; persist() end
+  end
   S.next_display = function()
     if not S.settings then return end
     S.settings.display = (S.settings.display or 1) % 4 + 1
@@ -226,16 +282,34 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
   end
   S.c = deps.console_api and console.new(deps.console_api) or console.real()
   if deps.now and not deps.console_api then S.c.now_fn = deps.now end
-  if not deps.settings_path then
-    local ok, lib = pcall(function() return S.c:path("Library") end)
-    deps.settings_path = ((ok and lib) or ".") .. "/" .. M.SETTINGS_FILE
-  end
+  local ok_tmp, tmp = pcall(function() return S.c:path("Temp") end)
+  if not ok_tmp then tmp = nil end
   if not deps.log_path then
-    local ok, tmp = pcall(function() return S.c:path("Temp") end)
-    deps.log_path = ((ok and tmp) or ".") .. "/ma3_mcp.log"
+    deps.log_path = (tmp or ".") .. "/ma3_mcp.log"
   end
   S.log = make_log(deps)
   S.log:add("loaded v%s as plugin %q component %q", M.VERSION, tostring(pluginName), tostring(componentName))
+  if not deps.settings_path then
+    local ok_lib, lib = pcall(function() return S.c:path("Library") end)
+    if not ok_lib then lib = nil end
+    local internal = M.library_dir_from_temp(tmp)
+    local dir = internal or lib or "."
+    deps.settings_path = dir .. "/" .. M.SETTINGS_FILE
+    -- Migration: a file under GetPath(Library) (the old location, or a stick) is used only
+    -- when the internal one does not exist yet, then saved internally.
+    if internal and lib and lib ~= internal and not deps.fs.read(deps.settings_path) then
+      local old = lib .. "/" .. M.SETTINGS_FILE
+      local data = deps.fs.read(old)
+      if data then
+        deps.fs.write(deps.settings_path, data)
+        S.log:add("settings copied from %s", old)
+      end
+    end
+    S.log:add("settings file: %s%s", deps.settings_path, internal and "" or " (library path not derived from temp)")
+  end
+  if not deps.journal_path then
+    deps.journal_path = deps.settings_path:gsub("[^/\\]+$", "") .. M.JOURNAL_FILE
+  end
 
   local function Main(display_handle, argument)
     local arg = tostring(argument or ""):gsub("^%s+", ""):gsub("%s+$", "")
@@ -258,14 +332,39 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
       end
       return
     end
+    if S.ctx and S.ctx.in_request and lower ~= "status" and lower ~= "quarantine" then
+      S.c:echo('MA3 MCP: "%s" refused during a client request; use the window or the command line at the desk', arg)
+      S.log:add("refused argument %q during a client request", arg)
+      return
+    end
     if lower == "off" or lower == "stop" then stop("off") return end
     if lower == "status" then for _, l in ipairs(status_text()) do S.c:echo(l) end return end
     if lower == "pin" then
       local pin = S.auth and S.auth.pin or settings.load(deps.fs, deps.settings_path).pin
       S.c:echo("MA3 MCP PIN: %s", pin) return
     end
-    if lower == "lua on" then S.lua_on = true S.c:echo("MA3 MCP: Lua execution ON") return end
-    if lower == "lua off" then S.lua_on = false S.c:echo("MA3 MCP: Lua execution off") return end
+    if lower == "lua on" or lower == "lua off" then
+      S.set_lua(lower == "lua on")
+      S.c:echo("MA3 MCP: Lua execution %s (kept for the next start)", S.lua_on and "ON" or "off")
+      return
+    end
+    if lower == "quarantine" or lower == "quarantine clear" then
+      S.settings = S.settings or settings.load(deps.fs, deps.settings_path)
+      local q = (S.guard and S.guard.quarantine) or S.settings.quarantine or {}
+      if lower == "quarantine clear" then
+        for i = #q, 1, -1 do q[i] = nil end
+        S.settings.quarantine = q
+        persist()
+        if not S.auth then settings.save(deps.fs, deps.settings_path, S.settings) end
+        S.c:echo("MA3 MCP: quarantine cleared")
+        return
+      end
+      if #q == 0 then S.c:echo("MA3 MCP: quarantine is empty") return end
+      for i, e in ipairs(q) do
+        S.c:echo("MA3 MCP quarantine %d: %s %s (%s)", i, tostring(e.tool), tostring(e.address or e.path or e.call or ""), tostring(e.when or "?"))
+      end
+      return
+    end
     if lower == "regen" then
       if not S.auth then S.settings = settings.load(deps.fs, deps.settings_path); S.auth = auth.new({ pin = S.settings.pin, now = deps.now }) end
       local pin = S.auth:regenerate()
@@ -292,7 +391,7 @@ function M.entry(pluginName, componentName, signalTable, my_handle, deps)
       persist()
       S.c:echo("MA3 MCP: port set to %d (takes effect at the next start)", port) return
     end
-    S.c:echo('MA3 MCP: unknown argument "%s" (use: off, status, pin, lua on, lua off, regen, bind <ip>|auto, <port>)', arg)
+    S.c:echo('MA3 MCP: unknown argument "%s" (use: off, status, pin, lua on, lua off, quarantine, quarantine clear, regen, bind <ip>|auto, <port>)', arg)
   end
 
   local function cleanup()

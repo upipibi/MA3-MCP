@@ -37,13 +37,13 @@ Smoke test in Claude Code: ask for `ma3_status`; it returns the show name.
 
 ## Day to day
 
-- Window buttons: On/Off, Regenerate PIN, Allow Lua execution (off at every start), the
+- Window buttons: On/Off, Regenerate PIN, Allow Lua execution (off at every start on a console, on for that session only; remembered on onPC), the
   last ten clients (bad PINs in the list), the last five backups, and which display the
   window opens on.
 - After tapping the window, tap the command line before typing a command; the overlay
   keeps keyboard focus otherwise.
 - Command-line arguments: `Plugin "MA3 MCP" "off"`, `"status"`, `"pin"`, `"lua on"`,
-  `"lua off"`, `"regen"`, `"bind <console-ip>"` or `"bind auto"`, `"<port>"` (bind and
+  `"lua off"`, `"quarantine"`, `"quarantine clear"`, `"regen"`, `"bind <console-ip>"` or `"bind auto"`, `"<port>"` (bind and
   port take effect at the next start).
 - If the startup line says `listening on 127.0.0.1` on the console, the plugin did not find
   the production-network address by itself: run `Plugin "MA3 MCP" "bind <console-ip>"` once,
@@ -51,8 +51,11 @@ Smoke test in Claude Code: ask for `ma3_status`; it returns the show name.
 - Optional pool-button colour: store an Appearance named exactly `MA3 MCP` (any colour you
   like). While the server runs the plugin's pool button wears it; when stopped it is cleared.
   Without that Appearance the button never changes.
-- Settings (PIN, port, display, backups, clients) live in
-  `gma3_library/ma3_mcp_settings.json` on the console, not in the show file.
+- Settings (PIN, port, display, Lua switch, backups, clients) live in
+  `gma3_library/ma3_mcp_settings.json` inside the console's installation (the folder is
+  derived from the temp path, never from the currently selected drive), not in the show file.
+  Before alpha.5 an import from a USB stick could write a fresh settings file onto the stick,
+  which looked like the PIN changing at every import.
 - Log: `onpc/temp/ma3_mcp.log` on onPC; the console's temp folder on hardware.
   `ma3_mcp_load.txt` next to it says whether the last plugin load succeeded.
 
@@ -95,3 +98,12 @@ console's library folder, so they survive a show load. The plugin's code is stor
 (InStream; check the component's InStream setting in the plugin editor after import and set it to
 Yes if it is not), so it survives a console restart once the show is saved. A different show needs
 its own import.
+
+## If the console ever freezes during a request
+
+Since alpha.6 the plugin writes every call to `gma3_library/ma3_mcp_inflight.json` before it runs.
+After a restart, start the plugin as usual: if a call was in flight it prints `MA3 MCP: the last
+session stopped during <tool> <address>; it is now refused` and refuses that call from then on.
+`Plugin "MA3 MCP" "quarantine"` lists the refused calls; `"quarantine clear"` empties the list once
+the cause is understood. Playback and timecode keep running while the screen is frozen; a restart
+is the only way out, so pick the least visible moment.

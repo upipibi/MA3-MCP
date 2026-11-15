@@ -43,6 +43,10 @@ that one Oops reverts the job.
 
 ## Hazards (console facts, not style)
 
+- **Console safety (2026-11-08):** an automated read job froze the console GUI mid-service. Never run
+  looping or exploratory reads on the console; explore on onPC only; ask whether a service is running
+  before any console request. Full rules: project `CLAUDE.md`, "Console safety".
+
 - Never put `Thru`, `+` or `*` on a `Page` or `Executor` address; the console hangs until
   relaunched. The tools refuse it with `[unsafe-range]`; do not work around that.
 - A timeout proves nothing. The command may have run. Re-read state before resending.

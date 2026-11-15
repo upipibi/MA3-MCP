@@ -68,12 +68,51 @@ function M:tool_list()
   return out
 end
 
+M.HANDLER_LIMIT_S = 15
+M.HOOK_GAP_S = 0.05
+M.SLOW_S = 0.1
+
 function M:call_tool(params, ctx)
   local name = params and params.name
   local tool = name and self.tools[name]
   if not tool then return nil, "unknown tool: " .. tostring(name) end
   local args = params.arguments or {}
-  local ok, res, err = pcall(tool.handler, args, ctx)
+  local g = ctx and ctx.guard
+  local ok, res, err
+  if g then
+    -- Console guard: rate cap and quarantine answer before the console is touched; the journal
+    -- records the call before it runs; a handler stuck in Lua code is stopped after
+    -- HANDLER_LIMIT_S (a hung console call cannot be stopped, see src/guard.lua).
+    local admitted, why = g:admit()
+    if admitted then admitted, why = g:admit_call(name, args) end
+    if not admitted then
+      ok, res, err = true, nil, why
+    else
+      g:begin(name, args)
+      -- Counts only time spent running Lua without a pause: the hook fires every 10,000 Lua
+      -- instructions, so gaps longer than HOOK_GAP_S are yields or console calls (a save, an
+      -- export) and are not counted. A Lua loop that never yields adds up and is stopped.
+      local last, spent = g.now(), 0
+      debug.sethook(function()
+        local now = g.now()
+        local gap = now - last
+        last = now
+        if gap < M.HOOK_GAP_S then spent = spent + gap end
+        if spent > M.HANDLER_LIMIT_S then
+          debug.sethook()
+          error(string.format("[console-guard] %s stopped: more than %d s running Lua without a pause", name, M.HANDLER_LIMIT_S), 0)
+        end
+      end, "", 10000)
+      ok, res, err = pcall(tool.handler, args, ctx)
+      debug.sethook()
+      local dt = g:finish()
+      if dt > M.SLOW_S and ctx.log then
+        ctx.log:add("slow: %s %s %d ms", name, type(args.address) == "string" and args.address or "", math.floor(dt * 1000 + 0.5))
+      end
+    end
+  else
+    ok, res, err = pcall(tool.handler, args, ctx)
+  end
   local text, is_error
   if not ok then
     text, is_error = "tool error: " .. tostring(res), true

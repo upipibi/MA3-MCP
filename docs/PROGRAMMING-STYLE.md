@@ -181,3 +181,35 @@ Title Case song names copied from Planning Center (the console strips commas). S
 elsewhere (`Sp 1`, `R - Song 3`, `Clear Layer 2`, `Q40 Dim`). `R - ` prefix = Resolume
 control. `(Key)` suffix = key-light twin. Nicknames and jokes are fine in cue names; object
 names stay clean.
+
+## Christmas 2026 as of 2026-11-14 (live read while Aaron programs)
+
+131 sequences. What changed since the 2026-11-03 read, and what it adds to the rules above:
+
+- **Weekend songs are built first.** The four songs on page `Nov 8` (1 One True God, 2 Highest
+  Praise, 3 I Speak Jesus, 5 Goodness Of God) have 18-23 cues each; the later weekend songs (6-13)
+  and all 15 Christmas songs (54-68) and their key twins (72-86) are still one-cue placeholders.
+- **Fades widen beyond 2/4 s:** 3 s now appears (`(Continues)`, `Verse 3 / Drums In`,
+  `Bridge / Build`, `Chorus / All In`), and long fades mark the big moments: 8 s
+  `Vamp / Chorus / Breakdown`, 12 s `Vamp / Build`, 6 s `End`. Still in fade only; delays 0,
+  out fade/delay left at `CueTiming`, one part per cue.
+- **Cue 2 is not always the follow:** One True God starts `Start`, `All In`, then `-> Follows`.
+  Highest Praise's three `-> Follows` cues (2, 13, 18) are set to **Go**, not Follow, so they
+  wait for a press. Aaron (2026-11-14): they "should actually be follow cues"; a slip, but **not
+  to be fixed unless he asks**. The name `-> Follows` comes from Hog, where that is how follow
+  cues are named (Aaron).
+- **New names:** `Worship Freely`, `Big Ending`, `Chorus / Softly`, `Vamp / Build`,
+  `Breakdown / Chorus`, a lowercase `interlude`.
+- **Production page, 2026 layout** (page 8 `Christmas 1`, read live): 106 the segment's opener
+  (`Walk In#2`), 107-110 songs in run order, 112-115 their key twins (song + 5 executors, one
+  gap at 111), all two rows tall with key Off and the lower half Select; 191-194 Clear Layer
+  1-3 and Clear Banner (Temp); 196-198 Shuffle 2-4 macros (Go+); **201-205 `Spot`, `Spot 2` ...
+  `Spot 5`** (sequences 182-186; Spot and Spot 2 Toggle, 3-5 Temp); 216 Main House (Go+), 218
+  and 306 R - Walk In (Temp), 221 Resolume Master (Black), 222 Transition Master, 223 Banner
+  Black Out, 225 Key group, 226-227 Portman presets, 231-233 speed masters (Speed1), 234-235
+  Lowlight / Highlight (Toggle), 294 R - Douse, 298 `@ 0`. This replaces the 2025 production
+  layout (101 opener, 106-110 songs, 111-115 keys).
+- **Production copies carry `#2`:** `Walk In#2` (179) and `Message#2` (180) are the Christmas
+  versions of the weekend `Walk In` (176) and `Message` (178); `Welcome` (177) is new for 2026.
+  Key twins are named `<title> (key)` in lowercase this year.
+- Spot 3-5 were copied from Spot 2: their one cue is still named `Spot 2`.

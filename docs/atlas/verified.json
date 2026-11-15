@@ -1,0 +1,15 @@
+{
+ "_about": "Hand corrections to the automatic marks in CHECKLIST.md. Key: <page>|<kind>|<name>. Fields N/R/P override the matcher (null clears a mark, a string is the evidence). Add an entry whenever a session proves or disproves an item by hand.",
+ "keyword_clear|keyword|Clear": {
+  "N": null,
+  "P": null,
+  "R": null,
+  "note": "matched the sequence name `Clear Layer 2`, not the Clear command (2026-11-08 review)"
+ },
+ "keyword_lua|keyword|Lua": {
+  "N": null,
+  "P": null,
+  "R": null,
+  "note": "ma3_command refuses Lua; the Lua keyword was never used on the desk (2026-11-08 review)"
+ }
+}

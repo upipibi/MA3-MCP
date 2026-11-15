@@ -213,7 +213,7 @@ function M.adapter(G)
     local actions = {
       toggle = function() if S.toggle then S.toggle() end end,
       regenerate = function() if S.regenerate then S.regenerate() end end,
-      lua = function(on) S.lua_on = on and true or false end,
+      lua = function(on) if S.set_lua then S.set_lua(on) else S.lua_on = on and true or false end end,
       next_display = function() if S.next_display then S.next_display() end end,
     }
     A.win = M.open(G, S.settings and S.settings.display or 1, model_of(S), actions, { signalTable = S.signal_table or {}, my_handle = S.my_handle })

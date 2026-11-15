@@ -13,7 +13,7 @@ A grandMA3 Lua plugin that turns the console into an MCP server, so an AI model 
 - Fast bulk reads for housekeeping: the patch as a tree with every multi-instance fixture's instances, groups with their members, sequences with cue counts and every page/executor they sit on, pages with executor assignments, presets, macros.
 - Writes through the console's own command line (`ma3_command`, or a whole list per request with `ma3_commands`) and property sets (`ma3_set`), with undo groups so one Oops reverts a whole job.
 - Deep reads: `ma3_cue_timing` (fades and delays per cue), `ma3_timecode` (tracks and events), `ma3_history` (last command and response, undo list), `ma3_export` (an object's XML, the only way to see the values inside cues). Bulk reads take filters (`from`/`to`/`name` on sequences, `page` on pages, `summary` on fixtures).
-- Backup save before destructive jobs, plain save, and arbitrary Lua behind an operator-only switch.
+- Backup save before destructive jobs, plain save, and arbitrary Lua (sandboxed; an operator switch turns it off).
 - A window on the console: On/Off, the PIN, Regenerate, Allow Lua, the last ten clients (bad PINs included), the last five backups, display picker.
 - PIN authentication on every request, lockout after five bad PINs, refuses the one call known to hang grandMA3 2.5.1.
 - Speaks both the 2026-07-28 stateless MCP flow and the older `initialize` flow; verified with Claude Code 2.1.295.
@@ -25,6 +25,8 @@ A grandMA3 Lua plugin that turns the console into an MCP server, so an AI model 
 - For development: macOS with Homebrew `lua` (5.5) or `lua@5.4`, LuaRocks with `luasocket`, and grandMA3 onPC.
 
 ## Installation
+
+Where this is going: [docs/ROADMAP.md](docs/ROADMAP.md).
 
 See [docs/INSTALL-CONSOLE.md](docs/INSTALL-CONSOLE.md). In short: copy `MA3 MCP.lua` and `MA3 MCP.xml` from the release zip to a USB stick at `grandMA3/gma3_library/datapools/plugins/`, then on the console:
 
@@ -49,9 +51,10 @@ Save the show. The plugin ships off; start it with one tap after each show load.
 
 ## Configuration
 
-- Window: On/Off, Regenerate PIN, Allow Lua execution (off at every start), display picker.
-- Command line: `Plugin "MA3 MCP" "off" | "status" | "pin" | "lua on" | "lua off" | "regen" | "bind <ip>" | "bind auto" | "<port>"`.
-- Settings file on the console: `gma3_library/ma3_mcp_settings.json` (`pin`, `port`, `bind` override, `display`, `backups`, `clients`).
+- Window: On/Off, Regenerate PIN, Allow Lua execution (onPC: remembered; console: off at every start, on for the session only), display picker.
+- Command line: `Plugin "MA3 MCP" "off" | "status" | "pin" | "lua on" | "lua off" | "quarantine" | "quarantine clear" | "regen" | "bind <ip>" | "bind auto" | "<port>"`.
+- **Console guard** (since alpha.6): on a console the plugin only touches objects proven safe there (show data, command history, drives, timecode slots), caps requests at 8 a second, journals every call, and refuses for good any call the console stopped during. Explore anything else on onPC. See [the design](docs/superpowers/specs/2026-11-08-console-guard-design.md).
+- Settings file on the console: `gma3_library/ma3_mcp_settings.json` next to the installation (`pin`, `port`, `bind` override, `display`, `lua_default`, `backups`, `clients`, `quarantine`); the call journal `ma3_mcp_inflight.json` sits beside it. The plugin prints the path it uses in its log.
 - `docs/CONVENTIONS.md`: how the show is organized, read by models before a job.
 
 ## Building from source
@@ -77,6 +80,7 @@ src/                 plugin modules (bundled into one file by tools/bundle.lua)
   settings.lua       settings file (deterministic JSON)
   console.lua        thin wrapper over the grandMA3 Lua API
   addr.lua           address validator ([unsafe-range])
+  guard.lua          console guard: allow-list by class path, call journal, quarantine, rate cap
   tools/             generic, bulk, deep (cue timing, timecode, history, export), show (backup/save), lua_exec
   ui.lua             the window
   main.lua           plugin entry, lifecycle, command arguments

@@ -160,3 +160,93 @@ h.describe("ma3_commands yields every 10 commands", function()
   local r = tools.ma3_commands.handler({ commands = many }, ctx)
   h.eq(r.sent, 25); h.eq(fake.yields - y0, 2)
 end)
+
+h.describe("ma3_command refuses keyword shortcuts and station, session and user commands", function()
+  fake.cmds = {}
+  -- MA documents shortcuts: Lu = Lua, Sa = SaveShow, Lo = LoadShow, R = Reboot, Res = Restart,
+  -- Sh = ShutDown, RU = ReloadUI, RP = ReloadAllPlugins, SwgMA2 = SwitchTograndMA2Software.
+  local bad = {
+    'Lu "Printf(1)"', 'Luaf "x.lua"', 'Sa "x"', "Save", 'Lo "y"', "Loadsh", "New",
+    "Reboot /NoConfirmation", "R", "Rebo Console 1", "Restart /NoSave", "Res", "ShutDown", "Sh",
+    "ReloadUI", "RU", "ReloadAllPlugins", "RP", "SoftwareUpdate Console 1 \"x\"", "So \"x\"",
+    "DeleteOtherVersion \"x\"", "CancelSoftwareUpdate", "SwitchTograndMA2Software IP 1.2.3.4",
+    "SwgMA2 IP 1.2.3.4", "SwgMA3", "JoinSession", "J", "LeaveSession", "Le", "Invite onPC 1",
+    "Inv onPC 1", "Dismiss Console 1", "Di Console 1", "Disconnect Console 1", "Reconnect IP 1.2.3.4",
+    "RemoteCommand IP 1.2.3.4 \"Restart\"", "Remotec IP 1.2.3.4 \"x\"", "ChangeMulticastBase Console 1",
+    "NetworkSpeedTest Session", "Net Session", "LogIn \"Admin\"", "Log \"Admin\"", "Logout",
+    'Menu "Network"', "Men", "Help Macro", "H", "HelpLua", "DumpLog", "CopyCrashLog", "Eject Drive 2",
+    "Echo 1; Reboot", "Label Sequence 12 \"A\" ; Res",
+  }
+  for _, cmd in ipairs(bad) do
+    local r, err = tools.ma3_command.handler({ command = cmd }, ctx)
+    h.eq(r, nil, cmd); h.truthy(err and err:find("not sent by ma3_command"), cmd .. ": " .. tostring(err))
+  end
+  h.eq(#fake.cmds, 0, "nothing reached the console")
+  for _, ok in ipairs({ "Load Cue 3", "Load Executor 114 Cue 5", "Release", "Remove", "Record", "Select Sequence 1",
+                        "Solo Off", "Shuffle", "Invert", "Display", "Highlight Off", "Delete Sequence 9",
+                        "Copy Sequence 1 At 2", "Lock Macro 1", "Label Sequence 12 \"Reboot\"",
+                        "Store Macro 7 \"Help\"", "List NetworkNode", "Remote", "Locate Group 1" }) do
+    local r, err = tools.ma3_command.handler({ command = ok }, ctx)
+    h.truthy(r, ok .. ": " .. tostring(err))
+  end
+end)
+
+h.describe("ma3_command refuses parentheses outside quotes (they open a text-input pop-up)", function()
+  fake.cmds = {}
+  for _, cmd in ipairs({ "Fixture (fixturenumber)", "Block Sequence (Sequence #) Cue (Cue #)", "Echo 1; Fixture (x)" }) do
+    local r, err = tools.ma3_command.handler({ command = cmd }, ctx)
+    h.eq(r, nil, cmd); h.truthy(err and err:find("pop%-up"), cmd .. ": " .. tostring(err))
+  end
+  h.eq(#fake.cmds, 0, "nothing reached the console")
+  h.truthy(tools.ma3_command.handler({ command = 'Label Sequence 12 "Intro (reprise)"' }, ctx), "parentheses inside a name are fine")
+  h.truthy(tools.ma3_command.handler({ command = "Label Sequence 12 'A (b)'" }, ctx), "single quotes too")
+end)
+
+h.describe("ma3_command refuses commands that call this plugin", function()
+  fake.cmds = {}
+  ctx.self_plugin = { name = "ma3 mcp", number = 36 }
+  for _, cmd in ipairs({ 'Plugin "MA3 MCP" "lua on"', "Call Plugin 36", 'Pl "ma3 mcp" "quarantine clear"',
+                         'Echo 1; Plugin 36 "off"', "Plugin 36", 'Call Plugin "MA3 MCP"' }) do
+    local r, err = tools.ma3_command.handler({ command = cmd }, ctx)
+    h.eq(r, nil, cmd); h.truthy(err and err:find("this plugin"), cmd .. ": " .. tostring(err))
+  end
+  h.eq(#fake.cmds, 0, "nothing reached the console")
+  for _, ok in ipairs({ "Call Plugin 1", 'Plugin "Cue Display"', 'Label Sequence 12 "MA3 MCP notes"', "Plugin 361" }) do
+    h.truthy(tools.ma3_command.handler({ command = ok }, ctx), ok)
+  end
+  ctx.self_plugin = nil
+end)
+
+h.describe("ma3_command refuses $variables outside quotes (they expand into unchecked commands)", function()
+  fake.cmds = {}
+  for _, cmd in ipairs({ "$MyCommand", 'Group $"MyGroupName" At 80', "Label Cue $CueNumber $CueName", "Echo 1; $x" }) do
+    local r, err = tools.ma3_command.handler({ command = cmd }, ctx)
+    h.eq(r, nil, cmd); h.truthy(err and err:find("variable"), cmd .. ": " .. tostring(err))
+  end
+  h.eq(#fake.cmds, 0, "nothing reached the console")
+  h.truthy(tools.ma3_command.handler({ command = 'Label Sequence 12 "Cost $5"' }, ctx), "a $ inside a name is fine")
+end)
+
+h.describe("ma3_command checks every ;-separated command, not just the first", function()
+  fake.cmds = {}
+  local n = #fake.cmds
+  local _, e1 = tools.ma3_command.handler({ command = 'Label Sequence 12 "A"; SaveShow' }, ctx)
+  h.truthy(e1 and e1:find("saveshow"), tostring(e1)); h.eq(#fake.cmds, n, "nothing sent")
+  local _, e2 = tools.ma3_command.handler({ command = 'Echo "x" ; Lua "Printf(1)"' }, ctx)
+  h.truthy(e2 and e2:find("lua"), tostring(e2))
+  local ok = tools.ma3_command.handler({ command = 'Label Sequence 12 "A; SaveShow"' }, ctx)
+  h.truthy(ok, "a ; inside quotes is a name, not a separator")
+  local _, e3 = tools.ma3_commands.handler({ commands = { 'Label Sequence 12 "B"', "Echo 1; LoadShow \"x\"" } }, ctx)
+  h.truthy(e3 and e3:find("command 2 rejected"), tostring(e3))
+end)
+
+h.describe("ma3_command refuses Thru, + or * on Page and Executor addresses", function()
+  local n = #fake.cmds
+  for _, bad in ipairs({ "Off Page 2 Thru 100", "Delete Page 1.1 Thru", "Off Executor 101 + 102", "Go+ Page 1.*" }) do
+    local _, err = tools.ma3_command.handler({ command = bad }, ctx)
+    h.truthy(err and err:find("unsafe%-range"), bad .. ": " .. tostring(err))
+  end
+  h.eq(#fake.cmds, n, "none sent")
+  h.truthy(tools.ma3_command.handler({ command = "Assign Sequence 12 At Page 3.201" }, ctx), "single executor fine")
+  h.truthy(tools.ma3_command.handler({ command = "Delete Sequence 1 Thru 3" }, ctx), "ranges elsewhere fine")
+end)

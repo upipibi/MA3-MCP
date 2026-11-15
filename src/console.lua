@@ -30,6 +30,45 @@ function M:object(address)
   return list[1]
 end
 
+-- Resolves an address for a tool: the address rules (addr.check), then the console guard when one
+-- is attached (self.guard, set at plugin start): quarantine and Root numbers before the console
+-- resolves anything, the allow-list by class path after, and the journal target.
+-- Returns handle, nil, class_path or nil, reason.
+function M:resolve(address)
+  if address == nil then return nil, "address is required" end
+  local addr = require("addr")
+  local ok, why = addr.check(address)
+  if not ok then return nil, why .. " " .. tostring(address) end
+  local g = self.guard
+  if g then
+    local okg, whyg = g:allow_address(address)
+    if not okg then return nil, whyg end
+  end
+  local h = self:object(address)
+  if not h then return nil, "object not found: " .. address end
+  local path
+  if g then
+    local okh, whyh, list = g:allow_handle(h)
+    if not okh then return nil, whyh end
+    path = list
+    g:target(table.concat(list, " > "))
+  end
+  return h, nil, path
+end
+
+-- For walks below a resolved object: whether a child (class path = parent path + its class) may be
+-- touched. Without a guard, or on onPC, always true.
+function M:child_allowed(parent_path, child)
+  local g = self.guard
+  if not g then return true end
+  local okc, cls = pcall(function() return child:GetClass() end)
+  local list = {}
+  for i, v in ipairs(parent_path or {}) do list[i] = v end
+  list[#list + 1] = okc and cls or "?"
+  local ok, why = g:allow_path(list)
+  return ok, why, list, cls
+end
+
 function M:cmd(text, undo) return self.api.Cmd(text, undo) end
 function M:cmd_indirect(text) return self.api.CmdIndirect(text) end
 function M:create_undo(name) return self.api.CreateUndo(name) end

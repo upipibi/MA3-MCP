@@ -106,9 +106,11 @@ h.describe("main arguments: pin, lua on/off, status, port, regen", function()
   t.fc.echo = {}
   t.Main(nil, "pin")
   h.truthy(table.concat(t.fc.echo, "\n"):find(pin, 1, true))
-  h.eq(t.state.ctx.lua_enabled(), false)
-  t.Main(nil, "lua on"); h.eq(t.state.ctx.lua_enabled(), true)
+  h.eq(t.state.ctx.lua_enabled(), true, "Lua is on by default (alpha.5)")
   t.Main(nil, "lua off"); h.eq(t.state.ctx.lua_enabled(), false)
+  h.eq(json.decode(t.files.files["/lib/ma3_mcp_settings.json"]).lua_default, false, "the switch is remembered")
+  t.Main(nil, "lua on"); h.eq(t.state.ctx.lua_enabled(), true)
+  t.Main(nil, "lua off")
   t.fc.echo = {}
   t.Main(nil, "status")
   h.truthy(table.concat(t.fc.echo, "\n"):find("running"))
@@ -119,7 +121,8 @@ h.describe("main arguments: pin, lua on/off, status, port, regen", function()
   t.Main(nil, "off")
   t.Main(nil, "")
   h.eq(t.state.server.port, 9801, "new port used on the next start")
-  h.eq(t.state.ctx.lua_enabled(), false, "lua resets to off at every start")
+  h.eq(t.state.ctx.lua_enabled(), false, "lua stays as last set across a restart")
+  t.Main(nil, "lua on")
   t.Main(nil, "off")
 end)
 
@@ -192,4 +195,97 @@ h.describe("main window Off redraws the window immediately", function()
   h.eq(t.state.running, false)
   h.eq(events[#events], "refresh:false", "window redrawn after the stop: " .. table.concat(events, ","))
   h.truthy(not table.concat(events, ","):find("close"), "window stays open after Off")
+end)
+
+h.describe("main derives the settings path from the temp folder, not the library path", function()
+  local fs = fake_socket.new()
+  local fc = fake_console.new()
+  fc.api.GetPath = function(kind) if kind == "temp" then return "/home/ma/MALightingTechnology/gma3_2.5.1/console/temp" end return "/media/usb/grandMA3/gma3_library" end
+  local files = fake_fs.new()
+  files.files["/media/usb/grandMA3/gma3_library/ma3_mcp_settings.json"] = '{"pin":"STICKPIN","port":9800}'
+  local deps = { socket = fs, console_api = fc.api, fs = files, Timer = function() end, now = fs.gettime, dns_ips = function() return { "127.0.0.1" } end }
+  main.entry("MA3 MCP", "ma3_mcp", {}, { Parent = function() return nil end }, deps)
+  h.eq(deps.settings_path, "/home/ma/MALightingTechnology/gma3_library/ma3_mcp_settings.json")
+  h.eq(deps.log_path, "/home/ma/MALightingTechnology/gma3_2.5.1/console/temp/ma3_mcp.log")
+  h.truthy(files.files[deps.settings_path], "the file found under the library path was copied inside once")
+  h.eq(json.decode(files.files[deps.settings_path]).pin, "STICKPIN")
+end)
+
+-- Console guard at plugin start (docs/superpowers/specs/2026-11-08-console-guard-design.md).
+local function call(t, tool, args)
+  local pin = t.state.auth.pin
+  local body = json.encode({ jsonrpc = "2.0", id = 1, method = "tools/call", params = { name = tool, arguments = args or {} } })
+  local cl = fake_socket.client({ chunks = { "POST /mcp HTTP/1.1\r\nhost: x\r\nauthorization: Bearer " .. pin .. "\r\nmcp-protocol-version: 2025-11-25\r\ncontent-type: application/json\r\ncontent-length: " .. #body .. "\r\n\r\n" .. body }, ip = "10.11.4.7" })
+  table.insert(t.fs.pending, cl)
+  run_timer(t, 4)
+  local r = json.decode(cl.sent:match("\r\n\r\n(.*)$"))
+  return r.result, r.result and r.result.content[1].text
+end
+
+h.describe("main on a console: guard attached, journal beside the settings, Lua off at start", function()
+  local t = setup("Console")
+  t.files.files["/lib/ma3_mcp_settings.json"] = '{"pin":"ABCDEFGH","port":9800,"lua_default":true}'
+  t.Main(nil, "")
+  h.truthy(t.state.guard and t.state.guard.console, "console guard on")
+  h.eq(t.state.ctx.lua_enabled(), false, "Lua is off at start on a console even when remembered on")
+  local res, text = call(t, "ma3_object", { address = "Sequence 12" })
+  h.eq(res.isError, false, text)
+  h.eq(json.decode(t.files.files["/lib/ma3_mcp_inflight.json"]).done, true, "journal closed after the call")
+  t.Main(nil, "lua on"); h.eq(t.state.ctx.lua_enabled(), true, "switchable for this session")
+  h.eq(json.decode(t.files.files["/lib/ma3_mcp_settings.json"]).lua_default, true, "unchanged on disk")
+  t.Main(nil, "off")
+  t.Main(nil, "")
+  h.eq(t.state.ctx.lua_enabled(), false, "off again at the next start")
+  t.Main(nil, "off")
+end)
+
+h.describe("main refuses state-changing arguments while a client request runs", function()
+  local t = setup("Console")
+  t.files.files["/lib/ma3_mcp_settings.json"] = '{"pin":"ABCDEFGH","port":9800}'
+  t.Main(nil, "")
+  -- A command that reaches this plugin by an address the command check cannot see calls Main
+  -- while the request is still running (Cmd is synchronous).
+  local real_cmd = t.fc.api.Cmd
+  t.fc.api.Cmd = function(text, undo)
+    if text:find('"lua on"', 1, true) then t.Main(nil, "lua on") end
+    if text:find('"quarantine clear"', 1, true) then t.Main(nil, "quarantine clear") end
+    return real_cmd(text, undo)
+  end
+  t.fc.echo = {}
+  local res, text = call(t, "ma3_command", { command = 'Call Root 14.3.1.36 "lua on"' })
+  h.eq(t.state.ctx.lua_enabled(), false, "Lua stays off: " .. tostring(text))
+  h.truthy(table.concat(t.fc.echo, "\n"):find("client request", 1, true), table.concat(t.fc.echo, "\n"))
+  h.eq(t.state.ctx.in_request, false, "flag cleared after the request")
+  t.Main(nil, "lua on"); h.eq(t.state.ctx.lua_enabled(), true, "the operator can still switch it at the desk")
+  t.Main(nil, "off")
+end)
+
+h.describe("main on onPC: guard without the allow-list, Lua as remembered", function()
+  local t = setup("onPC")
+  t.Main(nil, "")
+  h.truthy(t.state.guard and not t.state.guard.console)
+  h.eq(t.state.ctx.lua_enabled(), true)
+  t.Main(nil, "off")
+end)
+
+h.describe("main start after a stall: the request in flight is quarantined, named and refused", function()
+  local t = setup("Console")
+  t.files.files["/lib/ma3_mcp_inflight.json"] = json.encode({ tool = "ma3_object", address = "Sequence 12", path = "ShowData > DataPool > Sequences > Sequence", started = 5 })
+  t.fc.echo = {}
+  t.Main(nil, "")
+  local echoed = table.concat(t.fc.echo, "\n")
+  h.truthy(echoed:find("stopped during ma3_object Sequence 12", 1, true), echoed)
+  h.truthy((t.files.files["/tmp/ma3_mcp.log"] or ""):find("quarantined", 1, true), "logged")
+  local saved = json.decode(t.files.files["/lib/ma3_mcp_settings.json"])
+  h.eq(saved.quarantine[1].address, "Sequence 12", "quarantine persisted")
+  local res, text = call(t, "ma3_object", { address = "Sequence 12" })
+  h.eq(res.isError, true); h.truthy(text:find("quarantined"), text)
+  t.fc.echo = {}
+  t.Main(nil, "quarantine")
+  h.truthy(table.concat(t.fc.echo, "\n"):find("Sequence 12", 1, true), "listed on the command line")
+  t.Main(nil, "quarantine clear")
+  h.eq(#json.decode(t.files.files["/lib/ma3_mcp_settings.json"]).quarantine, 0, "cleared")
+  local res2, text2 = call(t, "ma3_object", { address = "Sequence 12" })
+  h.eq(res2.isError, false, text2)
+  t.Main(nil, "off")
 end)
