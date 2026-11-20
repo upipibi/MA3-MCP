@@ -25,7 +25,7 @@ Evidence marks: **[D]** MA help · **[M]** MA's shipped Lua · **[O]** onPC · *
 | Property | Effect |
 | --- | --- |
 | Block n | fixtures move in blocks of n (XBlock 2: 1+2, 3+4, ...) |
-| Group n | interleaves into n groups (1,3,5... and 2,4,6...) |
+| Group n | interleaves into n groups (1,3,5... and 2,4,6...). **A value or phase range then repeats every n fixtures; it does not spread over each group on its own** [C: Aaron, 2026-11-19]. For two interleaved chases build two groups (`docs/jobs/2026-11-19-tornado-odd-even/`) |
 | Wings n | splits into n wings stepped from opposite ends (both ends first, then inward) |
 | Width n | wraps onto the next axis after n fixtures (a 5 x 4 grid from 20 fixtures); storing a group keeps it |
 

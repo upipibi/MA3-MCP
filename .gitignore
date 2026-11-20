@@ -22,6 +22,7 @@ docs/jobs/**/entries.json
 docs/jobs/**/rt-*.json
 docs/jobs/**/ft-curves-*.json
 docs/jobs/**/fixtures-*.json
+docs/jobs/**/groups-*.json
 
 # Local caches (MA help site download; MA content, never committed)
 .cache/

@@ -72,3 +72,16 @@ then the CueAbs layer (which sequence and cue owns the attribute) [?: see `opera
 
 - No tool reads connector or protocol configuration, parked channels, or the tester [?]. These are
   read candidates for a diagnosis tool; writes stay manual.
+- **Read first when a fixture does something by itself** [C, 2026-11-19]: `ma3_object "DMXUniverse <n>"`
+  shows `PORTIN` / `PORTOUT` / `PORTRDM` (a station's physical port is mapped to the universe), `USED`,
+  `COARSEPARAMS`, `PARKEDCOUNT`, `TESTERCOUNT`, `GRANTED`. The 2026-11-19 case: ladders 7 and 8 lit in
+  colours with an empty programmer because the console's XLR G is an input on universe 7 (LTP) and they
+  were patched there.
+- Port setup per station [O, read on an onPC inside the console's session, which lists every station]:
+  `Root 22.1.<type>.<station>.1` (`OutputConfiguration`): `MODEA..G` (Out / In), `XLRA..G` (universe),
+  `MERGEx`, `PRIOx`, `FAILUREMODEx`. The console guard still refuses `Root 22` on a console.
+- Where the protocol settings live [M, found 2026-11-19 in `lib_menus_node/setupsacn.lua` and
+  `setupartnet.lua`]: `DeviceConfiguration().DMXProtocols.sACN` (`.sACNDataCollect` = the Data rows,
+  `.sACNDiscoveryCollect` = sources seen on the network, `.PreferredIP`) and
+  `DeviceConfiguration().DMXProtocols.ArtNet` (`.ArtNetDataCollect`). Device configuration, not show
+  data, so the console guard refuses it; read it on onPC first, then allow-list it.

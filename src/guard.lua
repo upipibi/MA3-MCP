@@ -32,6 +32,15 @@ M.RULES = {
   { "TimecodeSlots", "subtree" },                         -- Cue Display reads these every frame
   { "MAnetSocket", "exact" },                             -- show name for ma3_status
 }
+-- Branches a tool may read by itself but no address may reach: tools that take an address
+-- (ma3_object, ma3_set, ma3_children, ...) never get these, so nothing can be written there.
+-- DMX ports of every station in the session (ma3_ports). Read on onPC 2026-11-19, journal on,
+-- while it was in the console's session: OutputStations > collect > station > OutputConfiguration.
+-- DMXProtocols (sACN, Art-Net) next to it is not read yet and stays refused.
+M.READ_RULES = {
+  { "DeviceConfigurations", "exact" },
+  { "DeviceConfigurations > OutputStations", "subtree" },
+}
 -- Root children that may be named by number in an address or command ("Root 14.9.9.5"):
 -- ShowData. Temp (20) is allowed by class after resolve, not by number in a command.
 M.ROOT_NUMBERS_IN_COMMANDS = { [14] = true }
@@ -83,13 +92,8 @@ local function quarantine_msg(q)
     M.TAG, tostring(q.tool), tostring(q.address or q.path or q.args or ""), tostring(q.when or "?"))
 end
 
--- Decision for a class path (list). Console: allow-list; onPC: everything. Quarantine always.
-function M:allow_path(list)
-  local ps = path_string(list)
-  local q = quarantined(self, "path", ps)
-  if q then return false, quarantine_msg(q) end
-  if not self.console then return true end
-  for _, r in ipairs(M.RULES) do
+local function rules_allow(rules, ps)
+  for _, r in ipairs(rules) do
     local base, kind = r[1], r[2]
     local match_exact = (ps == base)
     local match_under = (base == "" and ps ~= "") or (ps:sub(1, #base + 3) == base .. " > ")
@@ -97,13 +101,26 @@ function M:allow_path(list)
     if kind == "subtree" and (match_exact or match_under) then return true end
     if kind == "deny" and (match_exact or match_under) then break end
   end
+  return false
+end
+
+-- Decision for a class path (list). Console: allow-list; onPC: everything. Quarantine always.
+-- tool_read = true is for a read-only tool walking a branch by itself (M.READ_RULES); address
+-- resolution never passes it.
+function M:allow_path(list, tool_read)
+  local ps = path_string(list)
+  local q = quarantined(self, "path", ps)
+  if q then return false, quarantine_msg(q) end
+  if not self.console then return true end
+  if rules_allow(M.RULES, ps) then return true end
+  if tool_read and rules_allow(M.READ_RULES, ps) then return true end
   return false, string.format("%s Root > %s is not proven safe on the console; explore it on onPC first",
     M.TAG, ps == "" and "(root)" or ps)
 end
 
-function M:allow_handle(handle)
+function M:allow_handle(handle, tool_read)
   local list = self:class_path(handle)
-  local ok, why = self:allow_path(list)
+  local ok, why = self:allow_path(list, tool_read)
   return ok, why, list
 end
 

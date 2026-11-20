@@ -185,6 +185,9 @@ local function executor_index(c, b)
   return index
 end
 
+-- Shared with tools/live.lua (running playbacks need the same pacing and executor index).
+M.budget, M.walk_pool, M.executor_index = budget, walk_pool, executor_index
+
 ----------------------------------------------------------------------------- register
 
 function M.register(tools, c, ctx)

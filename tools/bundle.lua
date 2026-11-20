@@ -6,7 +6,7 @@ local out_path = arg[1] or "dist/MA3 MCP.lua"
 
 local modules = {
   "http", "mcp", "server", "auth", "settings", "console", "log", "addr", "keywords", "guard",
-  "tools.generic", "tools.bulk", "tools.show", "tools.lua_exec", "tools.deep", "ui", "main",
+  "tools.generic", "tools.bulk", "tools.show", "tools.lua_exec", "tools.deep", "tools.live", "ui", "main",
 }
 
 local function read(path)

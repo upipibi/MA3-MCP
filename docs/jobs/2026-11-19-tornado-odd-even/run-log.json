@@ -1,0 +1,1250 @@
+{
+ "608": {
+  "duration_ms": 189,
+  "total": 123,
+  "undo_closed": false,
+  "sent": 123,
+  "undo_group": "tornado-odd-even",
+  "results": [
+   {
+    "command": "ClearSelection",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 0/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1101.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 1/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1101.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 2/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1101.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 3/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1102.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 4/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1102.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 5/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1103.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 6/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1103.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 7/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1103.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 8/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1104.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 9/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1104.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 10/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1105.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 11/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1105.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 12/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1105.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 13/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1106.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 14/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1106.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 15/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1107.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 16/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1107.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 17/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1107.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 18/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1108.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 19/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1108.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 20/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1109.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 21/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1109.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 22/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1109.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 23/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1110.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 24/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1110.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 25/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1111.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 26/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1111.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 27/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1111.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 28/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1112.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 29/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1112.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 0/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1113.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 1/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1113.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 2/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1113.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 3/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1114.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 4/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1114.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 5/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1115.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 6/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1115.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 7/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1115.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 8/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1116.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 9/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1116.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 10/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1117.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 11/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1117.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 12/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1117.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 13/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1118.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 14/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1118.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 15/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1119.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 16/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1119.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 17/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1119.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 18/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1120.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 19/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1120.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 20/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1121.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 21/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1121.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 22/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1121.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 23/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1122.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 24/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1122.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 25/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1123.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 26/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1123.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 27/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1123.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 28/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1124.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 29/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1124.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Store Group 608 \"Yoke Sections Odd\" /NoConfirmation",
+    "noconfirmation_added": true,
+    "result": "OK"
+   },
+   {
+    "command": "ClearSelection",
+    "noconfirmation_added": false,
+    "result": "OK"
+   }
+  ]
+ },
+ "609": {
+  "duration_ms": 190,
+  "total": 123,
+  "undo_closed": true,
+  "sent": 123,
+  "undo_group": "tornado-odd-even",
+  "results": [
+   {
+    "command": "ClearSelection",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 0/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1101.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 1/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1101.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 2/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1102.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 3/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1102.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 4/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1102.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 5/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1103.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 6/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1103.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 7/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1104.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 8/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1104.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 9/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1104.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 10/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1105.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 11/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1105.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 12/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1106.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 13/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1106.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 14/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1106.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 15/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1107.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 16/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1107.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 17/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1108.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 18/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1108.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 19/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1108.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 20/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1109.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 21/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1109.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 22/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1110.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 23/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1110.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 24/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1110.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 25/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1111.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 26/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1111.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 27/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1112.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 28/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1112.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 29/0",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1112.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 0/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1113.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 1/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1113.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 2/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1114.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 3/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1114.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 4/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1114.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 5/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1115.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 6/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1115.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 7/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1116.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 8/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1116.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 9/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1116.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 10/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1117.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 11/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1117.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 12/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1118.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 13/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1118.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 14/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1118.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 15/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1119.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 16/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1119.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 17/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1120.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 18/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1120.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 19/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1120.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 20/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1121.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 21/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1121.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 22/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1122.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 23/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1122.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 24/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1122.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 25/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1123.2.4",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 26/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1123.2.2",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 27/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1124.2.5",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 28/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1124.2.3",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Grid 29/1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Fixture 1124.2.1",
+    "noconfirmation_added": false,
+    "result": "OK"
+   },
+   {
+    "command": "Store Group 609 \"Yoke Sections Even\" /NoConfirmation",
+    "noconfirmation_added": true,
+    "result": "OK"
+   },
+   {
+    "command": "ClearSelection",
+    "noconfirmation_added": false,
+    "result": "OK"
+   }
+  ]
+ }
+}

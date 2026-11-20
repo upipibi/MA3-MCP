@@ -98,7 +98,7 @@ asks for a base update.
 
 Number ranges by fixture family, confirmed: 100 Era, 200 Screens / Stage R1, 300 Fuze,
 400 Portman, 500 Q40, 600 Tornado (602 Rings, 603 Ring Sections, 605 Yokes, 606 Yoke
-Sections), 700 Key, 800 LED (802 Dimmers, 804 InfiniBars, 808 LED Crop, 809 Tutu,
+Sections, 607 beams, 608 Yoke Sections Odd, 609 Yoke Sections Even), 700 Key, 800 LED (802 Dimmers, 804 InfiniBars, 808 LED Crop, 809 Tutu,
 811–822 Ladder 1–12), 900 Resolume fixtures, 910–912 catwalk/house, 1000 house (1000
 Main House, 1001 Lower, 1002 Upper, 1003 Side, 1004 Back Wall, 1005 Rear Upper Balcony,
 1006 Stairs, 1007 Stage Wash, 1008 Haze), 1100 Relays, 2200+ Resolume layer/song
@@ -131,6 +131,9 @@ its parts drawn against it in the fixture's real shape: each Portman is two 7-ce
 master; each Tornado bar is five hollow 3 x 3 rings of 10 x 10 cells in a 30-wide column hanging below its
 ring master, and five 30 x 30 yoke cells in the same kind of column below its yoke master (colour
 only, names hidden, not meant to be tapped); master rows sit 200 apart, head 1 nearest the master.
+The platform pixels (`Ladder LEDs` box, bottom left, since 2026-11-19) are drawn as a front view from his place
+groups 701-710: two top lines, six legs as 5 x 10 blocks, the curve as an arc; no masters, his groups select.
+The dimmer tiles sit in one row in the `Key` box.
 Do not move or resize elements he placed unless the pattern cannot fit otherwise, and say so.
 
 ## Names

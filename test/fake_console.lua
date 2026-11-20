@@ -28,6 +28,13 @@ function Handle:Get(name)
   if type(p.v) == "table" and p.v.addr then return p.v end -- handle-valued
   return p.v
 end
+-- Live playback, as the console's sequence objects answer it (Cue Display reads these five
+-- times a second on the console): set handle.playing / handle.current (kid slot) in a test.
+function Handle:HasActivePlayback()
+  if rawget(self, "playback_error") then error("HasActivePlayback failed") end
+  return rawget(self, "playing") and true or false
+end
+function Handle:CurrentChild() local i = rawget(self, "current") return i and self.kids[i] or nil end
 function Handle:Export(path, filename)
   local fake = rawget(self, "fake_ref")
   if fake then fake.exported = { addr = self.addr, path = path, filename = filename } end

@@ -36,7 +36,111 @@ NOT DO THIS AGAIN". The rules, which override any plan, roadmap phase or skill:
   logging the address). Until it is found on onPC and the plugin refuses it, treat `ma3_object` on
   unfamiliar classes as dangerous.
 
-## Resume here (written 2026-11-14, Saturday, before a compact)
+## 2026-11-19: "the MCP NEEDS TO BE ABLE TO SEE EVERYTHING" (Aaron, twice, angry)
+
+Asked why ladders 7 and 8 are multicolor "by default", I sent him to the desk four times (Off menu,
+CueAbs layer, sACN tabs, users) because the plugin had no tool for any of it. His rule now: **a thing
+the plugin cannot read is a plugin gap to close, not a check to hand to Aaron.** Say "gap, building
+it" and build it. Memory: `mcp-must-see-everything`.
+
+- **Built, not on the console: plugin 0.2.0-alpha.7** = alpha.6 + `ma3_playbacks` (`src/tools/live.lua`;
+  running sequences, current cue, fade, executors). Uses only `HasActivePlayback()` / `CurrentChild()`,
+  the calls Cue Display makes at 5 Hz on the console. 3,388 tests pass on 5.5 and 5.4; installed in the
+  onPC library. Needs the stick and Aaron's import to reach the console (before the 12-08 freeze).
+- **Bench list for the rest of live state:** `docs/research/2026-11-19-live-state-bench.md`. Needs
+  onPC started by Aaron, Standalone (not in the console's session), plugin on; I drive it with
+  `ma3_lua` over HTTP. Order: Parameter List by fixture, DMX output, network DMX in/out, programmer
+  (all users), who-owns-this-value, park and tester, selection, masters, session.
+- **Ladders 7 and 8, state of the question:** patch clean (LEDs of ladder 7 and 6 identical in every
+  property); only `Right DF 50 Haze` running (read from Cue Display's `/api/state` on the console,
+  port 8090: it lists every running sequence); Art-Net all unicast (Aaron). Best lead, **not yet
+  read**: stored per-channel Default values in the Parameter List (`Store Default`, MA help
+  `patch_parameter_list`), which would be exactly "multicolor by default". The read
+  (`ma3_object Root 14.9.9.<n>`, proven address) was stopped by the session's permission
+  classifier on 2026-11-19; it needs Aaron's go or a permission rule. Index for FID 20308 is not
+  known: entries run in subfixture order (entry 900 = FID 4201 = subfixture 893; FID 20308 =
+  subfixture 1666; estimate near 3,989, find by a few reads). Documented reset, unproven by us:
+  select the fixtures, give the colour attributes any value, `Store Default /Remove`.
+
+**Later 2026-11-19 (Aaron turned bypass permissions on, "go ahead and check"; started onPC + plugin):**
+
+- **Ladders 7 and 8: SOLVED the same evening.** The console's own output configuration has DMX port
+  **XLR G set to In on universe 7** (merge on, priority LTP), and ladders 7 and 8 were patched on
+  universe 7, so whatever feeds port G drove them until a programmer value took over. Evidence:
+  `ma3_object "DMXUniverse 7"` on the console = `PORTIN true`, and `Root 22.1.1.1.1` (read on onPC, which
+  is in the console's session and shows every station's ports) = `MODEG In`, `XLRG 7`, `PRIOG LTP`;
+  ports A-F are Out on universes 51-56. Aaron had already moved both ladders to universe 11
+  (`Fixture 20308` now `11.001`; universe 7 `USED 0`, universe 11 `USED 100`). Aaron confirmed the same evening: "I moved 7 and 8 to universe 11 and that
+  fixed the issue". Not known: what is plugged into port G. Also: both onPC stations (this Mac and a second one in the booth) carry the command-wing
+  default **port C = In on universe 3**, where the Portmans are patched; harmless unless a real wing
+  with a DMX feed is attached. Earlier dead ends, for the record: stored Defaults: stored Defaults (Parameter List entries for
+  FIDs 20308, 20318, part of 20331/20332/20403 and ladder 6's 20293: every colour channel `DEFAULT
+  FFFFFF`, dimmer `000000`, `HIGHLIGHT FFFFFF`, no default preset; a sample, not all 400); the second
+  user's programmer (`UserProfile 1.1.1.3`, read on onPC: `Part Zero` 297 bytes, same as profile 5's);
+  the groups (816-818 identical in shape); other data pools (only `Default` and `Preview`).
+- **New proven reads (console):** `ma3_object "DMXUniverse <n>"` gives `USED` (fixtures), `COARSEPARAMS`,
+  `PORTOUT` / `PORTIN` / `PORTRDM` (a physical port of some station is mapped to it), `PARKEDCOUNT`,
+  `TESTERCOUNT`, `GRANTED`, `MERGEMODE`. Universe 1 has 71 parked channels (the relays). **Read this
+  first for any "why does this fixture do that by itself" question.** Device configuration (onPC only so
+  far; the console guard refuses `Root 22`): `Root 22.1` = OutputStations by type (`Console`, `onPC`, `PU`,
+  `NetworkNode`), each station (`IP`, `MAC`, `INMYSESSION`, interfaces) with one `OutputConfiguration`
+  (`MODEA..G`, `XLRA..G` = universe, `MERGEx`, `PRIOx`, `FAILUREMODEx`, MIDI and timecode ports);
+  `Root 22.2` = DMXProtocols (sACN, Art-Net), not read yet. **Built the same evening into alpha.7:
+  `ma3_universes` and `ma3_ports`** (`src/tools/live.lua`), with a guard rule for
+  `DeviceConfigurations > OutputStations` only, readable by `ma3_ports` alone (`guard.READ_RULES`: no address
+  reaches it, so `ma3_set` cannot write port settings; found by the `/save` security review) (3,434 tests pass on 5.5 and 5.4; in the onPC library,
+  not on the console). First call of `ma3_ports` on the desk: once, outside a service.
+- **Aaron, 2026-11-19: "im not taking the onpc session out, figure out whatever it is you are working
+  on, stop bugging me about it".** onPC stays in the console's session; that is his call. So on onPC:
+  single read-only object reads are fine, nothing that writes, no experiments with commands, and no
+  more asks about its session. Lua is off there, so API-function benches wait for a time he has Lua on.
+- **Parameter List facts (console):** `Root 14.9.9.<n>` returns the entry with `INDEX` n-1. Four entries
+  per ladder LED in the order Dimmer (virtual, no `COARSE`), R, G, B. Ladder 7 = index 3609-3808
+  (FID 20308 dimmer = 3609), ladder 8 = 3809-4008, ladder 6 ends at 3608. Properties: `DEFAULT`,
+  `HIGHLIGHT` (hex, 24 bit), `COARSE`, `CHANNELNAME`, `FID`.
+- **Where the programmer lives (onPC):** `UserProfile <n>.1` = Environments (`Normal`, `Preview`);
+  `UserProfile <n>.1.1.3` = class `Programmer` (sequence-like), child `ProgPart` "Part Zero" (`Programmer 0`);
+  `.1` and `.2` are `Selection` objects (`COUNTTOTALSELECTED`), `.4` `AtFilter`. `Cmdline 2` = `User 2` /
+  `UserProfile 1` exists on every station (console and onPC list the same two): a standing second
+  command line, not a second person.
+- **onPC on this Mac is IN the console's session** (`Root 5`: the console's session, `STATUS Connected`,
+  not session manager, Lua off, plugin alpha.6 from the show). A second onPC station is in the
+  session too.
+- `Root 14.12 Output`, `Root 14.15 DMXRoot`, `Root 14.21 PlaybackTable` are empty containers to the
+  object API (no children, no useful properties): live output needs the API functions, not the tree.
+- **Plugin bugs found:** `ma3_children` on `UserProfile 1.1.1` fails with "attempt to call a nil value
+  (method 'GetClass')" (`console.child_summary` needs a guard for children that are not objects);
+  `ma3_groups` on the console now returns members as `sf1666` instead of FIDs (`GetSubfixture` not
+  answering there, or the lookup broke in alpha.6): check on the bench.
+- **Done 2026-11-19, 22:10: ladder LEDs in Layout 1** (Aaron: "are you ready with that new layout with the
+  pixles?"). The shape came from the place groups he built that evening (701-706 legs, 709 `Curve`, 710
+  `Platform Top`), not from a sketch. 650 cells in a new `Ladder LEDs` box under `Infini Bars` and `Tornado`;
+  the 14 dimmer tiles moved to one row in the `Key` box. Backup `Christmas 2026_mcp_1120_0407`, undo group
+  `ladder-layout`, verified from a fresh export. **Waiting on his reaction** to my calls
+  (legs as 5 x 10 snakes, which top line is front, ladder 11 and 22 skipped LEDs parked in grey):
+  `docs/jobs/2026-11-19-ladder-layout/README.md`; a change is a re-run of `ladders.py`.
+- **Done 2026-11-19: groups 608 / 609** (odd and even Tornado yokes), record in
+  `docs/jobs/2026-11-19-tornado-odd-even/`. MAtricks `XGroup` cannot give each interleaved half its own
+  0-360 spread (Aaron tried it; my first answer was wrong): a group with its own grid can.
+
+## Resume here (written 2026-11-19, Thursday night, at `/save`)
+
+Aaron stopped for the day ("lets stop here for today /save"). The show was saved with `ma3_save` at the
+end (it holds groups 608 / 609, the ladder layout and his own evening's programming). The console runs
+alpha.6; alpha.7 is built and tested but only in the onPC library.
+
+1. **First thing next session: his reaction to the ladder layout.** Three guesses are waiting on him
+   (legs as 5 x 10 snakes with LED 1 on top; ladders 12/13 as the rear line; ladder 11 and the 22 skipped
+   LEDs parked in grey). Each fix is a re-run of `docs/jobs/2026-11-19-ladder-layout/ladders.py`. Also not
+   seen by me: how 8 and 9 px cells look on the desk, and whether the two-row grids of 608 / 609 chase per
+   Tornado row.
+2. **alpha.7 to the console** needs the stick and his import (before the 2026-12-08 freeze). Offer a
+   GitHub pre-release only when it has run on the desk; the version number is his call.
+3. **Live-state reads still to build:** `docs/research/2026-11-19-live-state-bench.md`. Two plugin bugs
+   to fix on the way (`ma3_children` on programmer objects; `ma3_groups` returns `sf####` on the console:
+   the ladder job mapped sub-fixtures to FIDs through `ma3_fixtures` instead).
+
+## Earlier resume list (written 2026-11-14, Saturday, before a compact)
 
 **Confirmed 2026-11-14 with one `ma3_status` (through `tools/mcp_call.py`; the session's `ma3`
 connector was refusing connections):** the console runs plugin **0.2.0-alpha.6**, Lua off, show
@@ -44,7 +148,12 @@ connector was refusing connections):** the console runs plugin **0.2.0-alpha.6**
 
 Aaron's list after the compact, in his order ("prepare for me to compact, then ..."):
 
-1. **Make sure the fixes for the console crash are in place.** Check without touching unknown
+1. **DONE 2026-11-19 (Thursday, Aaron at the desk):** `ma3_status` = alpha.6, Console, Lua off,
+   `Christmas 2026`. Refused live: `Lua`, `Lu`, `Plugin "MA3 MCP" "quarantine"`, unquoted `$foo`,
+   `Echo ...; Lua ...` (chained), `List StationSettings` ([console-guard]). Deliberately NOT sent to
+   the desk: `Reboot`, `R`, `ma3_object "Root 19"` (a guard failure there would reboot the desk or
+   read the suspect branch); covered by `make test` (3,352 pass, `test/guard_test.lua`). Original note:
+   **Make sure the fixes for the console crash are in place.** Check without touching unknown
    objects: `ma3_status` (version, Lua off); a refused command never reaches the console, so
    `ma3_command "Reboot"`, `"R"`, `'Plugin "MA3 MCP" "lua on"'` and `ma3_object "Root 19"` should
    each come back refused; `Plugin "MA3 MCP" "quarantine"` at the desk lists the quarantine.
@@ -73,8 +182,11 @@ house LTC over Dante goes through Aaron's own SMPTE to MIDI app (`../SMPTE <-> M
 MTC / Art-Net toggles so the console itself can chase it (`docs/research/2026-11-14-ltc-plugin-feasibility.md`:
 a plugin cannot do it). Next on that: bench Art-Net timecode into onPC, then the console with his go.
 
-Still open (re-lead each reply until answered): crash-log commands at the desk (`ListCrashLog`,
-`CopyCrashLog If Drive 2`, `DumpLog`); whether OSC "Receive Command" is on; how `Christmas 2026`
+2026-11-19: `ListCrashLog` at the desk said "no crash log files found" (a freeze leaves none);
+Aaron moved on ("Lets move on from this"). OSC: Aaron says input is enabled; per-line Receive
+Command not yet checked (he moved on; raise again only when the SendOSC gap is worked on).
+
+Still open (re-lead each reply until answered): whether OSC "Receive Command" is on per line; how `Christmas 2026`
 was made; the roadmap's six decisions; the Cue Display timecode check. Not known: whether the MA3
 stick still holds alpha.5 (it must not be imported).
 
@@ -220,6 +332,8 @@ Job records:
 | `docs/jobs/2026-11-05-ladder-group/` | Group 706 `Ladder LEDs`: all 600 ladder LEDs, one ladder per selection-grid row. |
 | `docs/jobs/2026-11-05-q40-layout/` | Q40 block in Layout 1: old show's look, today's rig arrangement from patch positions (`q40.py`). |
 | `docs/jobs/2026-11-05-song-timecodes/` | One timecode show per song (PCO 1-13, Christmas 54-68) with a track on the song sequence; proven Timecode syntax. |
+| `docs/jobs/2026-11-19-tornado-odd-even/` | Groups 608 `Yoke Sections Odd` / 609 `Yoke Sections Even`: every other yoke of 606 on a two-row grid, for opposing tilt chases; why MAtricks XGroup does not do it. |
+| `docs/jobs/2026-11-19-ladder-layout/` | Ladder LEDs (650 pixels on the platform) drawn in Layout 1 from his place groups; dimmer tiles moved to the `Key` box (`ladders.py`). |
 | `docs/jobs/2026-11-08-dimmer-curves/` | Two DMX curves and 11 dimmer assignments lost between show files, restored from the old file; where MA keeps curves, the Parameter List quirk, proven Patch-window command syntax, the stick-import open item. |
 
 ## Running a job

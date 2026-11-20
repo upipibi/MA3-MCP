@@ -90,6 +90,8 @@ selection grid.
 
 - Element creation by `Assign Fixture ... At Layout`, `Store Layout n.m`; position and size by
   `Set Layout ... Property` in one undo group; read-back with `ma3_children` / `ma3_object` [C].
+- A box label outside its box: `Set Layout 1.<n> Property "CustomTextAlignmentV" "Above"`; `CustomTextAlignmentH
+  "Left"`; element sizes of 8 and 9 are accepted (2026-11-19, ladder job) [C].
 
 ## To bench on onPC
 

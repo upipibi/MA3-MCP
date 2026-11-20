@@ -144,7 +144,9 @@ Six programs run in parallel at different weights. Phases (section 5) say what o
 
 ### 4.2 Live state: read what the desk is doing
 
-Tools, in order of value to Aaron's actual work:
+Tools, in order of value to Aaron's actual work. Built in alpha.7 (2026-11-19, not on the console yet):
+`ma3_playbacks`, `ma3_universes`, `ma3_ports`. The order for the rest and what each needs proven:
+`docs/research/2026-11-19-live-state-bench.md`.
 
 - `ma3_playbacks`: every running sequence with current cue, next cue, fade progress and timing
   state, speed and rate masters, from `Root().Temp.RunningSequences` or the executors.
@@ -268,7 +270,9 @@ on the bench; writes and plugin updates wait for the freeze to lift.
 | Can a plugin start itself on show load on a console? | MA docs say no supported hook | Re-check each release; `Startshow Import` plugin in the pool hints at a mechanism |
 | Does the console resolve keyword shortcuts as the help documents (`R` = Reboot, `Lu` = Lua)? | Help keyword pages (2026-11-08); alpha.6 refuses by that table | `GetTokenName()` on onPC for every refused keyword's shortcut; then use it as a second check |
 | Does a `Plugin` command sent through `Cmd` re-enter the plugin's `Main` synchronously? | alpha.6 assumes yes (refuses arguments while a request runs) and also refuses commands naming the plugin | onPC bench with a harmless argument (`status`) |
-| Is there a crash log or system monitor dump from the 2026-11-08 freeze? | Not checked | Aaron at the desk with the stick in: `ListCrashLog`, `CopyCrashLog If Drive 2`, `DumpLog` (not through the plugin) |
+| Is there a crash log or system monitor dump from the 2026-11-08 freeze? | 2026-11-19: `ListCrashLog` at the desk said "no crash log files found" (a freeze leaves none) | Closed by Aaron ("Lets move on from this"); the object that hung is found on the onPC bench or not at all |
+| What feeds the console's DMX port G (an input on universe 7)? | Found 2026-11-19 as the cause of ladders 7 and 8 lighting by themselves; Aaron moved them to universe 11 | Ask only if universe 7 is needed again; `ma3_ports` warns about it |
+| Which API functions read live DMX output, the programmer and network DMX from a plugin? | Object tree is empty for `Output`, `DMXRoot`, `PlaybackTable` (2026-11-19) | Bench list in `docs/research/2026-11-19-live-state-bench.md`; needs Lua on at a bench |
 
 ### 7.2 Facts promoted this period
 
@@ -303,3 +307,4 @@ to "measured" and when. (Empty until phase 1.)
 | 2026-11-07 | First draft from Aaron's brief ("reach the heart of the console"). |
 | 2026-11-08 | After the console froze from a census read during a service: exploration moved to onPC only (banner, rules, risks). Atlas work started offline: whole help downloaded and itemized, `docs/atlas/CHECKLIST.md` (7,533 items, 168 ticked). Fast multi-show analysis researched: `docs/research/2026-11-08-fast-show-analysis.md`. |
 | 2026-11-08 (evening) | Atlas phase 1 offline work done: every chapter of the help studied into topic pages (`docs/atlas/topics/`, entry skill `ma3-console`); generated keyword index; checklist now counts the topic pages (2,204 named, 441 ticked). The study found five holes in the unreleased alpha.6 guard (keyword shortcuts, station/session/login commands, unquoted `(` and `$`, object keywords outside show data, the plugin's own arguments through `ma3_command`); all fixed and tested. Unknowns ledger updated. |
+| 2026-11-19 | Live state started: `ma3_playbacks`, `ma3_universes`, `ma3_ports` built in alpha.7 (section 4.2); ledger: crash-log question closed, port G and the live-output API questions added. |
