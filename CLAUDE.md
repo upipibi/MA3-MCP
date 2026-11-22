@@ -50,10 +50,12 @@ this later." The show was saved with `ma3_save` at the end; it holds everything 
    build.py` or the cue itself, through onPC as `MCP`, and verify with `build.py verify`. Whatever he
    corrects is a lesson for `docs/PROGRAMMING-STYLE.md`.
 2. **Stations:** alpha.8 on the console (Lua off) and on onPC (Lua on, user `MCP`, view `MCP`, in the
-   console's session). **The source is one step ahead of the loaded alpha.8:** at this `/save` the
-   security review added one hardening (`Geometry` is refused anywhere in an address, not only as the
-   first word; 3,648 tests). It is not in onPC's library and not on a station. The next build needs a
-   new number from Aaron (alpha.9) before it is installed, so two different builds never share one. onPC through `python3 tools/onpc_call.py`, the console through the `ma3`
+   console's session). **alpha.9 is released on GitHub (2026-11-22, Aaron: "go ahead and release it as
+   alpha.9") and is not on a station:** it is alpha.8 plus one hardening (`Geometry` is refused
+   anywhere in an address, not only as the first word; 3,648 tests). The zip is
+   `dist/MA3-MCP-0.2.0-alpha.9.zip`. It was a Sunday morning, so nothing was copied to onPC's library
+   (`make install-onpc` when he wants it there) and nothing was sent to the console. Stations move to
+   alpha.9 only by his import. onPC through `python3 tools/onpc_call.py`, the console through the `ma3`
    connector or `python3 tools/mcp_call.py`. A session started before the import lists old tools on
    its connector until the window is reloaded. If onPC's plugin ever stops answering, end onPC at
    once (`pkill -KILL -f "grandMA3 onPC"`): a stalled station loads the console's session.
@@ -61,12 +63,12 @@ this later." The show was saved with `ma3_save` at the end; it holds everything 
    reads; programmer values per channel (`GetProgPhaserValue`); reading sheet cells (`Grid*`); the
    Command Line History text; the item-by-item sweep against the help checklist.
 4. **Open with Aaron:** whether flow control dropped after onPC was killed (asked three times,
-   unanswered: ask once more, then drop it); ladder layout tweaks ("a later issue", his to raise); the
-   number for the next build (alpha.9 suggested, unanswered); the MCP playground beyond the one view
-   (layouts, appearances). **Closed:** a GitHub pre-release of alpha.8: "nah, we just keep it local
-   for now" (2026-11-21). Do not offer a release again until he raises it.
+   unanswered: ask once more, then drop it); ladder layout tweaks ("a later issue", his to raise); the MCP playground beyond the one view
+   (layouts, appearances). **Closed:** the GitHub pre-release: declined 2026-11-21 ("we just keep it local
+   for now"), then asked for the next morning; alpha.9 is published as a pre-release. The next
+   release is again his to raise, with his number.
 6. **Written just before a compact (2026-11-21, 23:00). What a fresh context must not get wrong:**
-   - Checkpoint `28de36f` is pushed; this note is one local commit ahead of it.
+   - Everything is pushed as of the alpha.9 release commit (2026-11-22).
    - Jobs and exploring reads go through onPC as `MCP` (`python3 tools/onpc_call.py <tool> '<json>'`);
      undo groups of those jobs are in the MCP user's Oops list, so "undo" is mine to send, by group
      name (`nov29-10` .. `nov29-13`, `nov29-12-fix`, `dimmer-rows`, `mcp-view`, `mcp-user`).
@@ -466,7 +468,7 @@ behave in a way that allows it to crash the console". Rules: "Console safety" ab
 
 | Thing | State |
 | --- | --- |
-| Plugin on the console | **0.2.0-alpha.8 since 2026-11-21** (console and onPC; alpha.7 ran for an hour before it), imported by Aaron on onPC, Lua off on the console (confirmed by `ma3_status`). Not on GitHub yet; the newest release there is alpha.4. |
+| Plugin on the console | **0.2.0-alpha.8 since 2026-11-21** (console and onPC; alpha.7 ran for an hour before it), imported by Aaron on onPC, Lua off on the console (confirmed by `ma3_status`). GitHub: 0.2.0-alpha.9 is the newest pre-release (2026-11-22; alpha.8 plus one hardening, not on a station). |
 | Cue Display plugin (`../MA3 Cue Display/`) | Fixed and re-imported as `Plugin 38`, verified; released as 2.0.1 (the console copy still reports 2.0.0 until the next import). Details in that project's CLAUDE.md. |
 | Stage model | Imported from Capture as MVR; Aaron switched its 3D selection off himself. |
 | Portman layout | 90 elements + box in Layout 1. Aaron re-arranged them (master with two hexes stacked below); scaled to 45 x 45 to fit the default 1920 x 1080 area. |
@@ -475,7 +477,7 @@ behave in a way that allows it to crash the console". Rules: "Console safety" ab
 | Group 706 `Ladder LEDs` | All 600 ladder LEDs, one ladder per selection-grid row. Aaron confirmed the number and that the `Test` set stays out. |
 | Tornado XYZ | Closed: not possible for a five-head bar as one fixture, and Aaron dropped it (2026-11-05). |
 | Tornado rings and yokes in Layout 1 | Ring masters with 960 ring sections as tiny rings, yoke masters with 120 yoke sections as cells, each in a column hanging below its master, rows 200 apart (Aaron's own re-spacing of the rings set that pattern). Verified. |
-| Release | 0.2.0-alpha.4 published on GitHub as a pre-release (the build that runs on the console). |
+| Release | 0.2.0-alpha.9 published on GitHub as a pre-release (2026-11-22). The stations run alpha.8. `make release` writes `dist/MA3-MCP-<version>.zip`; bump `M.VERSION` in `src/main.lua` and `Version` in `plugin/MA3 MCP.xml` (0.2.0.N) together. |
 | Timecode pool | 28 shows, one per song, same number and name as the song sequence (1-13, 54-68), each with one track targeting the song. No events yet. |
 | Cue Display grid view (timecode + fades) | 2.1.0 runs on the console (after a bundler fix) and is on GitHub as a pre-release; timecode rolling and a running song still to be checked on Sunday 2026-11-08. |
 

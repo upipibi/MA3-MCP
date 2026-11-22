@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.2.0-alpha.9 (2026-11-22)
+
+- **`Geometry` is refused anywhere in an address**, not only as its first word, and in the shortened
+  forms a console accepts (three letters or more). alpha.8 refused it only at the start. Found by the
+  security review of alpha.8. This is the one change since alpha.8; alpha.8 is the build that has
+  run on a grandMA3 light and on onPC, alpha.9 has run in the tests only (3,648 on Lua 5.5 and 5.4).
+
+## 0.2.0-alpha.8 (2026-11-21): the freeze of 2026-11-08 is found and closed
+
+The call that froze the console during a service is found, reproduced on onPC:
+`ma3_object {"address": "Geometry "}`. A fixture type's geometry collection reports that bare keyword
+as its own address, and resolving it never returns. Record:
+`docs/research/2026-11-21-freeze-found-and-stress.md`.
+
+- **The address is refused** on every host with `[unsafe-address]`, before the console is asked.
+- **`ma3_children` never hands out an address it cannot vouch for.** A child whose reported address
+  does not start with a proven keyword gets its path below the parent (`FixtureType 1.5`); the
+  reported one is kept as `reported_address`. A child that is not an object is listed as
+  `not_an_object` and no longer fails the whole call.
+- **On a console, an address must start with a keyword proven on onPC** (the 58 keywords of the
+  completed onPC census, plus the ones the bulk tools use). Anything else is refused with
+  `[console-guard]`.
+- Proven on onPC with the fix in: a full walk of the object tree, 2,099 calls and 629 classes, no
+  hang. Console load test of the proven reads: 240 reads at 6 a second, median 12 ms, longest 36 ms.
+
+## 0.2.0-alpha.7 (2026-11-21): live state
+
+Why: a thing the plugin cannot read sends the operator to the desk to look. These reads close the
+most basic of those gaps. The ledger of what is still missing: `docs/GAPS.md`.
+
+- `ma3_playbacks`: every sequence running now, its current cue, fade and executors.
+- `ma3_universes`: per DMX universe, fixtures patched, physical ports mapped in or out, parked
+  channels and tester values, with warnings (an input port on a universe that has fixtures).
+- `ma3_ports`: each station's physical DMX ports. Readable by this tool only; no address reaches the
+  device configuration, so `ma3_set` cannot write port settings.
+- `ma3_programmer`: every user's programmer and selection, empty or not, and on request the values.
+  `plugin.programmer_empty` tells a job whether a `Store` would take the operator's values.
+- `ma3_masters`: the level of every master (selected, grand, speed, playback, timing).
+- `ma3_user`, `ma3_selection`, `ma3_dmx`, `ma3_values`: who the plugin works as, the selected
+  fixtures in order, what a universe carries right now, and one fixture's attributes. They use the
+  Lua API instead of the object tree; on a console they ask for `console_ok` on the call.
+- Fixed: `ma3_groups` returned members as `sf1666` instead of fixture IDs.
+- Known issue: `ma3_lua` answers HTTP 500 when the returned table mixes number and text keys.
+
 ## 0.2.0-alpha.6 (2026-11-08): console guard
 
 Why: on 2026-11-08, during a Sunday service, a client script walked the console's whole object

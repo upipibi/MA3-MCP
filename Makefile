@@ -36,7 +36,7 @@ install-onpc: build
 
 VERSION := $(shell sed -n 's/^M.VERSION = "\(.*\)"/\1/p' src/main.lua)
 release: build
-	@rm -f dist/avl-ma3-mcp-*.zip
+	@rm -f "dist/MA3-MCP-$(VERSION).zip"
 	@mkdir -p dist/stage && cp "dist/MA3 MCP.lua" "dist/MA3 MCP.xml" docs/CONVENTIONS.md docs/INSTALL-CONSOLE.md dist/stage/
-	@cd dist/stage && zip -q "../avl-ma3-mcp-$(VERSION).zip" "MA3 MCP.lua" "MA3 MCP.xml" CONVENTIONS.md INSTALL-CONSOLE.md
-	@rm -rf dist/stage && ls -1 dist/avl-ma3-mcp-*.zip
+	@cd dist/stage && zip -q "../MA3-MCP-$(VERSION).zip" "MA3 MCP.lua" "MA3 MCP.xml" CONVENTIONS.md INSTALL-CONSOLE.md
+	@rm -rf dist/stage && ls -1 "dist/MA3-MCP-$(VERSION).zip"

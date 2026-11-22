@@ -67,7 +67,7 @@ brew install lua lua@5.4 luarocks && luarocks install luasocket && luarocks --lu
 make test            # unit tests on Lua 5.5 (the console's version); make test LUAV=5.4 for 5.4
 make build           # dist/MA3 MCP.lua + dist/MA3 MCP.xml
 make install-onpc    # copies into the local grandMA3 onPC 2.5.1 library and plugin folders
-make release         # dist/avl-ma3-mcp-<version>.zip
+make release         # dist/MA3-MCP-<version>.zip
 ```
 
 ## Project structure
