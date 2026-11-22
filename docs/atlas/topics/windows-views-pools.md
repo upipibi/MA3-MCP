@@ -85,6 +85,14 @@ A big red lock on a pool object is not a lock: another user is editing it (objec
 - 2.4 fixed: Exchange on executors bigger than 1 x 1 addressed the wrong executor; swiping Pages in a
   2D phaser encoder bar could crash [D].
 
+## Proven on onPC 2026-11-21 (the MCP user's own screens) [O]
+
+- `Store ScreenContent 1 "WindowPluginPool" "X"="0" "Y"="0" "W"="22" "H"="8"` makes a window; grid
+  cells are 50 px; `Set ScreenContent 1.1 "W" "22"` resizes; window class names are the children of
+  `ShowData().WindowTypes` (85). `Delete View 1 Thru 12`, `Store View 1 "MCP" /Screen "1"` and
+  `Assign View 1 At ViewButton 1.1` act on the logged-in user's profile only. Record:
+  `docs/jobs/2026-11-21-mcp-view.md`.
+
 ## Plugin access today, and gaps
 
 - No tool reads screens or views; the view pool sits in the user profile (`ShowData > UserProfiles`),

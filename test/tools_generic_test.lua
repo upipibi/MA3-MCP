@@ -250,3 +250,37 @@ h.describe("ma3_command refuses Thru, + or * on Page and Executor addresses", fu
   h.truthy(tools.ma3_command.handler({ command = "Assign Sequence 12 At Page 3.201" }, ctx), "single executor fine")
   h.truthy(tools.ma3_command.handler({ command = "Delete Sequence 1 Thru 3" }, ctx), "ranges elsewhere fine")
 end)
+
+-- Children whose own address does not lead back to them (the geometry collection of a fixture type
+-- reports "Geometry "): the row carries the path below the parent instead, so a walk never sends
+-- the dangerous address.
+h.describe("ma3_children gives a path address to a child whose reported address is not safe to resolve", function()
+  local fake_console = require("fake_console")
+  local t = fake_console.default_tree()
+  local ft = t.children[1].children[2].children[2].children[1]     -- FixtureType 3 in the default tree
+  h.eq(ft.addr, "FixtureType 3")
+  ft.children = { { class = "DMXModes", addr = "FixtureType 3.1", name = "DMXModes" }, { class = "Geometries", addr = "Geometry ", name = "Geometries" },
+    { class = "Wheels", addr = "Wheel ", name = "Wheels" } }
+  local fake = fake_console.new(t)
+  local c2 = require("console").new(fake.api)
+  local tools2 = {}
+  require("tools.generic").register(tools2, c2, { budget_ms = 10000 })
+  local r = tools2.ma3_children.handler({ address = "FixtureType 3" }, { budget_ms = 10000 })
+  h.eq(r.children[1].address, "FixtureType 3.1")
+  h.eq(r.children[2].class, "Geometries"); h.eq(r.children[2].address, "FixtureType 3.2"); h.eq(r.children[2].reported_address, "Geometry ")
+  h.eq(r.children[3].address, "FixtureType 3.3"); h.eq(r.children[3].reported_address, "Wheel ")
+end)
+
+h.describe("ma3_children lists a child that is not an object instead of failing", function()
+  local fake_console = require("fake_console")
+  local fake = fake_console.new()
+  local s = fake.by_addr["Sequence 12"]
+  s.kids[1].GetClass = nil; rawset(s.kids[1], "class", nil)
+  setmetatable(s.kids[1], { __index = function(_, k) if k == "GetClass" then return nil end return nil end })
+  local c2 = require("console").new(fake.api)
+  local tools2 = {}
+  require("tools.generic").register(tools2, c2, { budget_ms = 10000 })
+  local r, err = tools2.ma3_children.handler({ address = "Sequence 12" }, { budget_ms = 10000 })
+  h.eq(err, nil); h.eq(r.children[1].not_an_object, true); h.eq(r.children[1].index, 1)
+  h.truthy(r.children[2].class)
+end)

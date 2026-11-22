@@ -59,6 +59,13 @@ Evidence marks: **[D]** MA help · **[M]** MA's shipped Lua · **[O]** onPC · *
   current locks to the Command Line History.
 - A plugin write to an object Aaron is editing would meet this lock [?: what the plugin sees].
 
+## Answered 2026-11-21: the plugin is its own user, on onPC
+
+- `User 9` `MCP` on `UserProfile 7` `MCP`, onPC on this Mac logged in as it inside the console's
+  session. Commands from onPC's plugin change the console's show and run on MCP's own command line,
+  programmer, selection and Oops list [O for the station, C for the show data read back on the
+  console]. Syntax and record: `docs/GAPS.md`, "The MCP user".
+
 ## Aaron's question: can the plugin be its own user? (2026-11-05, now partly answered)
 
 - What a user profile separates is exactly what Aaron wants kept apart: programmer, selection,

@@ -4,7 +4,11 @@ local M = {}
 M.__index = M
 
 local NAMES = { "ObjectList", "Cmd", "CmdIndirect", "CreateUndo", "CloseUndo", "Root", "DataPool", "ShowData",
-  "Patch", "Version", "HostType", "GetPath", "Echo", "Printf", "DirList", "Enums", "GetSubfixtureCount" }
+  "Patch", "Version", "HostType", "GetPath", "Echo", "Printf", "DirList", "Enums", "GetSubfixtureCount", "GetSubfixture",
+  -- live state (benched on onPC 2026-11-21; tools/live.lua refuses them on a console until proven there)
+  "SelectionFirst", "SelectionNext", "SelectionCount", "GetDMXUniverse", "GetDMXValue", "GetRTChannels", "GetRTChannel",
+  "GetAttributeByUIChannel", "CurrentUser", "CurrentProfile", "CurrentEnvironment", "CurrentExecPage", "SelectedSequence",
+  "SelectedLayout", "SelectedTimecode", "NeedShowSave" }
 
 function M.new(api)
   local self = setmetatable({}, M)
@@ -162,9 +166,24 @@ function M.properties(handle, with_schema)
   return props, schema
 end
 
-function M.child_summary(handle, index)
-  local no = M.get(handle, "NO")
-  return { index = index, class = handle:GetClass(), name = handle.name, no = no, address = handle:ToAddr() }
+-- parent_addr: the parent's own address. A child whose reported address is not safe to resolve
+-- again (a hang keyword, or a keyword nobody has proven) gets its path below the parent instead,
+-- and the reported one is kept as reported_address. Some children are not objects at all
+-- (slot 5 of a user environment has no GetClass): they are listed as such.
+function M.child_summary(handle, index, parent_addr)
+  local okc, cls = pcall(function() return handle:GetClass() end)
+  if not okc then return { index = index, not_an_object = true } end
+  local oka, address = pcall(function() return handle:ToAddr() end)
+  local row = { index = index, class = cls, name = handle.name, no = M.get(handle, "NO"), address = oka and address or nil }
+  local addr = require("addr")
+  if row.address and parent_addr and not addr.proven(row.address) then
+    local p = tostring(parent_addr):gsub("%s+$", "")
+    if addr.proven(p) and p:find("%d") then
+      row.reported_address = row.address
+      row.address = p .. "." .. index
+    end
+  end
+  return row
 end
 
 return M

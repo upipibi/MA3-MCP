@@ -1,0 +1,471 @@
+{
+ "tiles": [
+  {
+   "element": 217,
+   "from": [
+    340,
+    330
+   ],
+   "to": [
+    340,
+    390
+   ]
+  },
+  {
+   "element": 218,
+   "from": [
+    490,
+    430
+   ],
+   "to": [
+    490,
+    460
+   ]
+  },
+  {
+   "element": 219,
+   "from": [
+    640,
+    330
+   ],
+   "to": [
+    640,
+    390
+   ]
+  },
+  {
+   "element": 220,
+   "from": [
+    740,
+    330
+   ],
+   "to": [
+    740,
+    390
+   ]
+  },
+  {
+   "element": 221,
+   "from": [
+    540,
+    330
+   ],
+   "to": [
+    540,
+    390
+   ]
+  },
+  {
+   "element": 222,
+   "from": [
+    690,
+    430
+   ],
+   "to": [
+    690,
+    460
+   ]
+  },
+  {
+   "element": 223,
+   "from": [
+    590,
+    430
+   ],
+   "to": [
+    590,
+    460
+   ]
+  },
+  {
+   "element": 224,
+   "from": [
+    390,
+    430
+   ],
+   "to": [
+    390,
+    460
+   ]
+  },
+  {
+   "element": 225,
+   "from": [
+    440,
+    330
+   ],
+   "to": [
+    440,
+    390
+   ]
+  },
+  {
+   "element": 1459,
+   "from": [
+    400,
+    200
+   ],
+   "to": [
+    400,
+    140
+   ]
+  },
+  {
+   "element": 1460,
+   "from": [
+    700,
+    200
+   ],
+   "to": [
+    700,
+    140
+   ]
+  },
+  {
+   "element": 1461,
+   "from": [
+    800,
+    100
+   ],
+   "to": [
+    800,
+    70
+   ]
+  },
+  {
+   "element": 1462,
+   "from": [
+    700,
+    100
+   ],
+   "to": [
+    700,
+    70
+   ]
+  },
+  {
+   "element": 1463,
+   "from": [
+    300,
+    100
+   ],
+   "to": [
+    300,
+    70
+   ]
+  },
+  {
+   "element": 1464,
+   "from": [
+    400,
+    100
+   ],
+   "to": [
+    400,
+    70
+   ]
+  },
+  {
+   "element": 1465,
+   "from": [
+    600,
+    100
+   ],
+   "to": [
+    600,
+    70
+   ]
+  },
+  {
+   "element": 1466,
+   "from": [
+    500,
+    100
+   ],
+   "to": [
+    500,
+    70
+   ]
+  },
+  {
+   "element": 1467,
+   "from": [
+    500,
+    200
+   ],
+   "to": [
+    500,
+    140
+   ]
+  },
+  {
+   "element": 1468,
+   "from": [
+    600,
+    200
+   ],
+   "to": [
+    600,
+    140
+   ]
+  },
+  {
+   "element": 1449,
+   "from": [
+    510,
+    -470
+   ],
+   "to": [
+    365,
+    230
+   ]
+  },
+  {
+   "element": 1445,
+   "from": [
+    560,
+    -470
+   ],
+   "to": [
+    415,
+    230
+   ]
+  },
+  {
+   "element": 1450,
+   "from": [
+    610,
+    -470
+   ],
+   "to": [
+    465,
+    230
+   ]
+  },
+  {
+   "element": 1446,
+   "from": [
+    660,
+    -470
+   ],
+   "to": [
+    515,
+    230
+   ]
+  },
+  {
+   "element": 1451,
+   "from": [
+    710,
+    -470
+   ],
+   "to": [
+    565,
+    230
+   ]
+  },
+  {
+   "element": 1447,
+   "from": [
+    760,
+    -470
+   ],
+   "to": [
+    615,
+    230
+   ]
+  },
+  {
+   "element": 1452,
+   "from": [
+    810,
+    -470
+   ],
+   "to": [
+    665,
+    230
+   ]
+  },
+  {
+   "element": 1448,
+   "from": [
+    860,
+    -470
+   ],
+   "to": [
+    715,
+    230
+   ]
+  },
+  {
+   "element": 1453,
+   "from": [
+    210,
+    -470
+   ],
+   "to": [
+    425,
+    300
+   ]
+  },
+  {
+   "element": 1456,
+   "from": [
+    260,
+    -470
+   ],
+   "to": [
+    475,
+    300
+   ]
+  },
+  {
+   "element": 1454,
+   "from": [
+    310,
+    -470
+   ],
+   "to": [
+    525,
+    300
+   ]
+  },
+  {
+   "element": 1457,
+   "from": [
+    360,
+    -470
+   ],
+   "to": [
+    575,
+    300
+   ]
+  },
+  {
+   "element": 1455,
+   "from": [
+    410,
+    -470
+   ],
+   "to": [
+    625,
+    300
+   ]
+  },
+  {
+   "element": 1458,
+   "from": [
+    460,
+    -470
+   ],
+   "to": [
+    675,
+    300
+   ]
+  }
+ ],
+ "boxes": [
+  {
+   "element": 198,
+   "from": [
+    180,
+    300,
+    780,
+    240
+   ],
+   "to": [
+    180,
+    380,
+    780,
+    160
+   ]
+  },
+  {
+   "element": 199,
+   "from": [
+    205,
+    -475,
+    710,
+    60
+   ],
+   "to": [
+    180,
+    220,
+    780,
+    160
+   ]
+  },
+  {
+   "element": 1469,
+   "from": [
+    180,
+    60,
+    780,
+    240
+   ],
+   "to": [
+    180,
+    60,
+    780,
+    160
+   ]
+  }
+ ],
+ "commands": [
+  "Set Layout 1.217 Property \"PosY\" 390",
+  "Set Layout 1.218 Property \"PosY\" 460",
+  "Set Layout 1.219 Property \"PosY\" 390",
+  "Set Layout 1.220 Property \"PosY\" 390",
+  "Set Layout 1.221 Property \"PosY\" 390",
+  "Set Layout 1.222 Property \"PosY\" 460",
+  "Set Layout 1.223 Property \"PosY\" 460",
+  "Set Layout 1.224 Property \"PosY\" 460",
+  "Set Layout 1.225 Property \"PosY\" 390",
+  "Set Layout 1.1459 Property \"PosY\" 140",
+  "Set Layout 1.1460 Property \"PosY\" 140",
+  "Set Layout 1.1461 Property \"PosY\" 70",
+  "Set Layout 1.1462 Property \"PosY\" 70",
+  "Set Layout 1.1463 Property \"PosY\" 70",
+  "Set Layout 1.1464 Property \"PosY\" 70",
+  "Set Layout 1.1465 Property \"PosY\" 70",
+  "Set Layout 1.1466 Property \"PosY\" 70",
+  "Set Layout 1.1467 Property \"PosY\" 140",
+  "Set Layout 1.1468 Property \"PosY\" 140",
+  "Set Layout 1.1449 Property \"PosX\" 365",
+  "Set Layout 1.1449 Property \"PosY\" 230",
+  "Set Layout 1.1445 Property \"PosX\" 415",
+  "Set Layout 1.1445 Property \"PosY\" 230",
+  "Set Layout 1.1450 Property \"PosX\" 465",
+  "Set Layout 1.1450 Property \"PosY\" 230",
+  "Set Layout 1.1446 Property \"PosX\" 515",
+  "Set Layout 1.1446 Property \"PosY\" 230",
+  "Set Layout 1.1451 Property \"PosX\" 565",
+  "Set Layout 1.1451 Property \"PosY\" 230",
+  "Set Layout 1.1447 Property \"PosX\" 615",
+  "Set Layout 1.1447 Property \"PosY\" 230",
+  "Set Layout 1.1452 Property \"PosX\" 665",
+  "Set Layout 1.1452 Property \"PosY\" 230",
+  "Set Layout 1.1448 Property \"PosX\" 715",
+  "Set Layout 1.1448 Property \"PosY\" 230",
+  "Set Layout 1.1453 Property \"PosX\" 425",
+  "Set Layout 1.1453 Property \"PosY\" 300",
+  "Set Layout 1.1456 Property \"PosX\" 475",
+  "Set Layout 1.1456 Property \"PosY\" 300",
+  "Set Layout 1.1454 Property \"PosX\" 525",
+  "Set Layout 1.1454 Property \"PosY\" 300",
+  "Set Layout 1.1457 Property \"PosX\" 575",
+  "Set Layout 1.1457 Property \"PosY\" 300",
+  "Set Layout 1.1455 Property \"PosX\" 625",
+  "Set Layout 1.1455 Property \"PosY\" 300",
+  "Set Layout 1.1458 Property \"PosX\" 675",
+  "Set Layout 1.1458 Property \"PosY\" 300",
+  "Set Layout 1.198 Property \"PosY\" 380",
+  "Set Layout 1.198 Property \"Height\" 160",
+  "Set Layout 1.199 Property \"PosX\" 180",
+  "Set Layout 1.199 Property \"PosY\" 220",
+  "Set Layout 1.199 Property \"Width\" 780",
+  "Set Layout 1.199 Property \"Height\" 160",
+  "Set Layout 1.199 Property \"CustomTextAlignmentV\" \"Top\"",
+  "Set Layout 1.1469 Property \"Height\" 160"
+ ]
+}

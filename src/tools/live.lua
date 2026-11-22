@@ -50,7 +50,30 @@ end
 
 local PORT_LETTERS = { "A", "B", "C", "D", "E", "F", "G", "H" }
 
-function M.register(tools, c, ctx)
+-- A programmer part that holds nothing reports this MEMORYFOOTPRINT (2.5.1.1; read on onPC
+-- 2026-11-21 on profiles 1, 2 and 5, Normal environment). Bigger means it holds values.
+M.EMPTY_PART_BYTES = 297
+-- Where the programmer sits below a user profile (same read): UserProfile > slot 1 Environments >
+-- UserEnvironment (Normal, Preview) > slot ACTIVESELINDEX Selection, slot 3 Programmer > ProgPart.
+-- Slot 5 of an environment is not an object on 2.5.1.1 (GetClass is nil): fixed slots, never a walk.
+local ENVIRONMENTS_SLOT, PROGRAMMER_SLOT = 1, 3
+
+local function class_is(h, class)
+  if not h then return false end
+  local ok, cls = pcall(function() return h:GetClass() end)
+  return ok and cls == class
+end
+
+function M.register(tools, c, ctx, deps)
+  deps = deps or {}
+  -- Read-only branches no address can reach (guard.READ_RULES): ask the guard per object.
+  local function may_read(h)
+    if not c.guard then return true end
+    local ok, why = c.guard:allow_handle(h, true)
+    if not ok then return false, why end
+    c.guard:target(h)
+    return true
+  end
   tools.ma3_playbacks = {
     description = "What is running right now: every sequence with an active playback as {no, name, address, priority, cue (as the console shows it, 12.2 not 12200), cue_name, cue_address, trigger, in_fade, in_delay, executors=[{page, executor, page_name, label}] (every place it is assigned; executors:false skips that page walk)}. running = how many. unreadable lists sequences the console would not answer for. Live state changes between calls: read again before acting on it. Read-only.",
     inputSchema = { type = "object", properties = { executors = { type = "boolean" } } },
@@ -165,6 +188,264 @@ function M.register(tools, c, ctx)
         end
       end
       return { stations = stations, warnings = warnings }
+    end,
+  }
+
+  local function command_lines()
+    local temp = child_of_class(c:root(), "Temp")
+    local pool = temp and child_of_class(temp, "Cmdlines")
+    local out = {}
+    if pool then
+      for _, cl in ipairs(pool:Children()) do
+        out[#out + 1] = { name = name_of(cl), user = prop(cl, "USER"), profile = prop(cl, "PROFILE") }
+      end
+    end
+    return out
+  end
+
+  local function export_part(part)
+    local fs = deps.fs
+    if not fs or not fs.read then return nil, "no filesystem access in this build" end
+    local dir, file = c:path("Temp"), "ma3_mcp_programmer.xml"
+    local ok, res = pcall(function() return part:Export(dir, file) end)
+    if not ok or res == false then return nil, "export failed" end
+    for _, cand in ipairs({ dir .. "/" .. file, dir .. "/" .. file .. ".xml" }) do
+      local data = fs.read(cand)
+      if data then return #data > 200000 and data:sub(1, 200000) or data end
+    end
+    return nil, "export reported success but no file appeared"
+  end
+
+  local function environment_row(env, active_name, with_values)
+    local name = name_of(env)
+    local row = { name = name, active = name == active_name }
+    local prog = env:Ptr(PROGRAMMER_SLOT)
+    if class_is(prog, "Programmer") and may_read(prog) then
+      local parts, bytes = {}, 0
+      for _, part in ipairs(prog:Children()) do
+        if class_is(part, "ProgPart") and may_read(part) then
+          local b = num(prop(part, "MEMORYFOOTPRINT")) or 0
+          local p = { part = num(prop(part, "PART")), name = name_of(part), bytes = b }
+          if with_values and b > M.EMPTY_PART_BYTES then p.xml, p.xml_error = export_part(part) end
+          parts[#parts + 1] = p
+          bytes = bytes + b
+        end
+      end
+      row.programmer = { parts = parts, bytes = bytes, empty = bytes <= #parts * M.EMPTY_PART_BYTES }
+    end
+    local sel = env:Ptr(math.floor(num(prop(env, "ACTIVESELINDEX")) or 1))
+    if class_is(sel, "Selection") and may_read(sel) then
+      row.selection = { selected = num(prop(sel, "COUNTTOTALSELECTED")) or 0, fully_selected = num(prop(sel, "COUNTFULLYSELECTED")) or 0,
+        active = prop(sel, "ACTIVE") == true }
+    end
+    return row
+  end
+
+  tools.ma3_programmer = {
+    description = "What every user has in the programmer and the selection right now: profiles=[{profile, name, command_lines, environments=[{name (Normal / Preview), active, programmer={empty, bytes, parts=[{part, name, bytes}]}, selection={selected, fully_selected, active}}]}]. holding_values lists every profile and environment whose programmer is not empty. plugin = the command line this plugin types on, its profile, and programmer_empty: when false, a Store sent through ma3_command would take those values (copy an empty object instead, or wait). {profile:n} reads one profile. {values:true} adds the XML of each part that holds values (fixtures, attributes, values). The programmer belongs to the operator: read again before acting on it. Read-only.",
+    inputSchema = { type = "object", properties = { profile = { type = "integer" }, values = { type = "boolean" } } },
+    handler = function(args)
+      args = args or {}
+      c:start_slice()
+      local sd = c:showdata()
+      local pool = sd and child_of_class(sd, "UserProfiles")
+      if not pool then return nil, "no UserProfiles in this show" end
+      local wanted = args.profile and math.floor(num(args.profile) or 0) or nil
+      local lines = command_lines()
+      local profiles, holding = {}, {}
+      for _, up in ipairs(pool:Children()) do
+        local no = num(prop(up, "NO"))
+        if wanted == nil or no == wanted then
+          local addr = up:ToAddr()
+          local row = { profile = addr, no = no, name = name_of(up), command_lines = {}, environments = {} }
+          for _, cl in ipairs(lines) do if cl.profile == addr then row.command_lines[#row.command_lines + 1] = cl.name end end
+          local envs = up:Ptr(ENVIRONMENTS_SLOT)
+          if class_is(envs, "Environments") then
+            local okE, whyE = may_read(envs)
+            if not okE then return nil, whyE end
+            local active_name = prop(envs, "ACTIVEENVIRONMENT")
+            for _, env in ipairs(envs:Children()) do
+              if class_is(env, "UserEnvironment") and may_read(env) then
+                local e = environment_row(env, active_name, args.values == true)
+                row.environments[#row.environments + 1] = e
+                if e.programmer and not e.programmer.empty then holding[#holding + 1] = addr .. " " .. tostring(e.name) end
+              end
+              c:pace()
+            end
+          end
+          profiles[#profiles + 1] = row
+        end
+      end
+      if wanted and #profiles == 0 then return nil, "user profile not found: " .. tostring(wanted) end
+      local plugin
+      if lines[1] then
+        plugin = { command_line = lines[1].name, user = lines[1].user, profile = lines[1].profile }
+        for _, p in ipairs(profiles) do
+          if p.profile == plugin.profile then
+            for _, e in ipairs(p.environments) do
+              if e.active and e.programmer then plugin.programmer_empty = e.programmer.empty end
+            end
+          end
+        end
+      end
+      return { profiles = profiles, holding_values = holding, plugin = plugin }
+    end,
+  }
+
+  -- Playback masters rest at 100 and timing masters at 0: at rest they are left out unless {all}.
+  local REST = { MasterPoolPlayback = 100, MasterPoolTiming = 0 }
+
+  tools.ma3_masters = {
+    description = "Every master and its level: pools=[{pool (Selected, Grand, Speed, Playback, Timing), address, masters=[{no, name, address, level (percent, the console's NormedValue), fader_enabled}]}], plus grand_master (the level of Grand 'Master'). Playback and timing masters at rest (100 / 0) are left out; {all:true} lists every slot; {pool:'Grand'} reads one pool. Levels move while the operator works: read again before acting. Read-only.",
+    inputSchema = { type = "object", properties = { pool = { type = "string" }, all = { type = "boolean" } } },
+    handler = function(args)
+      args = args or {}
+      c:start_slice()
+      local sd = c:showdata()
+      local root = sd and child_of_class(sd, "Masters")
+      if not root then return nil, "no Masters in this show" end
+      local want = args.pool and tostring(args.pool):lower() or nil
+      local pools, grand_master = {}, nil
+      for _, pool in ipairs(root:Children()) do
+        local pname, pclass = name_of(pool), pool:GetClass()
+        if want == nil or tostring(pname):lower() == want then
+          local row = { pool = pname, address = pool:ToAddr(), masters = {} }
+          for _, m in ipairs(pool:Children()) do
+            local level = num(prop(m, "NORMEDVALUE"))
+            if args.all or REST[pclass] == nil or level ~= REST[pclass] then
+              row.masters[#row.masters + 1] = { no = num(prop(m, "NO")), name = name_of(m), address = m:ToAddr(), level = level,
+                fader_enabled = num(prop(m, "FADERENABLE")) == 1 }
+            end
+            if pclass == "MasterPoolGrand" and name_of(m) == "Master" then grand_master = level end
+            c:pace()
+          end
+          pools[#pools + 1] = row
+        end
+      end
+      if want and #pools == 0 then return nil, "no master pool named " .. tostring(args.pool) end
+      return { pools = pools, grand_master = grand_master }
+    end,
+  }
+
+  -- API reads: functions of the console's Lua API rather than objects, so the guard's class-path
+  -- rules cannot judge them. Benched on onPC 2026-11-21. On a console they are refused until the
+  -- supervised first call there ({console_ok:true}, outside a service); the journal names the call,
+  -- so a stall is quarantined at the next start.
+  local function api_gate(args, tool, ...)
+    for _, fn in ipairs({ ... }) do
+      if type(c.api[fn]) ~= "function" then return nil, "this console build does not offer " .. fn .. "()" end
+    end
+    if c.guard and c.guard.console then
+      if not (args and args.console_ok == true) then
+        return nil, "[console-guard] " .. tool .. " is proven on onPC only; call it through onPC, or pass console_ok for the supervised first call on the console"
+      end
+      c.guard:target("api > " .. tool)
+    end
+    return true
+  end
+  local function addr_of(h) if h == nil then return nil end local ok, a = pcall(function() return h:ToAddr() end) return ok and a or nil end
+  local function call(fn, ...) local ok, v = pcall(c.api[fn], ...) if ok then return v end return nil end
+  local FULL = 16777215   -- channel values are 24 bit
+  local function pct(v) v = num(v) if not v then return nil end return math.floor(v / FULL * 1000 + 0.5) / 10 end
+
+  tools.ma3_selection = {
+    description = "The fixtures selected right now by the user this plugin runs as, in selection order: {selected, fixtures=[{sf_index, fid, cid, name, address}], truncated, user, profile}. {limit} caps the list (default 1000, max 5000). Other users' selections: ma3_programmer gives their counts. The selection moves while the operator works: read again before acting. Read-only.",
+    inputSchema = { type = "object", properties = { limit = { type = "integer" }, console_ok = { type = "boolean" } } },
+    handler = function(args)
+      args = args or {}
+      local ok, why = api_gate(args, "ma3_selection", "SelectionFirst", "SelectionNext", "SelectionCount", "GetSubfixture")
+      if not ok then return nil, why end
+      c:start_slice()
+      local limit = math.min(5000, math.max(1, math.floor(num(args.limit) or 1000)))
+      local rows, i = {}, call("SelectionFirst")
+      local truncated = false
+      while i do
+        if #rows >= limit then truncated = true break end
+        local sf = call("GetSubfixture", i)
+        local row = { sf_index = i }
+        if sf then row.fid = num(prop(sf, "FID")); row.cid = num(prop(sf, "CID")); row.name = name_of(sf); row.address = addr_of(sf) end
+        rows[#rows + 1] = row
+        i = call("SelectionNext", i)
+        c:pace()
+      end
+      return { selected = num(call("SelectionCount")) or #rows, fixtures = rows, truncated = truncated,
+        user = addr_of(call("CurrentUser")), profile = addr_of(call("CurrentProfile")) }
+    end,
+  }
+
+  tools.ma3_dmx = {
+    description = "What one DMX universe carries right now, as this station computes it: {universe, unit (dmx 0-255, or percent with percent:true), nonzero, values=[{address, value}] for every address that is not 0}. {all:true} returns values as the plain list of all 512. An error means the universe is not granted or out of range. For one fixture's attributes use ma3_values. Output moves: read again before acting. Read-only.",
+    inputSchema = { type = "object", required = { "universe" }, properties = { universe = { type = "integer" }, percent = { type = "boolean" }, all = { type = "boolean" }, console_ok = { type = "boolean" } } },
+    handler = function(args)
+      args = args or {}
+      local ok, why = api_gate(args, "ma3_dmx", "GetDMXUniverse")
+      if not ok then return nil, why end
+      local u = num(args.universe)
+      if not u then return nil, "universe is required (1 to 1024)" end
+      u = math.floor(u)
+      local t = call("GetDMXUniverse", u, args.percent == true)
+      if type(t) ~= "table" then return nil, "universe " .. u .. " is not granted or out of range" end
+      local values, nonzero = {}, 0
+      for a = 1, 512 do
+        local v = num(t[a]) or 0
+        if v ~= 0 then nonzero = nonzero + 1 end
+        if args.all then values[a] = v elseif v ~= 0 then values[#values + 1] = { address = a, value = v } end
+      end
+      return { universe = u, unit = args.percent == true and "percent" or "dmx", nonzero = nonzero, values = values }
+    end,
+  }
+
+  tools.ma3_values = {
+    description = "What one fixture is doing right now, per channel: {fixture, name, channels=[{attribute, universe, address (of the coarse channel; virtual:true when the channel has no DMX address), programmed (percent before the masters), value (percent after the masters: what goes out), default (percent), flags (highlight, lowlight, solo, group_master, additive_master when set)}]}. {fixture: FID} or {address:'Fixture 101.2'} for a sub-fixture. It does not say which cue or programmer owns a value. Read-only.",
+    inputSchema = { type = "object", properties = { fixture = { type = "integer" }, address = { type = "string" }, console_ok = { type = "boolean" } } },
+    handler = function(args)
+      args = args or {}
+      local ok, why = api_gate(args, "ma3_values", "GetRTChannels", "GetRTChannel", "GetAttributeByUIChannel")
+      if not ok then return nil, why end
+      local address = args.address or (args.fixture and ("Fixture " .. math.floor(num(args.fixture) or 0)))
+      if not address then return nil, "fixture (FID) or address is required" end
+      c:start_slice()
+      local h, err = c:resolve(address)
+      if not h then return nil, err end
+      local list = call("GetRTChannels", h, false)
+      if type(list) ~= "table" then return nil, "no channels for " .. address end
+      local channels = {}
+      for _, idx in ipairs(list) do
+        local r = call("GetRTChannel", idx)
+        if type(r) == "table" then
+          local attr = r.ui_index_first and call("GetAttributeByUIChannel", r.ui_index_first)
+          local row = { attribute = attr and attr.name or nil, default = pct(r.dmx_default) }
+          local coarse = r.patch and num(r.patch.coarse)
+          if coarse and coarse >= 0 then row.universe = coarse // 512 + 1; row.address = coarse % 512 + 1 else row.virtual = true end
+          local info = r.info or {}
+          row.programmed = pct(info.value_before_master); row.value = pct(info.value_after_master)
+          local flags = {}
+          for _, f in ipairs({ "highlight", "lowlight", "solo", "group_master", "additive_master" }) do
+            if info.flags and num(info.flags[f]) and num(info.flags[f]) ~= 0 then flags[#flags + 1] = f end
+          end
+          row.flags = flags
+          channels[#channels + 1] = row
+        end
+        c:pace()
+      end
+      return { fixture = addr_of(h), name = name_of(h), channels = channels }
+    end,
+  }
+
+  tools.ma3_user = {
+    description = "Who this plugin is working as, and what that user has in hand: {user, user_name, profile, environment (Normal / Preview), page, page_name (the current executor page), selected_sequence, selected_layout, selected_timecode, selection_count, show_needs_save}. Commands sent through ma3_command run as this user, in this user's programmer and selection. Read-only.",
+    inputSchema = { type = "object", properties = { console_ok = { type = "boolean" } } },
+    handler = function(args)
+      local ok, why = api_gate(args, "ma3_user", "CurrentUser", "CurrentProfile")
+      if not ok then return nil, why end
+      local function opt(fn) if type(c.api[fn]) == "function" then return call(fn) end return nil end
+      local user, page, env = call("CurrentUser"), opt("CurrentExecPage"), opt("CurrentEnvironment")
+      local seq = opt("SelectedSequence")
+      return { user = addr_of(user), user_name = user and user.name or nil, profile = addr_of(call("CurrentProfile")),
+        environment = env and env.name or nil, page = addr_of(page), page_name = page and page.name or nil,
+        selected_sequence = addr_of(seq), selected_sequence_name = seq and seq.name or nil,
+        selected_layout = addr_of(opt("SelectedLayout")), selected_timecode = addr_of(opt("SelectedTimecode")),
+        selection_count = num(opt("SelectionCount")), show_needs_save = opt("NeedShowSave") }
     end,
   }
 end

@@ -151,6 +151,17 @@ Known on the console: `USEEXECUTORTIME` [C].
   dimmer is above 0, only the dimmer where it is 0); Tracking or Cue Only; Dimmer Cue Only; shield [D].
 - Jobs never create, edit or delete Aaron's cues (CONVENTIONS); the plugin creates empty song
   sequences only (`Store Sequence n "Title"`) [C].
+- **Copying a cue between sequences, proven on onPC 2026-11-21 (scratch sequence, MCP user)** [O]:
+  `Copy Sequence 1 Cue 6 At Sequence 9990 Cue 4 /CopyCueSource "Status"` copies the whole look
+  (tracked values included: 6,027 value nodes); `"Content"`, which is also what a bare copy does,
+  copies only what the cue itself stores (5,403). Name, trigger and in-fade come along. A cue of his
+  can be empty of values (`Pre Chorus` in Sequence 1 holds none), so a section's look is its status,
+  never its content. No programmer and no output are involved.
+- A status copy holds only what its source sequence had touched by that cue. In a new order, values
+  from an earlier cue track through it: add `/CopyCueDestination "ForceRelease"` (or `"ForceDefault"`)
+  so they are released [O, Sequence 12 on 2026-11-21; exported as `Absolute="Specials:Release"`].
+  Empty cue: `Store Sequence b Cue m` from an empty programmer. Fade: `Set Sequence b Cue m Part 0
+  Property "CueInFade" 2`. Trigger: `Set Sequence b Cue m Property "TrigType" "Follow"` [O].
 - Copy details: Existing Values tracking into Destination = Retain / Replace With Release / Replace
   With Default; buttons Copy / Overwrite / Merge / Cancel [D]. Ranges: `Copy Cue 1 Thru 4 At Cue 11`
   keeps gaps (1,2,4 -> 11,12,14) unless a cue is in the way (then 11, 11.1, 11.3, fewest decimals);

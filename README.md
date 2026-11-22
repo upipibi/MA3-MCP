@@ -12,7 +12,7 @@ A grandMA3 Lua plugin that turns the console into an MCP server, so an AI model 
 - Full read access to the showfile: any object by address, its properties, its children, a text dump.
 - Fast bulk reads for housekeeping: the patch as a tree with every multi-instance fixture's instances, groups with their members, sequences with cue counts and every page/executor they sit on, pages with executor assignments, presets, macros.
 - Writes through the console's own command line (`ma3_command`, or a whole list per request with `ma3_commands`) and property sets (`ma3_set`), with undo groups so one Oops reverts a whole job.
-- Live state (since alpha.7): `ma3_playbacks` (every sequence running right now, with its current cue, fade and the executors it sits on), `ma3_universes` (per DMX universe: fixtures patched, input and output ports, parked channels, tester values, with warnings) and `ma3_ports` (each station's physical DMX ports; flags an input port on a universe that has fixtures).
+- Live state (since alpha.7): `ma3_playbacks` (every sequence running right now, with its current cue, fade and the executors it sits on), `ma3_universes` (per DMX universe: fixtures patched, input and output ports, parked channels, tester values, with warnings) and `ma3_ports` (each station's physical DMX ports; flags an input port on a universe that has fixtures). `ma3_programmer` reads every user's programmer and selection (empty or not, and on request the values), so a job can tell whether a Store would take the operator's values. `ma3_masters` reads the level of every master (grand, speed, playback, timing). Since alpha.8: `ma3_user` (who the plugin works as, and that user's page and selected sequence), `ma3_selection` (the selected fixtures in order), `ma3_dmx` (what a universe carries right now) and `ma3_values` (one fixture's attributes before and after the masters); on a console these four need `console_ok` for a supervised first call.
 - Deep reads: `ma3_cue_timing` (fades and delays per cue), `ma3_timecode` (tracks and events), `ma3_history` (last command and response, undo list), `ma3_export` (an object's XML, the only way to see the values inside cues). Bulk reads take filters (`from`/`to`/`name` on sequences, `page` on pages, `summary` on fixtures).
 - Backup save before destructive jobs, plain save, and arbitrary Lua (sandboxed; an operator switch turns it off).
 - A window on the console: On/Off, the PIN, Regenerate, Allow Lua, the last ten clients (bad PINs included), the last five backups, display picker.
@@ -54,7 +54,7 @@ Save the show. The plugin ships off; start it with one tap after each show load.
 
 - Window: On/Off, Regenerate PIN, Allow Lua execution (onPC: remembered; console: off at every start, on for the session only), display picker.
 - Command line: `Plugin "MA3 MCP" "off" | "status" | "pin" | "lua on" | "lua off" | "quarantine" | "quarantine clear" | "regen" | "bind <ip>" | "bind auto" | "<port>"`.
-- **Console guard** (since alpha.6): on a console the plugin only touches objects proven safe there (show data, command history, drives, timecode slots), caps requests at 8 a second, journals every call, and refuses for good any call the console stopped during. Explore anything else on onPC. See [the design](docs/superpowers/specs/2026-11-08-console-guard-design.md).
+- **Console guard** (since alpha.6): on a console the plugin only touches objects proven safe there (show data, command history, drives, timecode slots), caps requests at 8 a second, journals every call, and refuses for good any call the console stopped during. Explore anything else on onPC. See [the design](docs/superpowers/specs/2026-11-08-console-guard-design.md). Since alpha.8 it also refuses the address that froze a console in 2026 (a bare `Geometry` keyword, which a fixture type's geometry collection reports for itself and which never resolves), hands out path addresses for such children, and on a console resolves an address only when it starts with a keyword proven on onPC.
 - Settings file on the console: `gma3_library/ma3_mcp_settings.json` next to the installation (`pin`, `port`, `bind` override, `display`, `lua_default`, `backups`, `clients`, `quarantine`); the call journal `ma3_mcp_inflight.json` sits beside it. The plugin prints the path it uses in its log.
 - `docs/CONVENTIONS.md`: how the show is organized, read by models before a job.
 
@@ -88,6 +88,10 @@ src/                 plugin modules (bundled into one file by tools/bundle.lua)
 plugin/MA3 MCP.xml   plugin descriptor
 tools/bundle.lua     builds dist/MA3 MCP.lua
 tools/mcp_call.py    call one tool on the console's server from a shell (URL and PIN from Claude Code's config)
+tools/onpc_call.py   the same for the plugin in grandMA3 onPC on this computer (port and PIN from onPC's settings file)
+tools/song_looks.py  what each cue of an exported song looks like, with tracking applied
+tools/song_vocab.py  a song's distinct looks, each printed once with the cues that show it
+tools/atlas/census_logged.py  class census of the object tree on onPC, one log line before each call
 tools/show_digest.py bulk-read dumps of a show -> one Markdown report
 tools/cue_timing.py, cue_values.py   cue fade table / per-cue values from a dump or an export
 test/                plain-Lua test runner, fakes (console, socket, fs, display), tests

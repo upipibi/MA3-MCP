@@ -1,9 +1,9 @@
 # MA3 MCP — project context
 
 A grandMA3 Lua plugin that makes the grandMA3 light an MCP server. Public personal repo:
-https://github.com/upipibi/MA3-MCP (Aaron's, not the Northwoods org). State as of 2026-11-05:
-v0.2.0-alpha.3 runs on the console, stored in the show file `Christmas 2026`, and has done real jobs
-(stage flip, Portman layout, agenda).
+https://github.com/upipibi/MA3-MCP (Aaron's, not the Northwoods org). State as of 2026-11-21:
+v0.2.0-alpha.8 runs on the console and on onPC, stored in the show file `Christmas 2026`. onPC on this
+Mac is the MCP's own station (user `MCP`), and the MCP has programmed its first songs.
 
 **This repo is public.** No console or network addresses, no PIN, no private paths in anything that
 gets committed. Raw data read from Aaron's shows (per-show reports, exports, his stage plot, the
@@ -32,9 +32,154 @@ NOT DO THIS AGAIN". The rules, which override any plan, roadmap phase or skill:
 - **Ask whether a service or rehearsal is running** before any console request on a Sunday, or any
   time he has said "in service". Reads count.
 - **Never leave a background process talking to the console.**
-- The object that hung is not yet identified (the census died between reads 701 and 750 without
-  logging the address). Until it is found on onPC and the plugin refuses it, treat `ma3_object` on
-  unfamiliar classes as dangerous.
+- **The object that hung is found (2026-11-21, reproduced on onPC): `ma3_object "Geometry "`**, the
+  address a fixture type's geometry collection reports for itself. Resolving it never returns. The
+  fix is built (refuse the address, path addresses for such children, proven-keyword rule on a
+  console) and is not on a station yet. Record: `docs/research/2026-11-21-freeze-found-and-stress.md`.
+  Until the fixed build runs on the console, never send an address that came out of `ma3_children`
+  of a fixture type, and still treat unfamiliar classes there as dangerous.
+
+## Resume here (written 2026-11-21, Saturday night, at `/save`)
+
+Aaron stopped for the night: "There are definently some tweaks need to me, but I am impressed. I was
+expected a dumpster fire, and you got very close ... /save for now, and we'll continue working on
+this later." The show was saved with `ma3_save` at the end; it holds everything below.
+
+1. **First thing next session: his tweaks to the four Nov 29 songs** (Sequences 10-13). He has not
+   said which. Ask nothing up front; when he names a tweak, change `docs/jobs/2026-11-21-nov29-songs/
+   build.py` or the cue itself, through onPC as `MCP`, and verify with `build.py verify`. Whatever he
+   corrects is a lesson for `docs/PROGRAMMING-STYLE.md`.
+2. **Stations:** alpha.8 on the console (Lua off) and on onPC (Lua on, user `MCP`, view `MCP`, in the
+   console's session). **The source is one step ahead of the loaded alpha.8:** at this `/save` the
+   security review added one hardening (`Geometry` is refused anywhere in an address, not only as the
+   first word; 3,648 tests). It is not in onPC's library and not on a station. The next build needs a
+   new number from Aaron (alpha.9) before it is installed, so two different builds never share one. onPC through `python3 tools/onpc_call.py`, the console through the `ma3`
+   connector or `python3 tools/mcp_call.py`. A session started before the import lists old tools on
+   its connector until the window is reloaded. If onPC's plugin ever stops answering, end onPC at
+   once (`pkill -KILL -f "grandMA3 onPC"`): a stalled station loads the console's session.
+3. **Gap work, mine, no ask needed:** `docs/GAPS.md`. Next: turn the onPC census (629 classes) into
+   reads; programmer values per channel (`GetProgPhaserValue`); reading sheet cells (`Grid*`); the
+   Command Line History text; the item-by-item sweep against the help checklist.
+4. **Open with Aaron:** whether flow control dropped after onPC was killed (asked twice, unanswered);
+   ladder layout tweaks ("a later issue", his to raise); a GitHub pre-release of alpha.8 (offered at
+   this `/save`); the MCP playground beyond the one view (layouts, appearances).
+5. **Study agents:** he wants them kept going (two at a time, Sonnet, offline only). Next topics are
+   in "The gap rule" below.
+
+## State at 2026-11-21, 21:00 to 22:30 (the evening, newest first)
+
+- **DONE 2026-11-21, 22:30: the four Nov 29 songs are programmed** (Sequences 10-13, 25 / 24 / 18 / 32
+  cues), built from his own cues on this rig and verified cue by cue. **Waiting on his run-through**:
+  I cannot see the stage. Record, my calls and the weakest part (the second half of King of Kings):
+  `docs/jobs/2026-11-21-nov29-songs/README.md`. A change is an edit of `build.py` and a re-run on a
+  cleared sequence. Saved with the show at `/save`.
+- **How it came about, kept for the method** (2026-11-21, 22:15): "Once I'm done programming, I want
+  you to program the Nov 29th weekend." That lifts "cues are Aaron's" for Sequences 10-13 only (Thank The Lord,
+  This Is Our God, Manger to the Cross, King Of Kings/Angels We Have Heard on High; already on Page 5
+  `Nov 29`, 106-109, one empty cue each). Wait for him to say he is done programming.
+  - **His correction the same night:** "you should be learning from my cues, and old shows, likely
+    we've done these songs before too. Figuring out how I start, end, where I put fixture, colors,
+    phasers ... you need to learn how to do that", and "fixtures have moved since past shows. So you
+    need to apply the why behind the past shows, not hard values. And you need to look at my current
+    show to see where im moving fixtures and when." So: **do not ask him how a song starts or ends;
+    read it.** Do not copy values from old shows.
+  - **Learned and written down:** `docs/PROGRAMMING-STYLE.md`, "How a song is built on the Christmas
+    2026 rig" (looks, colour, each family's job, where and when tilt moves, phasers, fades), from full
+    exports of his ten finished songs. All four Nov 29 songs were done before; his earlier cue lists
+    (the energy map of each) are in `docs/research/shows/2026-11-21-nov29-songs-earlier-cue-lists.md`
+    (local). Tools: `tools/song_looks.py`, `tools/song_vocab.py`.
+  - **Method:** cue list from this year's Planning Center arrangement (`song_prep`, plan 91338104),
+    energy words from his earlier cue list of the same song, looks from this rig's vocabulary. Each
+    stored cue is a status copy of the cue in his current show that plays the same role
+    (`Copy Sequence <a> Cue <n> At Sequence <b> Cue <m> /CopyCueSource "Status"`, proven on onPC), so
+    values, positions and phasers are his and current. Holds stay empty, as he leaves them. Not yet
+    decided with him: which finished song each new song borrows its palette from.
+  - I cannot see the stage: he judges the result on a run-through.
+
+- **22:00: alpha.8 runs on both stations** (Aaron imported it on onPC; the show's plugin pool is
+  shared, and the console's plugin restarted on it). The fix is proven on onPC: `Geometry ` refused,
+  the object readable by path, and **the full census completed: 2,099 calls, 629 classes, no hang**.
+  onPC is logged in as `MCP`, Lua on, in the session. Not done on the console: any census (it stays
+  forbidden there); the console's alpha.8 has only answered `ma3_status`.
+
+- **21:30: stress test, on Aaron's word** ("do all the things you need to do while I program ... I'd
+  rather you stress test things now"). Console: first calls of every new read passed, and a load
+  test of proven reads passed (median 12 ms at 6 a second, the rate cap refuses cleanly). onPC: the
+  census found the freeze (`Geometry `) and **left onPC's plugin stuck: it needs Aaron to restart
+  onPC and the plugin, Lua on; then log it in as `MCP` again** (`CmdIndirect('LogIn "MCP"')` through
+  `ma3_lua`) and call `View 1`. At its next start the plugin should quarantine the stuck call by
+  itself: check `ma3_status {log:true}`.
+- **A stalled onPC loads the console's session.** Fifteen minutes after onPC's plugin stuck, Aaron saw
+  "flow control is maxed out" on the desk; I killed onPC (`pkill -KILL -f "grandMA3 onPC"`, TERM is
+  ignored). So: anything that can hang runs on onPC only while it is **outside** the session, and a
+  plugin on onPC that stops answering means end onPC at once. Through onPC-in-session, proven calls
+  only, as on the console. onPC is not running now.
+- **alpha.8 = alpha.7 + the freeze fix**, built 2026-11-21 21:50 and placed in onPC's library
+  (`gma3_library/datapools/plugins/MA3 MCP.xml` + `.lua`, and `lib_plugins/ma3_mcp/`); 3,635 tests
+  pass. Aaron loads it on onPC himself ("I'll load the plugin onpc when you place it in the right
+  folder"). I took his go-ahead as a yes to the number alpha.8. The console still runs alpha.7.
+
+- **alpha.7 runs on the console and on onPC** (Aaron loaded it on both the evening of 2026-11-21;
+  `ma3_status` on each). onPC: Lua on, logged in as `MCP`. Console: Lua off.
+- **Every new read ran against the live show on onPC:** `ma3_user`, `ma3_programmer`,
+  `ma3_selection`, `ma3_values`, `ma3_dmx`, `ma3_masters`, `ma3_playbacks`, `ma3_universes`,
+  `ma3_ports`, and `ma3_groups` gives fixture addresses again. On the console: `ma3_playbacks` and
+  `ma3_universes` ran (same answers as onPC). **Not yet called on the console:** `ma3_programmer`,
+  `ma3_ports`, `ma3_masters` (new branches there) and the four API reads (`console_ok`). They wait
+  for a moment right after a show save, not while he is programming; onPC covers them meanwhile.
+- A VS Code session started before the import still lists the alpha.6 tools on its `ma3` connector:
+  call the new ones with `python3 tools/mcp_call.py <tool> '<json>'` (console) or
+  `python3 tools/onpc_call.py` (onPC) until the window is reloaded.
+- Still unproven: `ma3_programmer {values:true}` on a programmer that holds values (every programmer
+  was empty at each read).
+
+## The gap rule (Aaron, 2026-11-21, third time: "we've run into some pretty BASIC STUFF that the MCP cant do")
+
+Setting up the Nov 22 songs I had to work around `Store` because the plugin could not read his
+programmer. His rule, which stands for every session: **a thing the MCP cannot see or do means two
+jobs, not one: (1) the MCP gets the update, and (2) the same session does a wider dive into what else
+is missing around it.** One-offs will happen; basic things must not. The ledger is `docs/GAPS.md`:
+read it at the start of any plugin work, add every miss to it the session it is found, basic things
+first. A workaround may finish a job and never closes a gap. Never hand him a desk check.
+
+- **Built 2026-11-21 (in alpha.7; on both stations since alpha.8 the same night):** `ma3_programmer` (every user's programmer and
+  selection; `plugin.programmer_empty` says whether a Store from the plugin would take values).
+  Proven on onPC by object reads only, on empty programmers; `{values:true}` (export of a part) has
+  never seen a programmer with values. Also `ma3_masters` (level of every master; the branch is show
+  data, so alpha.6 on the desk can already read it with `ma3_children "Master 2"`). 3,508 tests pass
+  on 5.5 and 5.4; build is in the onPC library. Nothing is committed (waits for `/save`).
+- **Until it is on the desk:** make empty sequences by `Copy Sequence <empty> At Sequence <n>`, not
+  `Store` (`docs/CONVENTIONS.md`, "Cues are Aaron's").
+- **The MCP user exists (Aaron: "yes to the MCP users", 2026-11-21).** `User 9` `MCP` (Admin) on
+  `UserProfile 7` `MCP`; onPC on this Mac is logged in as it, in the console's session, Lua on.
+  Proven the same night: a command sent through onPC's plugin changes the console's show, and runs
+  on MCP's own command line, programmer, selection and Oops list, not Aaron's. **Send jobs and
+  exploratory reads through onPC** (`python3 tools/onpc_call.py <tool> '<json>'`, which reads onPC's port and PIN
+  from its settings file; also registered in Claude Code user scope as `ma3_onpc`, live after a
+  window reload), and keep the console's plugin for
+  what only the desk knows. This replaces the 2026-11-19 "nothing that writes on onPC" line. Record
+  and syntax: `docs/GAPS.md`, "The MCP user".
+- **His direction for it:** "I want the mcp user to be your full playground, with views, windows,
+  layouts, appearences, the whole thing." Started 2026-11-21: the profile has one view, `MCP`, on
+  onPC's screen 1 (plugins, users, Oops, system monitor, command line history, fixture sheet,
+  layout); the 12 factory views are gone. Record and the window syntax: `docs/jobs/2026-11-21-mcp-view.md`. My rule for shared pools: MCP objects are
+  named `MCP ...` and numbered from 9000 up; nothing of his is edited for it.
+- **API reads benched on onPC with Lua on, then built into alpha.7:** `ma3_selection`, `ma3_dmx`,
+  `ma3_values`, `ma3_user` (refused on a console until a supervised first call with `console_ok`),
+  plus the `ma3_groups` `sf####` fix (`GetSubfixture` was never taken from the console's globals).
+  3,588 tests pass on 5.5 and 5.4. **onPC still runs alpha.6 from the show**, so until alpha.7 is
+  loaded these reads go through `ma3_lua` on onPC (bench scripts show the calls: `docs/GAPS.md`).
+  The build's own function list (364 functions, many undocumented, among them programmer values per
+  channel and reading the cells of any sheet): `docs/research/onpc-2.5.1.1-api-functions.txt`.
+  Read it before saying a function does not exist.
+- **Two study agents ran 2026-11-21 (Sonnet, offline only), both finished:** the Lua API catalogue
+  (`docs/atlas/topics/lua-api-functions.md`) and his programming patterns counted across the two old
+  show reports (folded into `docs/PROGRAMMING-STYLE.md`, "Counted across the two old shows"). Aaron
+  wants study agents like these kept going ("have a subagent working on learning about the console
+  ... another learning how I program"): two at a time, Sonnet, offline only, per the
+  `dispatching-research-agents` skill. Next topics: the 145 undocumented functions; the old shows'
+  raw exports once more show files come off the console by stick.
+- **Asks open with Aaron:** none on the plugin (alpha.7 is loaded). The ladder layout: "needs tweaked, but thats a later issue" (2026-11-21); wait for him.
 
 ## 2026-11-19: "the MCP NEEDS TO BE ABLE TO SEE EVERYTHING" (Aaron, twice, angry)
 
@@ -123,7 +268,7 @@ it" and build it. Memory: `mcp-must-see-everything`.
   `docs/jobs/2026-11-19-tornado-odd-even/`. MAtricks `XGroup` cannot give each interleaved half its own
   0-360 spread (Aaron tried it; my first answer was wrong): a group with its own grid can.
 
-## Resume here (written 2026-11-19, Thursday night, at `/save`)
+## Earlier resume list (written 2026-11-19, Thursday night, at `/save`)
 
 Aaron stopped for the day ("lets stop here for today /save"). The show was saved with `ma3_save` at the
 end (it holds groups 608 / 609, the ladder layout and his own evening's programming). The console runs
@@ -281,6 +426,8 @@ behave in a way that allows it to crash the console". Rules: "Console safety" ab
 ## Read first
 
 - `README.md`: what it is, tools, install, build.
+- `docs/GAPS.md`: what the MCP cannot see or do yet, the rule when a new miss turns up, the MCP user,
+  the API reads benched on onPC. Read before any plugin work.
 - `docs/atlas/README.md` + `CHECKLIST.md`: every item of the MA help (7,533) checked against what we
   know, can read and have proven; the open items are the to-do list. Rebuild with `tools/atlas/checklist.py`.
 - `docs/atlas/topics/`: deep pages per feature, every statement with its evidence (DMX curves first).
@@ -305,7 +452,7 @@ behave in a way that allows it to crash the console". Rules: "Console safety" ab
 
 | Thing | State |
 | --- | --- |
-| Plugin on the console | **0.2.0-alpha.6 (console guard) since 2026-11-14**, imported by Aaron, Lua off (confirmed by `ma3_status`). Not on GitHub yet; the newest release there is alpha.4. |
+| Plugin on the console | **0.2.0-alpha.8 since 2026-11-21** (console and onPC; alpha.7 ran for an hour before it), imported by Aaron on onPC, Lua off on the console (confirmed by `ma3_status`). Not on GitHub yet; the newest release there is alpha.4. |
 | Cue Display plugin (`../MA3 Cue Display/`) | Fixed and re-imported as `Plugin 38`, verified; released as 2.0.1 (the console copy still reports 2.0.0 until the next import). Details in that project's CLAUDE.md. |
 | Stage model | Imported from Capture as MVR; Aaron switched its 3D selection off himself. |
 | Portman layout | 90 elements + box in Layout 1. Aaron re-arranged them (master with two hexes stacked below); scaled to 45 x 45 to fit the default 1920 x 1080 area. |
@@ -334,6 +481,10 @@ Job records:
 | `docs/jobs/2026-11-05-song-timecodes/` | One timecode show per song (PCO 1-13, Christmas 54-68) with a track on the song sequence; proven Timecode syntax. |
 | `docs/jobs/2026-11-19-tornado-odd-even/` | Groups 608 `Yoke Sections Odd` / 609 `Yoke Sections Even`: every other yoke of 606 on a two-row grid, for opposing tilt chases; why MAtricks XGroup does not do it. |
 | `docs/jobs/2026-11-19-ladder-layout/` | Ladder LEDs (650 pixels on the platform) drawn in Layout 1 from his place groups; dimmer tiles moved to the `Key` box (`ladders.py`). |
+| `docs/jobs/2026-11-21-nov29-songs/` | Sequences 10-13 programmed from his own cues (status copies per role, holds empty); `build.py` plans, runs and verifies. |
+| `docs/jobs/2026-11-21-mcp-view.md` | The MCP user's one view on onPC and how windows are made by command (`Store ScreenContent`). |
+| `docs/jobs/2026-11-21-dimmer-rows/` | Dimmer tiles back in his two rows, in a `Dimmers` box between `Era` and `R1` (both tightened); first job sent through onPC as the MCP user. |
+| `docs/jobs/2026-11-21-nov-22-weekend.md` | Four songs for Nov 22 (Sequences 14, 15, 16, 18) on Page 4.106-109; made by copying an empty sequence so his programmer is never stored. |
 | `docs/jobs/2026-11-08-dimmer-curves/` | Two DMX curves and 11 dimmer assignments lost between show files, restored from the old file; where MA keeps curves, the Parameter List quirk, proven Patch-window command syntax, the stick-import open item. |
 
 ## Running a job

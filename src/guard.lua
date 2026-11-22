@@ -37,9 +37,16 @@ M.RULES = {
 -- DMX ports of every station in the session (ma3_ports). Read on onPC 2026-11-19, journal on,
 -- while it was in the console's session: OutputStations > collect > station > OutputConfiguration.
 -- DMXProtocols (sACN, Art-Net) next to it is not read yet and stays refused.
+-- Programmer and selection of every user profile (ma3_programmer). Read on onPC 2026-11-21 while
+-- it was in the console's session: UserProfile > Environments > UserEnvironment > Programmer >
+-- ProgPart, and the environment's Selection. Everything else below a user profile stays refused.
 M.READ_RULES = {
   { "DeviceConfigurations", "exact" },
   { "DeviceConfigurations > OutputStations", "subtree" },
+  { "ShowData > UserProfiles > UserProfile > Environments", "exact" },
+  { "ShowData > UserProfiles > UserProfile > Environments > UserEnvironment", "exact" },
+  { "ShowData > UserProfiles > UserProfile > Environments > UserEnvironment > Programmer", "subtree" },
+  { "ShowData > UserProfiles > UserProfile > Environments > UserEnvironment > Selection", "exact" },
 }
 -- Root children that may be named by number in an address or command ("Root 14.9.9.5"):
 -- ShowData. Temp (20) is allowed by class after resolve, not by number in a command.
@@ -133,6 +140,12 @@ function M:allow_address(address)
     local n = norm:match("^[Rr][Oo][Oo][Tt]%s+(%d+)")
     if n and not M.ROOT_NUMBERS_IN_ADDRESSES[tonumber(n)] then
       return false, string.format("%s Root %s is not proven safe on the console; explore it on onPC first", M.TAG, n)
+    end
+    -- A keyword nobody has resolved yet is how the screen froze on 2026-11-08 ("Geometry ").
+    local addr = require("addr")
+    local first = addr.first_keyword(norm)
+    if first and not addr.PROVEN_KEYWORDS[first] then
+      return false, string.format("%s addresses starting with '%s' are not proven on the console; explore them on onPC first", M.TAG, first)
     end
   end
   return true

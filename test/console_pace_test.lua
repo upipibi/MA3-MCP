@@ -60,3 +60,16 @@ h.describe("a clock that steps backwards restarts the slice", function()
   t.clock = t.clock + console.SLICE_SECONDS * 1.5
   h.eq(c:pace(), true)
 end)
+
+h.describe("console.real() picks up the API functions the tools call (GetSubfixture was missing: groups showed sf#### instead of FIDs)", function()
+  local saved, names = {}, { "GetSubfixture", "SelectionFirst", "SelectionNext", "SelectionCount", "GetDMXUniverse", "GetDMXValue", "GetRTChannels",
+    "GetRTChannel", "GetAttributeByUIChannel", "CurrentUser", "CurrentProfile", "CurrentEnvironment", "CurrentExecPage", "SelectedSequence",
+    "SelectedLayout", "SelectedTimecode", "NeedShowSave" }
+  for _, n in ipairs(names) do saved[n] = _G[n]; _G[n] = function() return n end end
+  local had = package.loaded.socket
+  package.loaded.socket = had or { gettime = os.time }
+  local c = require("console").real()
+  for _, n in ipairs(names) do h.eq(type(c.api[n]), "function", n) end
+  for _, n in ipairs(names) do _G[n] = saved[n] end
+  package.loaded.socket = had
+end)

@@ -43,6 +43,14 @@ that one Oops reverts the job.
 
 ## Hazards (console facts, not style)
 
+- **Gap rule (2026-11-21):** if the job meets something the MCP cannot read or do, say "gap", add it
+  to `docs/GAPS.md`, build it, and sweep the area for what else is missing, the same session. A
+  workaround finishes the job; it does not close the gap.
+- **`Store` takes Aaron's programmer.** The plugin types on his command line. Make empty objects by
+  copying an empty one (`Copy Sequence <empty> At Sequence <n>`, then `Label`); once `ma3_programmer`
+  is on the desk, read it before any Store.
+
+
 - **Console safety (2026-11-08):** an automated read job froze the console GUI mid-service. Never run
   looping or exploratory reads on the console; explore on onPC only; ask whether a service is running
   before any console request. Full rules: project `CLAUDE.md`, "Console safety".

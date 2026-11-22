@@ -75,7 +75,7 @@ Sources so far: `Christmas 2026` as read live 2026-11-03, `Christmas 2025 (no au
   only what changes. Tracking does the rest, which is why `-> Follows` cues often set only
   Dimmer and a position.
 
-## Hit sequences (production, Easter style)
+## Hit sequences (production; in Christmas 2025 and Easter 2026 both)
 
 One-cue sequences parked right after the song they serve, Purple 2 appearance, named with the
 song's initials: `IRIAG HIT 1–3`, `GS HIt 1–2`, `Goodbye Hit1/2`, `I Thank Bump`, `Thats Who
@@ -213,3 +213,121 @@ names stay clean.
   versions of the weekend `Walk In` (176) and `Message` (178); `Welcome` (177) is new for 2026.
   Key twins are named `<title> (key)` in lowercase this year.
 - Spot 3-5 were copied from Spot 2: their one cue is still named `Spot 2`.
+
+## Counted across the two old shows (study of 2026-11-21)
+
+From the per-show reports of Christmas 2025 and Easter 2026, counted rather than sampled. Timing
+rests on three songs with per-cue fades, so every timing line is thin. Working notes (local only):
+`docs/research/shows/2026-11-21-programming-patterns.md`.
+
+- **Song shape.** 20-24 cues on average (range 11-47). Cue 1 is `Start - <title>` in 55 of 56 songs.
+  Per song: 3-4 Chorus, 3 Verse, 2-3 Bridge, 2-3 `-> Follows`.
+- **Follow cues** are named `-> Follows` (52 of 58 in Christmas 2025, 95 of 99 in Easter). A Time
+  trigger appears on 10 cues, nearly all `-> Follows`: a follow step that advances itself.
+- **Cue 2.** `-> Follows` in 10 of 10 Christmas 2025 weekend songs; in Easter 19 of 32, with a
+  separate `Intro` as cue 2 in 12 of 32. The Intro cue is the newer habit.
+- **Decimal cues are rare:** 19 across all songs, mostly an `x.2` copy of `-> Follows` in a
+  production song.
+- **Weekend fades are 4 s and 2 s only** (old weekend songs): 4 on Start, All In, Verse 1, Chorus,
+  Bridge / Hits, Ending; 2 on `-> Follows`, Pre Chorus, Interlude, Bridge repeats, Build, Vamp, Outro.
+  Fades sit in the in-fade only; out fade and delays are left at cue timing.
+- **Production fades are wider:** 0 on Rap, STROBE, `(Continues)`, Blackout; 0.5 on verses and
+  drumline; 4-6 on `(Build)`; 8 on Interlude; 15 on Outro. A `(Hit)` is not always 0: Easter's
+  Greatest Show fades its hits in 2.5 s and uses nine different fade values.
+- **A last `-> Follows` set to Go instead of Follow** has happened before (Easter sequence 38 cue 32,
+  the same slip as Highest Praise in 2026). Report it, do not fix it.
+- **Only the service's songs get an executor** (Easter: 58 song sequences, 4 on the page), always one
+  wide and two tall, key Off, fader Master. Christmas 2025 put 47 of 48 on pages.
+- **A production key twin** sits five executors right of its song (107 and 112) and 18 sequence
+  numbers up.
+- **Macros:** 7 of 28 are on an executor (1-4, 55-57); the busking macros are on no page.
+- **Presets in cues:** `Worship` is about 85 % of preset references in the exported songs; position
+  comes from `Era Home`, `Era Out 2`, `R1 Home`, `Screen Position`; phasers seen are `Dim Sinus#2`,
+  `Snap On#2` and a relative `Circle`.
+- **A new fixture family** gets its hundred, a master group, Top / Bottom, Sections, `Sections ->` and
+  `Grouped ->` (Q40 Soft Box, 500-507). Fixture IDs are re-based when the rig changes (Era 1101 to
+  701); group numbers are not.
+- Not answerable from these reports: which groups are used inside cues, Easter's executor tables,
+  what fader value `35` on the Go+ executors means.
+
+## How a song is built on the Christmas 2026 rig (read from all ten finished songs, 2026-11-21)
+
+Source: full exports of Sequences 1, 2, 3, 5, 6, 7, 8, 9, 14, 15, every cue, with tracking applied
+(`tools/song_looks.py`, `tools/song_vocab.py`; working files local in
+`docs/research/shows/christmas-2026-study/`). Aaron's instruction for using it: "apply the why behind
+the past shows, not hard values", because fixtures move between shows; positions and levels come from
+the current show only.
+
+**The shape of a song**
+
+- A song is a **small vocabulary of looks, not a look per cue**: 8 to 12 distinct looks across 17 to
+  32 cues. About half of all cues store nothing (104 of 229): they are the song's road map, and the
+  look holds through them. `Intro` (10 of 10), `Chorus 2` (8 of 8), `Pre Chorus`, `Tag`, `Big Ending`,
+  `Instrumental` and `Hits` are always holds here; a second `Verse` or `Chorus` usually is.
+- **Cue 1 `Start - <title>` stores the whole rig**: every family, with the song's colours, positions
+  and zoom, at a quiet level. It is the base every later cue tracks from.
+- **Cue 2 `-> Follows` (Follow, 4 s) opens the picture**: it brings the ERA beams up (to their
+  `Curtain Home` level, to full, or into a dimmer phaser), sometimes with the PAR breathing phaser.
+- **Energy is carried by level and by dimmer phasers, almost never by colour or position.** Going
+  up (`Chorus`, `All In`, `Drums In`, `Build`): the PARs rise (to 28-87 %), the ERA and Q40 dimmers
+  go into phasers, the R1s into a dimmer phaser. Going down (`Breakdown`, `Verse`, `Softly`): PARs to
+  0-10 %, ERAs to 0, phasers replaced by static levels.
+- A big cue is often followed by its own `-> Follows`: the hit lands, then the follow settles it into
+  the breathing phaser (PARs 5-20 % or 0-20 %).
+- **The song ends where it began**: `Ending` / `End` stores the full rig again, close to the Start look.
+
+**Colour**
+
+- **One palette per song, set in cue 1, and it does not change** (one exception: an ERA colour shift
+  into the last chorus of Goodness Of God). Colours are hard RGB values, not colour presets.
+- Palettes used: all blue and cyan (One True God), amber and orange with red accents (Highest Praise,
+  Be Glad, Stand In Your Love), all white (I Speak Jesus), red with white (Goodness Of God), cyan with
+  purple (Weight of Glory). Inside a palette each family takes its own shade: Tornado rings and yokes
+  two neighbouring shades, Infinibars the deepest one, Q40 the lightest with white mixed in.
+- Key light (Fuze Profiles and Fuze Washes) is always the `Worship` preset; the washes take the
+  song's colour, the profiles stay white.
+
+**Fixtures and what each does**
+
+| Family | In the Start look | What changes during the song |
+| --- | --- | --- |
+| Source Four PARs 611-618 (the 8-tile row) | 0-10 % | the main energy meter: static level per section, or a 2-step breathing phaser (0-20 %) |
+| ERA 600 (5 of the 9 carry the song; the other 4 stay at 0) | dimmer 0, coloured, positioned | up in `-> Follows`; dimmer phaser (0-100 or 38-100) on choruses; tilt move on builds |
+| Q40 panels (16 + 4) | static, or already in a slow phaser | dimmer phaser 100-0 for choruses, static 100 for verses and breakdowns |
+| R1 washes on the screen (8) | `Screen Position` preset | never change |
+| R1 washes on stage (6) | `Curtain Home` or a tilt of their own | dimmer phaser on `Drums In` / verses; tilt per section in some songs |
+| Tornado bars (12; rings and yokes as pixels) | `Curtain Home`, coloured | dimmer level steps (32-90 %), dimmer phaser on `All In`; pan / tilt or zoom phaser in up-tempo songs |
+| Infinibars | on, 50-100 % | nothing |
+
+**Position: where and when**
+
+- Pan does not move: ERA pan 0, stage R1 pan -88, in every song. **Movement is tilt only.**
+- Each song has a home tilt, set in cue 1 (ERA -32 for a low look; -61 to -87 for beams in the air).
+- Tilt moves at the song's lift: `Build`, `Vamp / Build`, `Drums In`, sometimes `All In` (ERA to -78
+  ..-89, stage R1 to -77..-98), and returns home at the next `Breakdown` or at `End`. Three or four
+  position events per song at most; five of ten songs move the ERAs once or not at all.
+- Tornado and R1 position phasers (two steps, tilt only) appear in the two up-tempo songs (Praise,
+  Be Glad), on `Refrain`, `Chorus` and `All In`, and stop in verses.
+
+**Phasers**
+
+- Nearly all are **dimmer phasers, two steps, slow** (7.5, 15 or 30 BPM; Q40 once at 120), with every
+  fixture at its own phase so the family moves as a wave. No speed master is assigned. ERA and R1
+  dimmer phasers use full acceleration and deceleration (soft swells); Q40 and PAR ones do not.
+- Value pairs: PARs 0-20 or 5-20 (to 0-67 at a peak), ERA 0-100 or 38-100, Q40 100-0, Tornado 0-90,
+  R1 0-100 or 0-35. A 3-step PAR phaser (0-40-0) marks a build.
+- Speed does not follow the song's tempo.
+
+**Timing and triggers**
+
+- 210 of 229 cues are Go; the 19 Follow cues are all `-> Follows`.
+- Fades: `Start` 4 s (10 of 10), `Intro` 2 s (10 of 10), `Pre Chorus`, `Tag`, `Chorus 2`, `Big Ending`
+  2 s, `-> Follows` 4 s (17 of 22), `Verse` and `Chorus` 2 or 4 s, `Build` 2 s with a long one (12 s)
+  where the build is slow, `End` 4 to 6 s. 3 s and 5 s appear in the two newest songs.
+
+**What the names say (his own energy map)**
+
+`Breakdown`, `Softly` = down. `Drums In`, `Bass` = first lift. `Build`, `Slowly Build`, `Vamp / Build`
+= rising, often with the tilt move. `All In`, `Hits` = the peak. `(hold)` cues named for plain
+sections keep the band and operator in step. He names the cue for what the band does, so an old cue
+list of the same song carries the energy map of that song even though its values do not carry over.

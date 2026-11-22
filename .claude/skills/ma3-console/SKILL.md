@@ -72,6 +72,7 @@ Evidence marks used on every page: **[D]** MA help · **[M]** MA's own Lua shipp
 | Syntax rules, playback functions, layers, readouts, running objects, conditions, options | `docs/atlas/topics/keywords-more.md` |
 | The grandMA3 light (screens, ports, 16,384 parameters), UPS, crash logs, Terminal app, onPC instances on this Mac | `docs/atlas/topics/hardware-and-onpc.md` |
 | Whether an item of the help is known, readable, proven | `docs/atlas/CHECKLIST.md` (search the item), evidence in `checklist.json` |
+| What the MCP cannot see or do yet, and the rule when a new miss turns up | `docs/GAPS.md` |
 | Console facts that cost hours (plugin, yields, paths, the freeze) | `docs/research/2026-11-onpc-facts.md` |
 | How Aaron's show is organised | `docs/CONVENTIONS.md`, `docs/PROGRAMMING-STYLE.md` |
 | What the plugin may touch on the console | `src/guard.lua` (`M.RULES`), design in `docs/superpowers/specs/2026-11-08-console-guard-design.md` |

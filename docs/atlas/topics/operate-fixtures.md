@@ -127,5 +127,10 @@ rule: clear the selection before and after, never set values during a service [C
 
 ## Plugin access today, and gaps
 
-- No tool reads the programmer, the selection or the CueAbs layer [?]. A future read of "which cue
+- `ma3_programmer` (alpha.7, 2026-11-21) reads every profile's programmer (empty or not, bytes per part,
+  `{values:true}` exports the contents) and selection counts [O: object reads on empty programmers;
+  ?: a programmer with values; not on the console yet]. Path: `UserProfile n.1.<env>.3` (`Programmer`)
+  > `ProgPart` (`MEMORYFOOTPRINT` 297 when empty); selection `UserProfile n.1.<env>.<ACTIVESELINDEX>`
+  (`COUNTTOTALSELECTED`, `COUNTFULLYSELECTED`, `ACTIVE`). Slot 5 of an environment is not an object.
+- No tool reads which fixtures are selected or the CueAbs layer [?]. A future read of "which cue
   drives this attribute" would answer live questions without screens.

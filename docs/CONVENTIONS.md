@@ -24,8 +24,13 @@ in 171–322.**
 
 Aaron switches between two views that act as two sequence pools (songs, everything else).
 
-**Cues are Aaron's.** A job never creates, edits or deletes cues; it creates empty song
-sequences (`Store Sequence <n> "<title>"`) and Aaron programs them. For reference, his
+**Cues are Aaron's, unless he asks.** He asked once: the four Nov 29 songs (Sequences 10-13) were
+programmed by the MCP on 2026-11-21 from his own cues (`docs/jobs/2026-11-21-nov29-songs/`). Without
+such an ask a job never creates, edits or deletes cues; it creates empty song
+sequences and Aaron programs them. `Store Sequence <n> "<title>"` takes whatever is in his
+programmer, which the plugin cannot read: while he may be programming, copy an untouched empty
+sequence instead (`Copy Sequence <empty> At Sequence <n>`, then `Label Sequence <n> "<title>"`;
+proven 2026-11-21, `docs/jobs/2026-11-21-nov-22-weekend.md`). For reference, his
 layout is whole-number cues (`1 Start - <title>`, `2 -> Follows`, `3 Verse 1`, ... `Chorus /
 Hits`, `Bridge`, `Tag`, `Ending`) with decimal sub-steps (`12.2`, `12.4`) between sections.
 The tools report cue numbers in the console's internal thousandths: `1000` is Cue 1, `12200`
@@ -133,7 +138,9 @@ ring master, and five 30 x 30 yoke cells in the same kind of column below its yo
 only, names hidden, not meant to be tapped); master rows sit 200 apart, head 1 nearest the master.
 The platform pixels (`Ladder LEDs` box, bottom left, since 2026-11-19) are drawn as a front view from his place
 groups 701-710: two top lines, six legs as 5 x 10 blocks, the curve as an arc; no masters, his groups select.
-The dimmer tiles sit in one row in the `Key` box.
+The dimmer tiles are his two rows (8 below, 6 above), in a `Dimmers` box between `Era` and `R1`
+(since 2026-11-21; one row in the `Key` box did not work for him: a row is an electric). Keep the
+rows of a family as he laid them out when a block has to move.
 Do not move or resize elements he placed unless the pattern cannot fit otherwise, and say so.
 
 ## Names

@@ -163,3 +163,13 @@ h.describe("guard rate cap on a console: 16 at once, then 8 a second", function(
   local onpc, c2 = new(false)
   for _ = 1, 100 do h.truthy((onpc:admit())) end
 end)
+
+h.describe("on a console an address must start with a keyword proven on onPC; onPC may explore", function()
+  local g = guard.new({ console = true, quarantine = {} })
+  h.eq((g:allow_address("Sequence 12 Cue 3")), true)
+  h.eq((g:allow_address("Fixture 611")), true)
+  local ok, why = g:allow_address("Wheel 2")
+  h.eq(ok, false); h.truthy(why:find("[console-guard]", 1, true)); h.truthy(why:find("onPC", 1, true))
+  local bench = guard.new({ console = false, quarantine = {} })
+  h.eq((bench:allow_address("Wheel 2")), true)
+end)

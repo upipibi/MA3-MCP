@@ -21,7 +21,7 @@ local guard = require("guard")
 local ui = require("ui")
 
 local M = {}
-M.VERSION = "0.2.0-alpha.7"
+M.VERSION = "0.2.0-alpha.8"
 M.PORT = 9800
 M.PROD_PREFIX = "^10%.11%.(%d+)%."   -- the production /20 this plugin was built for; override with Plugin "MA3 MCP" "bind <ip>"
 M.SETTINGS_FILE = "ma3_mcp_settings.json"
@@ -44,7 +44,7 @@ M.INSTRUCTIONS = [[MA3 MCP: this server runs inside a grandMA3 console. Read fir
 Start a job with ma3_status, then the bulk reads (ma3_fixtures, ma3_sequences, ma3_pages, ma3_groups, ma3_presets, ma3_macros).
 Before deleting or rewriting anything: show the plan, wait for a go, then ma3_backup.
 Writes are ma3_command (one command), ma3_commands (a list in one request, preferred for jobs) and ma3_set. A timeout proves nothing: re-read state before resending.
-Live state: ma3_playbacks (every sequence running right now, its current cue and executors). When a fixture shows values nobody programmed: ma3_universes (input ports, parked, tester per universe) and ma3_ports (each station's DMX ports).
+Live state: ma3_playbacks (every sequence running right now, its current cue and executors). When a fixture shows values nobody programmed: ma3_universes (input ports, parked, tester per universe) and ma3_ports (each station's DMX ports). Before a Store, or to see what the operator is working on: ma3_programmer (every user's programmer and selection). Fader levels of the grand, speed, playback and timing masters: ma3_masters. Who the plugin works as: ma3_user. Selected fixtures: ma3_selection. What goes out: ma3_dmx (a universe) and ma3_values (one fixture's attributes before and after the masters).
 Deep reads: ma3_cue_timing (fades per cue), ma3_timecode (events), ma3_history (last command, undo list), ma3_export (XML with the values inside cues).
 Cue numbers from the bulk tools are console-internal thousandths (1000 = Cue 1); address cues as "Sequence n Cue 1".
 Never pass Thru, +, or * on Page/Executor addresses (the console hangs); the tools refuse them.
@@ -188,7 +188,7 @@ local function start()
   show.register(tools, c, S.ctx)
   lua_exec.register(tools, c, S.ctx, deps.globals)
   deep.register(tools, c, S.ctx, deps)
-  live.register(tools, c, S.ctx)
+  live.register(tools, c, S.ctx, deps)
   S.tools = tools
   S.dispatcher = mcp.new({ server_name = "MA3 MCP", server_version = M.VERSION, tools = tools, instructions = M.INSTRUCTIONS })
 

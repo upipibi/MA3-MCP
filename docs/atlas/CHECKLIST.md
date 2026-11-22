@@ -2,22 +2,22 @@
 
 Every feature, menu, setting, button, command and Lua function in the grandMA3 help, checked against what this project knows (N), can read through the plugin (R) and has proven on the desk (P). M marks a worked example in MA's own Lua shipped with onPC (a lead to study, not coverage). A ticked box means P, or N and R together. Unticked items are the to-do list. Built by `tools/atlas/checklist.py` from the help download and the console class census; the evidence for every mark is in `checklist.json`. Marks are automatic name matches: a wrong tick is a bug in the matcher, fix the rule and rebuild.
 
-Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware quick-manual pages and the release-note bug lists (topics only).
+Census: `onpc-2026-11-21-full.json`, 629 classes. Out of scope: the 414 hardware quick-manual pages and the release-note bug lists (topics only).
 
 | Kind | Items | Covered | Open |
 | --- | ---: | ---: | ---: |
-| button | 1528 | 113 | 1415 |
-| table-row | 1339 | 22 | 1317 |
-| section | 1212 | 41 | 1171 |
-| option | 1137 | 168 | 969 |
+| button | 1528 | 255 | 1273 |
+| table-row | 1339 | 36 | 1303 |
+| section | 1212 | 64 | 1148 |
+| option | 1137 | 293 | 844 |
 | syntax | 709 | 0 | 709 |
-| topic | 564 | 38 | 526 |
-| keyword | 358 | 26 | 332 |
-| setting | 256 | 6 | 250 |
-| key | 192 | 0 | 192 |
-| lua-function | 152 | 27 | 125 |
-| option-keyword | 86 | 0 | 86 |
-| **all** | **7533** | **441** | **7092** |
+| topic | 564 | 48 | 516 |
+| keyword | 358 | 39 | 319 |
+| setting | 256 | 32 | 224 |
+| key | 192 | 15 | 177 |
+| lua-function | 152 | 28 | 124 |
+| option-keyword | 86 | 1 | 85 |
+| **all** | **7533** | **811** | **6722** |
 
 ## Chapters
 
@@ -25,22 +25,22 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 | --- | ---: | ---: |
 | [grandMA3 User Manual](#grandma3-user-manual) | 1 | 0 |
 | [New in the Manual](#new-in-the-manual) | 12 | 0 |
-| [About the Help](#about-the-help) | 40 | 0 |
-| [Device Overview](#device-overview) | 529 | 8 |
+| [About the Help](#about-the-help) | 40 | 1 |
+| [Device Overview](#device-overview) | 529 | 18 |
 | [System Overview](#system-overview) | 46 | 1 |
 | [First Steps](#first-steps) | 105 | 0 |
-| [grandMA3 onPC](#grandma3-onpc) | 96 | 1 |
+| [grandMA3 onPC](#grandma3-onpc) | 96 | 4 |
 | [Show File Handling](#show-file-handling) | 69 | 1 |
-| [Workspace](#workspace) | 401 | 31 |
-| [Command Syntax and Keywords](#command-syntax-and-keywords) | 1305 | 44 |
-| [Windows, Views, and Menus](#windows-views-and-menus) | 171 | 10 |
-| [Networking](#networking) | 193 | 12 |
-| [DMX In and Out](#dmx-in-and-out) | 150 | 21 |
-| [Single User and Multi User Systems](#single-user-and-multi-user-systems) | 96 | 24 |
-| [Patch and Fixture Setup](#patch-and-fixture-setup) | 395 | 43 |
-| [Operate Fixtures](#operate-fixtures) | 215 | 7 |
+| [Workspace](#workspace) | 401 | 41 |
+| [Command Syntax and Keywords](#command-syntax-and-keywords) | 1305 | 80 |
+| [Windows, Views, and Menus](#windows-views-and-menus) | 171 | 32 |
+| [Networking](#networking) | 193 | 11 |
+| [DMX In and Out](#dmx-in-and-out) | 150 | 33 |
+| [Single User and Multi User Systems](#single-user-and-multi-user-systems) | 96 | 25 |
+| [Patch and Fixture Setup](#patch-and-fixture-setup) | 395 | 91 |
+| [Operate Fixtures](#operate-fixtures) | 215 | 29 |
 | [Label Objects](#label-objects) | 4 | 2 |
-| [Notes](#notes) | 26 | 0 |
+| [Notes](#notes) | 26 | 5 |
 | [Scribbles](#scribbles) | 18 | 1 |
 | [Appearances](#appearances) | 21 | 1 |
 | [Images](#images) | 17 | 3 |
@@ -51,41 +51,41 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 | [Gobos](#gobos) | 6 | 1 |
 | [Symbols](#symbols) | 20 | 2 |
 | [Groups](#groups) | 21 | 1 |
-| [Presets](#presets) | 100 | 5 |
-| [Worlds and Filters](#worlds-and-filters) | 95 | 6 |
-| [MAtricks and Shuffle](#matricks-and-shuffle) | 63 | 3 |
-| [Cues and Sequences](#cues-and-sequences) | 343 | 28 |
-| [Executors](#executors) | 122 | 6 |
-| [Masters](#masters) | 55 | 4 |
-| [Recipes](#recipes) | 62 | 2 |
-| [Phasers](#phasers) | 123 | 7 |
-| [Shapes](#shapes) | 15 | 3 |
+| [Presets](#presets) | 100 | 8 |
+| [Worlds and Filters](#worlds-and-filters) | 95 | 16 |
+| [MAtricks and Shuffle](#matricks-and-shuffle) | 63 | 8 |
+| [Cues and Sequences](#cues-and-sequences) | 343 | 104 |
+| [Executors](#executors) | 122 | 14 |
+| [Masters](#masters) | 55 | 6 |
+| [Recipes](#recipes) | 62 | 6 |
+| [Phasers](#phasers) | 123 | 23 |
+| [Shapes](#shapes) | 15 | 4 |
 | [Generator - Random](#generator---random) | 5 | 0 |
-| [Bitmap](#bitmap) | 20 | 0 |
-| [XYZ](#xyz) | 14 | 0 |
+| [Bitmap](#bitmap) | 20 | 4 |
+| [XYZ](#xyz) | 14 | 1 |
 | [Tags](#tags) | 16 | 5 |
 | [Macros](#macros) | 94 | 5 |
 | [Agenda](#agenda) | 45 | 13 |
-| [Timers](#timers) | 41 | 6 |
-| [Preview](#preview) | 22 | 7 |
-| [Timecode Show](#timecode-show) | 84 | 9 |
-| [Layouts](#layouts) | 128 | 9 |
-| [Plugins](#plugins) | 818 | 39 |
-| [Quickeys](#quickeys) | 33 | 5 |
+| [Timers](#timers) | 41 | 9 |
+| [Preview](#preview) | 22 | 9 |
+| [Timecode Show](#timecode-show) | 84 | 15 |
+| [Layouts](#layouts) | 128 | 21 |
+| [Plugins](#plugins) | 818 | 43 |
+| [Quickeys](#quickeys) | 33 | 7 |
 | [Data Pools](#data-pools) | 15 | 2 |
-| [System](#system) | 158 | 15 |
-| [Remote In and Out](#remote-in-and-out) | 481 | 31 |
+| [System](#system) | 158 | 31 |
+| [Remote In and Out](#remote-in-and-out) | 481 | 41 |
 | [Sound](#sound) | 36 | 0 |
-| [RDM (Remote Device Management)](#rdm-remote-device-management) | 46 | 0 |
+| [RDM (Remote Device Management)](#rdm-remote-device-management) | 46 | 1 |
 | [Local Settings](#local-settings) | 10 | 1 |
 | [Update the Software](#update-the-software) | 66 | 0 |
-| [Fixture Types](#fixture-types) | 107 | 9 |
+| [Fixture Types](#fixture-types) | 107 | 18 |
 | [File Management](#file-management) | 18 | 1 |
-| [Show Creator](#show-creator) | 102 | 3 |
+| [Show Creator](#show-creator) | 102 | 8 |
 | [Control Other MA Devices](#control-other-ma-devices) | 18 | 0 |
 | [Troubleshooting](#troubleshooting) | 17 | 0 |
 | [grandMA3 List of Trademarks](#grandma3-list-of-trademarks) | 13 | 0 |
-| [Glossary](#glossary) | 110 | 2 |
+| [Glossary](#glossary) | 110 | 3 |
 | [grandMA3 Quick Start Guide](#grandma3-quick-start-guide) | 19 | 0 |
 | [grandMA3 Release Notes](#grandma3-release-notes) | 32 | 0 |
 
@@ -117,7 +117,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [About the Help](https://help.malighting.com/grandMA3/2.5/HTML/about_the_manual.html)
 
 - [ ] `····` page: About the Help
-- [ ] `····` section: Support
+- [ ] `N···` section: Support
 - [ ] `N···` section: MA Forum
 - [ ] `····` section: Central Support
 - [ ] `····` section: Emergency Hotline
@@ -173,7 +173,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Videos in the Help
 - [ ] `····` section: Play a Video
 - [ ] `····` section: Video Control Bar
-- [ ] `N···` button: Speed (Video Control Bar)
+- [x] `NR··` button: Speed (Video Control Bar)
 
 ## Device Overview
 
@@ -266,7 +266,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Screen Allocation
 - [ ] `····` section: Numerical Order of Screens
 - [ ] `····` section: grandMA3 full-size and light
-- [ ] `····` table-row: Screen 1 (grandMA3 full-size and light)
+- [ ] `N···` table-row: Screen 1 (grandMA3 full-size and light)
 - [ ] `····` table-row: Screen 2 (grandMA3 full-size and light)
 - [ ] `····` table-row: Screen 3 (grandMA3 full-size and light)
 - [ ] `····` table-row: Screen 4 (grandMA3 full-size and light)
@@ -278,7 +278,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` table-row: Screen 10 (grandMA3 full-size and light)
 - [ ] `····` table-row: Screen 11 (grandMA3 full-size and light)
 - [ ] `····` section: grandMA3 full-size CRV and light CRV
-- [ ] `····` table-row: Screen 1 (grandMA3 full-size CRV and light CRV)
+- [ ] `N···` table-row: Screen 1 (grandMA3 full-size CRV and light CRV)
 - [ ] `····` table-row: Screen 2 (grandMA3 full-size CRV and light CRV)
 - [ ] `····` table-row: Screen 3 (grandMA3 full-size CRV and light CRV)
 - [ ] `····` table-row: Screen 4 (grandMA3 full-size CRV and light CRV)
@@ -290,11 +290,11 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` table-row: Screen 10 (grandMA3 full-size CRV and light CRV)
 - [ ] `····` table-row: Screen 11 (grandMA3 full-size CRV and light CRV)
 - [ ] `····` section: grandMA3 compact XT and compact
-- [ ] `····` table-row: Screen 1 (grandMA3 compact XT and compact)
+- [ ] `N···` table-row: Screen 1 (grandMA3 compact XT and compact)
 - [ ] `····` table-row: Screen 2 (grandMA3 compact XT and compact)
 - [ ] `····` table-row: Screen 4 (grandMA3 compact XT and compact)
 - [ ] `····` section: grandMA3 replay unit
-- [ ] `····` table-row: Screen 1 (grandMA3 replay unit)
+- [ ] `N···` table-row: Screen 1 (grandMA3 replay unit)
 - [ ] `····` table-row: Screen 4 (grandMA3 replay unit)
 - [ ] `····` table-row: Screen 5 (grandMA3 replay unit)
 - [ ] `····` table-row: Screen 10 (grandMA3 replay unit)
@@ -413,16 +413,16 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` table-row: Press and hold for 5 seconds MAESC
 - [ ] `N···` table-row: Edit Edit
 - [ ] `····` table-row: MAEdit
-- [ ] `N···` table-row: Freeze
+- [x] `NR··` table-row: Freeze
 - [ ] `····` table-row: Full
-- [ ] `N···` table-row: Fixture
+- [x] `NR··` table-row: Fixture
 - [ ] `····` table-row: Fixture Fixture
 - [ ] `····` table-row: Fixture Fixture Fixture
 - [ ] `N···` table-row: Group
 - [ ] `····` table-row: Group Group
 - [ ] `····` table-row: Group Group Group
 - [ ] `····` table-row: MA Group
-- [ ] `····` table-row: Goto
+- [ ] `·R··` table-row: Goto
 - [ ] `····` table-row: Goto Goto
 - [ ] `····` table-row: MA Goto Goto
 - [ ] `····` table-row: Go+ [Large]
@@ -487,7 +487,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` table-row: Please Please
 - [ ] `N···` table-row: Power
 - [ ] `····` table-row: Preset + 1 , 2
-- [ ] `N···` table-row: Preset
+- [x] `NR··` table-row: Preset
 - [ ] `····` table-row: Preset Preset
 - [ ] `····` table-row: Preset Preset Preset
 - [ ] `····` table-row: MA Preset
@@ -604,7 +604,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Clear](https://help.malighting.com/grandMA3/2.5/HTML/key_clear.html)
 
-- [ ] `····` page: Clear
+- [ ] `·R··` page: Clear
 
 ### [Channel](https://help.malighting.com/grandMA3/2.5/HTML/key_channel.html)
 
@@ -631,8 +631,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Cue
 - [ ] `····` key: Cue
-- [ ] `····` section: Part
-- [ ] `N···` section: Programmer
+- [ ] `·R··` section: Part
+- [x] `NR··` section: Programmer
 
 ### [Delete](https://help.malighting.com/grandMA3/2.5/HTML/key_delete.html)
 
@@ -655,14 +655,14 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Fixture](https://help.malighting.com/grandMA3/2.5/HTML/key_fixture.html)
 
-- [ ] `N···` page: Fixture
-- [ ] `N···` key: Fixture
+- [x] `NR··` page: Fixture
+- [x] `NR··` key: Fixture
 - [x] `NR··` section: Selection
 
 ### [Freeze](https://help.malighting.com/grandMA3/2.5/HTML/key_freeze.html)
 
-- [ ] `N···` page: Freeze
-- [ ] `N···` key: Freeze
+- [x] `NR··` page: Freeze
+- [x] `NR··` key: Freeze
 
 ### [Full](https://help.malighting.com/grandMA3/2.5/HTML/key_full.html)
 
@@ -695,8 +695,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Goto](https://help.malighting.com/grandMA3/2.5/HTML/key_goto.html)
 
-- [ ] `····` page: Goto
-- [ ] `····` key: Goto
+- [ ] `·R··` page: Goto
+- [ ] `·R··` key: Goto
 - [ ] `····` section: Load
 
 ### [Group](https://help.malighting.com/grandMA3/2.5/HTML/key_group.html)
@@ -749,7 +749,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Move](https://help.malighting.com/grandMA3/2.5/HTML/key_move.html)
 
-- [ ] `····` page: Move
+- [ ] `·R··` page: Move
 
 ### [Next](https://help.malighting.com/grandMA3/2.5/HTML/key_next.html)
 
@@ -808,8 +808,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Preset](https://help.malighting.com/grandMA3/2.5/HTML/key_preset.html)
 
-- [ ] `N···` page: Preset
-- [ ] `N···` key: Preset
+- [x] `NR··` page: Preset
+- [x] `NR··` key: Preset
 
 ### [Prev [Previous]](https://help.malighting.com/grandMA3/2.5/HTML/key_prev.html)
 
@@ -1076,7 +1076,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Parameters](https://help.malighting.com/grandMA3/2.5/HTML/system_parameter.html)
 
-- [ ] `····` page: Parameters
+- [ ] `·R··` page: Parameters
 - [ ] `····` section: What are Parameters
 - [ ] `····` section: Why Counting in Parameters and Not DMX
 - [ ] `····` setting: Example (Why Counting in Parameters and Not DMX)
@@ -1243,7 +1243,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: IP
 - [ ] `·R··` button: Wing ID
 - [ ] `·R··` button: Connected Count
-- [ ] `·R··` button: Device Type
+- [ ] `····` button: Device Type
 
 ### [Connect grandMA3 fader wing](https://help.malighting.com/grandMA3/2.5/HTML/fs_connect_fader_wing.html)
 
@@ -1270,7 +1270,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Turn on the device for the first time
 - [ ] `····` section: Turn on the grandMA3 Device
-- [ ] `····` section: Select Mode
+- [ ] `·R··` section: Select Mode
 - [ ] `····` section: End-User License Agreement (EULA)
 - [ ] `····` button: I agree (End-User License Agreement (EULA))
 - [ ] `N···` section: Release Notes
@@ -1318,7 +1318,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Optimize Windows™®
 - [ ] `····` section: Turn on High-Performance Power Plan
-- [ ] `N···` button: Start (Turn on High-Performance Power Plan)
+- [x] `NR··` button: Start (Turn on High-Performance Power Plan)
 - [ ] `····` button: Power Options (Turn on High-Performance Power Plan)
 - [ ] `····` button: High performance (Turn on High-Performance Power Plan)
 - [ ] `····` section: Optimize High-Performance Power Options
@@ -1335,7 +1335,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Run as administrator (Run in Administrator Mode)
 - [ ] `····` section: Specify a Graphics Card
 - [ ] `····` button: Properties (Specify a Graphics Card)
-- [ ] `N···` button: Shortcut (Specify a Graphics Card)
+- [x] `NR··` button: Shortcut (Specify a Graphics Card)
 - [ ] `····` syntax: adapterindex=X (Specify a Graphics Card)
 
 ### [macOS® Installation](https://help.malighting.com/grandMA3/2.5/HTML/onpc_macos_installation.html)
@@ -1405,12 +1405,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: onPC Local Settings (Open the onPC Local Settings)
 - [ ] `····` section: MIDI
 - [ ] `····` button: MIDI via onPC command wing (MIDI)
-- [ ] `····` button: MIDI In Device (MIDI)
+- [ ] `N···` button: MIDI In Device (MIDI)
 - [ ] `····` button: MIDI Out Device (MIDI)
-- [ ] `N···` button: MIDI Offset (MIDI)
+- [x] `NR··` button: MIDI Offset (MIDI)
 - [ ] `N···` button: MIDI Timecode Slot (MIDI)
 - [ ] `N···` section: Sound
-- [ ] `····` button: Audio In Device (Sound)
+- [ ] `N···` button: Audio In Device (Sound)
 - [ ] `N···` button: Audio Out Device (Sound)
 - [ ] `····` section: viz-key
 - [ ] `····` button: Connect to viz-key (viz-key)
@@ -1434,7 +1434,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Load a Show File
 - [ ] `N···` button: Show History
-- [ ] `····` button: Show Description
+- [ ] `·R··` button: Show Description
 - [ ] `····` section: Load Show Segments
 - [ ] `N···` button: Show Data (Load Show Segments)
 - [ ] `N···` button: Local Settings (Load Show Segments)
@@ -1493,7 +1493,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Add a Description
 - [ ] `····` section: Display the Description
 - [ ] `N···` button: Backup (Display the Description)
-- [ ] `····` button: Show Description (Display the Description)
+- [ ] `·R··` button: Show Description (Display the Description)
 - [ ] `····` button: Save As (Display the Description)
 - [ ] `····` section: Add Automatic Numbering
 - [ ] `····` button: Enumerate Show File Name When Description Changes (Add Automatic Numbering)
@@ -1528,8 +1528,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` option: Appearance
 - [x] `NR··` button: Width
 - [x] `NR··` button: Height
-- [ ] `····` option: Scale
-- [ ] `····` button: Scale
+- [ ] `·R··` option: Scale
+- [ ] `·R··` button: Scale
 - [x] `NR··` option: Show Feedback
 - [ ] `·R··` option: Show View Bar
 - [ ] `····` option: Show Command Line
@@ -1616,14 +1616,14 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Open Column Editing
 - [ ] `····` button: Enter Column Editing (Open Column Editing)
 - [ ] `····` section: Edit Columns
-- [ ] `····` button: Reset Column Order
+- [ ] `·R··` button: Reset Column Order
 - [ ] `····` button: Leave Column Editing
 - [ ] `····` button: Reset Column Filter
 - [ ] `····` section: Working with Column Sets
-- [ ] `····` button: Columns (Working with Column Sets)
+- [ ] `·R··` button: Columns (Working with Column Sets)
 - [ ] `····` button: Yes/No (Working with Column Sets)
-- [ ] `····` button: Set All Visible (Working with Column Sets)
-- [ ] `····` button: Set All Invisible (Working with Column Sets)
+- [ ] `·R··` button: Set All Visible (Working with Column Sets)
+- [ ] `·R··` button: Set All Invisible (Working with Column Sets)
 - [ ] `····` button: Reset Order (Working with Column Sets)
 - [ ] `N···` button: Label (Working with Column Sets)
 - [ ] `····` syntax: Label (Working with Column Sets)
@@ -1632,7 +1632,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N···` page: Temporary Filtering
 - [ ] `····` syntax: Edit Layout 1 (Example)
-- [ ] `N···` button: Fixture (Example)
+- [x] `NR··` button: Fixture (Example)
 
 ### [Trackpad Window](https://help.malighting.com/grandMA3/2.5/HTML/ws_ui_trackpad.html)
 
@@ -1676,8 +1676,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Oops
 - [ ] `····` syntax: Menu "OopsOverlay"
 - [ ] `····` option: Elapsed Time / Session Time
-- [ ] `····` button: Columns
-- [ ] `N···` button: Session Time
+- [ ] `·R··` button: Columns
+- [x] `NR··` button: Session Time
 - [ ] `····` section: Oops Actions
 - [ ] `····` button: Oops Last Action (Oops Actions)
 - [ ] `····` button: Oops x Actions (Oops Actions)
@@ -1700,7 +1700,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Master DisplayEach master is displayed with its label in the title bar
 - [ ] `N···` section: Master Controls
 - [ ] `N···` section: Group Masters
-- [ ] `····` button: Button Mode (Group Masters)
+- [ ] `·R··` button: Button Mode (Group Masters)
 - [ ] `····` button: Full (Group Masters)
 - [ ] `····` button: Zero (Group Masters)
 - [ ] `N···` button: Flash (Group Masters)
@@ -1737,24 +1737,24 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [x] `NR··` page: Encoder Bar
 - [ ] `·R··` button: Show Encoder Bar
-- [ ] `····` button: Sync
-- [ ] `····` button: Single Step
+- [ ] `·R··` button: Sync
+- [ ] `·R··` button: Single Step
 - [ ] `N···` button: Align
-- [ ] `N···` button: Readout
+- [x] `NR··` button: Readout
 - [x] `NR··` button: Selection
 - [x] `NR··` button: Phaser
-- [ ] `N···` button: MAtricks
+- [x] `NR··` button: MAtricks
 - [ ] `N···` button: Grand Master
 - [ ] `····` section: Encoder Bar Window Settings
 - [ ] `····` button: More (Encoder Bar Window Settings)
-- [ ] `N···` button: Encoder Bar (Encoder Bar Window Settings)
+- [x] `NR··` button: Encoder Bar (Encoder Bar Window Settings)
 
 ### [Encoder Resolution](https://help.malighting.com/grandMA3/2.5/HTML/operate_encoder_resolution_multiplier.html)
 
 - [x] `NR··` page: Encoder Resolution
 - [ ] `N···` button: User Configuration
 - [ ] `····` button: Profiles
-- [ ] `N···` button: Edit Encoder Bar
+- [x] `NR··` button: Edit Encoder Bar
 - [ ] `·R··` button: Link Resolution
 - [x] `NR··` option: Coarse
 - [ ] `·R··` option: Fine
@@ -1784,11 +1784,11 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Link button
 - [ ] `N···` option: Layer toolbar
 - [x] `NR··` option: Screen encoder
-- [ ] `N···` option: Step bar
+- [x] `NR··` option: Step bar
 - [ ] `····` section: Link Button
 - [ ] `N···` option: Single (Link Button)
 - [x] `NR··` option: Feature (Link Button)
-- [ ] `····` option: AtFilter (Link Button)
+- [ ] `N···` option: AtFilter (Link Button)
 - [ ] `·R··` option: Active Only ( (Link Button)
 - [ ] `·R··` option: MultiStep Only ( (Link Button)
 - [ ] `····` section: Link Values
@@ -1797,7 +1797,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Link Timing (Link Timing)
 - [ ] `····` section: Link Phasers
 - [ ] `····` section: Overall
-- [ ] `····` section: Steps
+- [ ] `·R··` section: Steps
 - [ ] `····` section: Phaser Overall and Phaser Steps
 - [ ] `····` button: Link Phaser (Phaser Overall and Phaser Steps)
 - [ ] `·R··` section: Link Resolution
@@ -1827,24 +1827,24 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Assign Functions to Encoders
 - [ ] `····` button: Encoder 1 (Assign Functions to Encoders)
 - [ ] `····` section: Using the Assignment Editor
-- [ ] `N···` button: Filter (Using the Assignment Editor)
+- [x] `NR··` button: Filter (Using the Assignment Editor)
 - [ ] `N···` button: Empty (Using the Assignment Editor)
 - [ ] `····` button: ScreenEncoderDirection (Using the Assignment Editor)
 - [ ] `N···` section: Red Text in the Editor
 - [ ] `····` section: Encoder Bank Command
 - [x] `NR··` button: Command (Encoder Bank Command)
 - [ ] `····` syntax: Call View "Dimmer Presets" /Screen "6" (Encoder Bank Command)
-- [ ] `····` section: Special Dialog Tab
-- [ ] `····` button: Special Dialog Tab (Special Dialog Tab)
+- [ ] `·R··` section: Special Dialog Tab
+- [ ] `·R··` button: Special Dialog Tab (Special Dialog Tab)
 - [ ] `····` button: Link Encoder Bank (Special Dialog Tab)
 - [ ] `····` button: Special Dialog Window Settings (Special Dialog Tab)
-- [ ] `N···` button: Display (Special Dialog Tab)
+- [x] `NR··` button: Display (Special Dialog Tab)
 
 ### [Calculator](https://help.malighting.com/grandMA3/2.5/HTML/ws_calculator.html)
 
 - [ ] `····` page: Calculator
 - [x] `NR··` option: Layer (Example)
-- [ ] `N···` option: Attribute (Example)
+- [x] `NR··` option: Attribute (Example)
 - [ ] `····` option: Value Range (Example)
 - [ ] `····` button: All Channel Sets (Example)
 - [ ] `····` section: Input Field
@@ -1922,7 +1922,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` page: command wing Bar
 - [ ] `····` button: More
 - [ ] `····` section: Playbacks
-- [ ] `····` button: Labels (Playbacks)
+- [ ] `·R··` button: Labels (Playbacks)
 - [ ] `····` button: Hardware Buttons (Playbacks)
 - [ ] `N···` section: Custom Master Section
 - [x] `NR··` section: Encoder Bar
@@ -1988,7 +1988,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Desk Lights & Color Theme
 - [ ] `N···` button: Compare
 - [ ] `N···` button: Import
-- [ ] `····` button: Clear Filter
+- [ ] `·R··` button: Clear Filter
 - [ ] `····` button: Select Base Theme
 - [ ] `····` button: Select Compare Theme
 - [ ] `····` option: Lock
@@ -2212,7 +2212,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Attribute](https://help.malighting.com/grandMA3/2.5/HTML/keyword_attribute.html)
 
 - [ ] `N··M` page: Attribute
-- [ ] `N···` key: Preset
+- [x] `NR··` key: Preset
 - [ ] `····` syntax: [Function] Attribute ["Attribute_Name" or Attribute_Number] (Syntax)
 
 ### [AutoCreate](https://help.malighting.com/grandMA3/2.5/HTML/keyword_autocreate.html)
@@ -2366,7 +2366,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Collection](https://help.malighting.com/grandMA3/2.5/HTML/keyword_collection.html)
 
 - [ ] `N···` page: Collection
-- [ ] `N···` key: Fixture
+- [x] `NR··` key: Fixture
 - [ ] `····` syntax: [Function] Collection At [Object] ["Object_Name" or Object_Number] (Description)
 
 ### [Color](https://help.malighting.com/grandMA3/2.5/HTML/keyword_color.html)
@@ -2391,7 +2391,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Configuration](https://help.malighting.com/grandMA3/2.5/HTML/keyword_configuration.html)
 
-- [ ] `N··M` page: Configuration
+- [x] `NRPM` page: Configuration
 - [ ] `····` syntax: [Function] Configuration ["Configuration_Name or Configuration_Number] At [Object] ["Object_Name" or Object_Number] (Syntax)
 
 ### [Console](https://help.malighting.com/grandMA3/2.5/HTML/keyword_console.html)
@@ -2418,7 +2418,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Cue](https://help.malighting.com/grandMA3/2.5/HTML/keyword_cue.html)
 
-- [ ] `N··M` page: Cue
+- [x] `NRPM` page: Cue
 - [ ] `····` key: Cue
 - [ ] `····` syntax: [Function] Cue ["Cue_Name" or Cue_Number] (Syntax)
 - [ ] `····` syntax: [Function] Sequence ["Sequence_Name" or Sequence_Number] Cue ["Cue_Name" or Cue_Number] ([Setting] ["Setting_Value"] (/Option) (Syntax)
@@ -2502,7 +2502,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [DataPool](https://help.malighting.com/grandMA3/2.5/HTML/keyword_datapool.html)
 
 - [ ] `N··M` page: DataPool
-- [ ] `N···` key: Preset
+- [x] `NR··` key: Preset
 - [ ] `····` syntax: [Function] DataPool ["DataPool_Name" or DataPool_Number] ([Object] ["Object_Name" or Object_Number]) (Syntax)
 - [ ] `····` section: Paste to Command Line
 
@@ -2653,7 +2653,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N··M` page: EditSetting
 - [ ] `····` syntax: EditSetting [Object] ["Object_Name" or Object_Number] (Syntax)
-- [ ] `N···` button: Cue Part (Examples)
+- [x] `NR··` button: Cue Part (Examples)
 
 ### [Effect](https://help.malighting.com/grandMA3/2.5/HTML/keyword_effect.html)
 
@@ -2780,7 +2780,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [FeatureGroup](https://help.malighting.com/grandMA3/2.5/HTML/keyword_featuregroup.html)
 
 - [ ] `N··M` page: FeatureGroup
-- [ ] `N···` key: Preset
+- [x] `NR··` key: Preset
 - [ ] `····` syntax: [Function] FeatureGroup ["FeatureGroup_Name" or FeatureGroup_Number] (Syntax)
 
 ### [Filter](https://help.malighting.com/grandMA3/2.5/HTML/keyword_filter.html)
@@ -2799,26 +2799,26 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Fixture](https://help.malighting.com/grandMA3/2.5/HTML/keyword_fixture.html)
 
 - [x] `NRPM` page: Fixture
-- [ ] `N···` key: Fixture
+- [x] `NR··` key: Fixture
 - [ ] `····` syntax: Fixture ["Fixture_Name" or Fixture_Number] (Syntax)
 - [ ] `····` syntax: Fixture ["Fixture_Name" or Fixture_Number].["SubFixture_Name" or SubFixture_Number] (Syntax)
 
 ### [FixtureClass](https://help.malighting.com/grandMA3/2.5/HTML/keyword_fixture_class.html)
 
 - [ ] `····` page: FixtureClass
-- [ ] `N···` key: Fixture
+- [x] `NR··` key: Fixture
 - [ ] `····` syntax: [Function] FixtureClass ["FixtureClass_Name" or FixtureClass_Number] (Syntax)
 
 ### [FixtureLayer](https://help.malighting.com/grandMA3/2.5/HTML/keyword_fixture_layer.html)
 
 - [ ] `N···` page: FixtureLayer
-- [ ] `N···` key: Fixture
+- [x] `NR··` key: Fixture
 - [ ] `····` syntax: [Function] FixtureLayer ["FixtureLayer_Name" or FixtureLayer_Number] (Syntax)
 
 ### [FixtureType](https://help.malighting.com/grandMA3/2.5/HTML/keyword_fixturetype.html)
 
 - [x] `NRPM` page: FixtureType
-- [ ] `N···` key: Fixture
+- [x] `NR··` key: Fixture
 - [ ] `····` syntax: [Function] FixtureType ["FixtureType_Name" or FixtureType_Number] (Syntax)
 - [ ] `····` setting: Requirement (Examples)
 
@@ -2842,7 +2842,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Freeze](https://help.malighting.com/grandMA3/2.5/HTML/keyword_freeze.html)
 
 - [ ] `···M` page: Freeze
-- [ ] `N···` key: Freeze
+- [x] `NR··` key: Freeze
 - [ ] `····` syntax: Freeze (On/Off) (Syntax)
 
 ### [Full](https://help.malighting.com/grandMA3/2.5/HTML/keyword_full.html)
@@ -2854,7 +2854,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Gel](https://help.malighting.com/grandMA3/2.5/HTML/keyword_gel.html)
 
 - [ ] `···M` page: Gel
-- [ ] `N···` key: Preset
+- [x] `NR··` key: Preset
 - [ ] `····` syntax: [Function] Gel ["Swatch_Name"."Gel_Name"] (Syntax)
 - [ ] `····` syntax: [Function] Gel [Swatch_Number].[Gel_Number] (Syntax)
 - [ ] `····` syntax: [Function] Gel [Swatch_Number] (Syntax)
@@ -2901,7 +2901,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Goto](https://help.malighting.com/grandMA3/2.5/HTML/keyword_goto.html)
 
 - [ ] `N··M` page: Goto
-- [ ] `····` key: Goto
+- [ ] `·R··` key: Goto
 - [ ] `····` table-row: A set fade time overrides the original cue timing (Description)
 - [ ] `····` syntax: Goto [Object]["Object_Name" or Object_Number or Next/Previous] (Fade [Fade_Time]) (Syntax)
 
@@ -3170,13 +3170,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Load](https://help.malighting.com/grandMA3/2.5/HTML/keyword_load.html)
 
 - [ ] `N··M` page: Load
-- [ ] `····` key: Goto
+- [ ] `·R··` key: Goto
 - [ ] `····` syntax: Load [Object] ["Object_Name" or Object_Number] (Syntax)
 
 ### [Loaded](https://help.malighting.com/grandMA3/2.5/HTML/keyword_loaded.html)
 
 - [ ] `····` page: Loaded
-- [ ] `····` key: Goto
+- [ ] `·R··` key: Goto
 - [ ] `····` syntax: [Function] Loaded (Syntax)
 
 ### [LoadShow](https://help.malighting.com/grandMA3/2.5/HTML/keyword_loadshow.html)
@@ -3241,18 +3241,18 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Master](https://help.malighting.com/grandMA3/2.5/HTML/keyword_master.html)
 
-- [ ] `N··M` page: Master
+- [x] `NRPM` page: Master
 - [ ] `····` syntax: [Function] Master (Syntax)
 - [ ] `····` syntax: Master [MasterCategory_Number].["Master_Name" or Master_Number] At [SpeedReadout] [SpeedReadout_Value] (Syntax)
 
 ### [MAtricks](https://help.malighting.com/grandMA3/2.5/HTML/keyword_matricks.html)
 
-- [ ] `N··M` page: MAtricks
+- [x] `NRPM` page: MAtricks
 - [ ] `····` syntax: Set Selection (Selection_Number) MAtricks (Property) ["Property_Name" or Property_Value] (Syntax)
 - [ ] `····` syntax: [Function] MAtricks ["MAtricks_Name" or MAtricks_Number] (Syntax)
 - [ ] `····` section: Properties
 - [ ] `·R··` table-row: XBlock (Properties)
-- [ ] `·R··` table-row: XGroup (Properties)
+- [x] `NR··` table-row: XGroup (Properties)
 - [ ] `·R··` table-row: XWings (Properties)
 - [ ] `·R··` table-row: XWidth (Properties)
 - [ ] `·R··` table-row: XShuffle (Properties)
@@ -3484,7 +3484,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Phase](https://help.malighting.com/grandMA3/2.5/HTML/keyword_phase.html)
 
-- [ ] `···M` page: Phase
+- [x] `NRPM` page: Phase
 - [ ] `····` syntax: Phase (Syntax)
 - [ ] `····` syntax: At Phase [Value] (Thru [Value]) (Syntax)
 - [ ] `····` setting: Requirement (Examples)
@@ -3508,19 +3508,19 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Preset](https://help.malighting.com/grandMA3/2.5/HTML/keyword_preset.html)
 
 - [ ] `N··M` page: Preset
-- [ ] `N···` key: Preset
+- [x] `NR··` key: Preset
 - [ ] `····` syntax: Preset ["FeatureGroup_Name" or FeatureGroup_Number].["Preset_Name" or Preset_Number] (Syntax)
 - [ ] `····` syntax: [Function] Preset ["FeatureGroup_Name" or FeatureGroup_Number].["Preset_Name" or Preset_Number] ([Setting] ["Setting_Value"] [/OptionKeyword]) (Syntax)
 - [ ] `····` syntax: Assign [Object] ["Object_Name" or Object_Number] At Preset ["FeatureGroup_Name" or FeatureGroup_Number].["Preset_Name" or Preset_Number] (Syntax)
 - [ ] `·R··` section: Settings
 - [x] `NR··` table-row: Appearance (Settings)
-- [ ] `N···` table-row: InputFilter (Settings)
+- [x] `NR··` table-row: InputFilter (Settings)
 - [x] `NR··` table-row: Scribble (Settings)
 - [ ] `·R··` table-row: MoveGridCursor (Settings)
-- [ ] `····` table-row: CuePart (Settings)
-- [ ] `N···` table-row: MAgic (Settings)
+- [ ] `·R··` table-row: CuePart (Settings)
+- [x] `NR··` table-row: MAgic (Settings)
 - [ ] `·R··` table-row: PresetMode (Settings)
-- [ ] `····` table-row: StoredData (Settings)
+- [ ] `·R··` table-row: StoredData (Settings)
 
 ### [PresetUpdate](https://help.malighting.com/grandMA3/2.5/HTML/keyword_presetupdate.html)
 
@@ -3559,7 +3559,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Programmer](https://help.malighting.com/grandMA3/2.5/HTML/keyword_programmer.html)
 
-- [ ] `N··M` page: Programmer
+- [x] `NRPM` page: Programmer
 - [ ] `····` key: Cue
 - [ ] `····` syntax: [Function] Programmer ([ProgrammerPart_Number]) (Syntax)
 
@@ -3705,7 +3705,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Reset](https://help.malighting.com/grandMA3/2.5/HTML/keyword_reset.html)
 
-- [ ] `···M` page: Reset
+- [x] `NRPM` page: Reset
 - [ ] `····` syntax: Reset [Object] (Syntax)
 
 ### [Restart](https://help.malighting.com/grandMA3/2.5/HTML/keyword_restart.html)
@@ -3773,7 +3773,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [ScreenContent](https://help.malighting.com/grandMA3/2.5/HTML/keyword_screencontent.html)
 
-- [ ] `N··M` page: ScreenContent
+- [x] `NRPM` page: ScreenContent
 - [ ] `····` syntax: [Function] ScreenContent (Syntax)
 - [ ] `····` syntax: [Function] ScreenContent [Screen_Number].["Window_Name" or Window_Number] (Syntax)
 
@@ -3802,8 +3802,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Selection](https://help.malighting.com/grandMA3/2.5/HTML/keyword_selection.html)
 
-- [ ] `N··M` page: Selection
-- [ ] `N···` key: Fixture
+- [x] `NRPM` page: Selection
+- [x] `NR··` key: Fixture
 - [ ] `····` syntax: [Function] Selection ([Selection_Number]) (Syntax)
 
 ### [SendMIDI](https://help.malighting.com/grandMA3/2.5/HTML/keyword_sendmidi.html)
@@ -4003,16 +4003,16 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NRPM` page: Timecode
 - [ ] `····` key: X6 | TC
 - [ ] `····` syntax: [Function] Timecode ["Timecode_Name" or Timecode_Number] (Property ["Property_Name" or "Property_Value"]) (Syntax)
-- [ ] `N···` section: Property
+- [x] `NR··` section: Property
 - [ ] `·R··` table-row: Time (Property)
 - [x] `NR··` table-row: Duration (Property)
-- [ ] `N···` table-row: Offset (Property)
-- [ ] `N···` table-row: Loop Mode (Property)
-- [ ] `····` table-row: Loop Count (Property)
-- [ ] `····` table-row: TimeMarkers (Property)
+- [x] `NR··` table-row: Offset (Property)
+- [x] `NR··` table-row: Loop Mode (Property)
+- [ ] `·R··` table-row: Loop Count (Property)
+- [ ] `·R··` table-row: TimeMarkers (Property)
 - [x] `NR··` table-row: TCSlot (Property)
 - [ ] `····` table-row: AutoStart (only available with external timecode slot) (Property)
-- [ ] `N···` table-row: AutoStop (Property)
+- [x] `NR··` table-row: AutoStop (Property)
 - [x] `NR··` table-row: User Bits (Property)
 
 ### [TimecodeSlot](https://help.malighting.com/grandMA3/2.5/HTML/keyword_timecodeslot.html)
@@ -4032,17 +4032,17 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` table-row: Appearance (Settings)
 - [x] `NR··` table-row: Scribble (Settings)
 - [ ] `····` table-row: Note (Settings)
-- [ ] `····` table-row: TimerMode (Settings)
+- [ ] `·R··` table-row: TimerMode (Settings)
 - [ ] `·R··` table-row: TimeReadout (Settings)
 - [ ] `·R··` table-row: RestartOption (Settings)
-- [ ] `····` table-row: TimerLinkType (Settings)
-- [ ] `····` table-row: CountdownAlertType (Settings)
-- [ ] `····` table-row: CountdownAlertRange (Settings)
-- [ ] `····` table-row: CountdownDuration (Settings)
-- [ ] `····` table-row: AlertCommand (Settings)
-- [ ] `····` table-row: AlertText (Settings)
-- [ ] `····` table-row: FrameFormat (Settings)
-- [ ] `····` table-row: AlertDuration (Settings)
+- [ ] `·R··` table-row: TimerLinkType (Settings)
+- [ ] `·R··` table-row: CountdownAlertType (Settings)
+- [ ] `·R··` table-row: CountdownAlertRange (Settings)
+- [ ] `·R··` table-row: CountdownDuration (Settings)
+- [ ] `·R··` table-row: AlertCommand (Settings)
+- [ ] `·R··` table-row: AlertText (Settings)
+- [ ] `·R··` table-row: FrameFormat (Settings)
+- [ ] `·R··` table-row: AlertDuration (Settings)
 
 ### [Toggle](https://help.malighting.com/grandMA3/2.5/HTML/keyword_toggle.html)
 
@@ -4127,7 +4127,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [User](https://help.malighting.com/grandMA3/2.5/HTML/keyword_user.html)
 
-- [ ] `N··M` page: User
+- [x] `NRPM` page: User
 - [ ] `····` syntax: User ["User_Name" or User_Number] (Syntax)
 - [ ] `····` syntax: [Function] User ["User_Name or User_Number] ([Setting] [Setting_Value]) (Syntax)
 - [ ] `·R··` section: Settings
@@ -4156,7 +4156,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [UserProfile](https://help.malighting.com/grandMA3/2.5/HTML/keyword_userprofile.html)
 
-- [ ] `···M` page: UserProfile
+- [x] `NRPM` page: UserProfile
 - [ ] `····` syntax: [Function] UserProfile ["UserProfile_Name" or UserProfile_Number] (Property ["Property_Name"] [Property_Value]) (Syntax)
 
 ### [Version](https://help.malighting.com/grandMA3/2.5/HTML/keyword_version.html)
@@ -4171,19 +4171,19 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [View](https://help.malighting.com/grandMA3/2.5/HTML/keyword_view.html)
 
-- [ ] `N··M` page: View
+- [x] `NRPM` page: View
 - [ ] `····` key: X7 | View
 - [ ] `····` syntax: ([Function]) View ["View_Name" or View_Number] (/Option ["Option_Value"]) (Syntax)
 - [ ] `·R··` section: Settings
 - [x] `NR··` table-row: Scribble (Settings)
 - [x] `NR··` table-row: Appearance (Settings)
 - [x] `NR··` table-row: ScreenContentMask (Settings)
-- [ ] `N···` table-row: RequestedW (Settings)
-- [ ] `N···` table-row: RequestedH (Settings)
+- [x] `NR··` table-row: RequestedW (Settings)
+- [x] `NR··` table-row: RequestedH (Settings)
 
 ### [ViewButton](https://help.malighting.com/grandMA3/2.5/HTML/keyword_viewbutton.html)
 
-- [ ] `N··M` page: ViewButton
+- [x] `NRPM` page: ViewButton
 - [ ] `····` key: X7|View
 - [ ] `····` syntax: ViewButton [Screen_Number].["ViewButton_Name" or ViewButton_Number] (/Option "[Option_Value]") (Syntax)
 - [ ] `····` syntax: [Function] ViewButton [Screen_Number].["ViewButton_Name" or ViewButton_Number] (/Option "[Option_Value]") (Syntax)
@@ -4260,7 +4260,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: /AutoStart
 - [ ] `····` syntax: Preview Sequence ["Sequence_Name" or Sequence_Number] /AutoStart ("Option Value") (Description)
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/ChannelSet](https://help.malighting.com/grandMA3/2.5/HTML/ok_channelset.html)
 
@@ -4269,12 +4269,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [/CopyCueDestination](https://help.malighting.com/grandMA3/2.5/HTML/ok_copycuedestination.html)
 
 - [ ] `···M` page: /CopyCueDestination
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/CopyCueSource](https://help.malighting.com/grandMA3/2.5/HTML/ok_copycuesource.html)
 
 - [ ] `···M` page: /CopyCueSource
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/CreateReferenceObject](https://help.malighting.com/grandMA3/2.5/HTML/ok_createrefernceobject.html)
 
@@ -4290,7 +4290,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N··M` page: /CueOnly
 - [ ] `····` syntax: [Function] (Sequence [" (Syntax)
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/Date](https://help.malighting.com/grandMA3/2.5/HTML/ok_date.html)
 
@@ -4361,7 +4361,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N··M` page: /GridMergeMode
 - [ ] `····` syntax: Store [Object] ["Object_Name" or Object_Number] /Merge /GridMergeMode "Value" (Syntax)
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/HighPrecision](https://help.malighting.com/grandMA3/2.5/HTML/ok_highprecision.html)
 
@@ -4537,7 +4537,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` page: /Recipe
 - [ ] `····` syntax: [Function] [Object] ["Object_Name" or Object_Number] (/Type "Recipe")(/Recipe "Recipe_Value") (Syntax)
 - [ ] `····` section: General Keywords and Option Keywords
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 - [ ] `····` section: Store a Recipe Preset without Selection
 
 ### [/Recursive](https://help.malighting.com/grandMA3/2.5/HTML/ok_recursive.html)
@@ -4567,14 +4567,14 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [/Screen](https://help.malighting.com/grandMA3/2.5/HTML/ok_screen.html)
 
-- [ ] `N··M` page: /Screen
+- [x] `NRPM` page: /Screen
 - [ ] `····` syntax: [Function] [Object] ["Object_Name" or Object_Number] /Screen (Syntax)
 
 ### [/ScreenOnly](https://help.malighting.com/grandMA3/2.5/HTML/ok_screenonly.html)
 
 - [ ] `····` page: /ScreenOnly
 - [ ] `····` syntax: Store Image ["MediaPool_Name" or MediaPool_Number].["Image_Name" or Image_Number] /ScreenOnly ["Value"] (Syntax)
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/Selection](https://help.malighting.com/grandMA3/2.5/HTML/ok_selection.html)
 
@@ -4609,13 +4609,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: /Tab
 - [ ] `····` syntax: [Function] Page ["Page_Name" or Page_Number].["Executor_Name" or Executor_Number] /Tab ["Option_Value"] (Syntax)
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/TrackingShield](https://help.malighting.com/grandMA3/2.5/HTML/ok_trackingshield.html)
 
 - [ ] `····` page: /TrackingShield
 - [ ] `····` syntax: [Function] Cue ["Cue_Name" or Cue_Number] /TrackingShield ["TrackingShield_Value"] (Syntax)
-- [ ] `····` section: Values
+- [ ] `·R··` section: Values
 
 ### [/TransferProgrammer](https://help.malighting.com/grandMA3/2.5/HTML/ok_transferprogrammer.html)
 
@@ -4736,56 +4736,56 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Edit Title Bar
 - [ ] `····` section: Display / Sheet
 - [ ] `N···` option: 2 Finger Edit (Display / Sheet)
-- [ ] `····` option: #Columns (Display / Sheet)
-- [ ] `N···` option: Adjust Columns (Display / Sheet)
+- [ ] `·R··` option: #Columns (Display / Sheet)
+- [x] `NR··` option: Adjust Columns (Display / Sheet)
 - [x] `NR··` option: Appearance (Display / Sheet)
-- [ ] `N···` option: Auto Scroll (Display / Sheet)
-- [ ] `N···` option: Color Mode (Display / Sheet)
+- [x] `NR··` option: Auto Scroll (Display / Sheet)
+- [x] `NR··` option: Color Mode (Display / Sheet)
 - [x] `NR··` option: Cue Only (Display / Sheet)
-- [ ] `N···` option: Feature Graphic (Display / Sheet)
-- [ ] `N···` option: Feature Sort (Display / Sheet)
-- [ ] `N···` option: Fixed Target (Display / Sheet)
-- [ ] `N···` option: Fixture Appearance (Display / Sheet)
-- [ ] `N···` option: Fixture Graphic (Display / Sheet)
+- [x] `NR··` option: Feature Graphic (Display / Sheet)
+- [x] `NR··` option: Feature Sort (Display / Sheet)
+- [x] `NR··` option: Fixed Target (Display / Sheet)
+- [x] `NR··` option: Fixture Appearance (Display / Sheet)
+- [x] `NR··` option: Fixture Graphic (Display / Sheet)
 - [ ] `····` option: Flip (Display / Sheet)
 - [ ] `····` option: Simple (Display / Sheet)
 - [ ] `····` option: Gobo (Display / Sheet)
-- [ ] `N···` option: Fixture Sort (Display / Sheet)
-- [ ] `N···` option: Font Size (Display / Sheet)
+- [x] `NR··` option: Fixture Sort (Display / Sheet)
+- [x] `NR··` option: Font Size (Display / Sheet)
 - [x] `NR··` option: Frame Readout (Display / Sheet)
-- [ ] `N···` option: Follow Preview (Display / Sheet)
-- [ ] `····` option: Labels (Display / Sheet)
+- [x] `NR··` option: Follow Preview (Display / Sheet)
+- [ ] `·R··` option: Labels (Display / Sheet)
 - [x] `NR··` option: Layer (Display / Sheet)
 - [ ] `N···` option: Layer Toolbar (Display / Sheet)
-- [ ] `N···` option: Link Type (Display / Sheet)
+- [x] `NR··` option: Link Type (Display / Sheet)
 - [ ] `····` option: Fixed (Display / Sheet)
-- [ ] `N···` option: Selected (Display / Sheet)
+- [x] `NR··` option: Selected (Display / Sheet)
 - [ ] `····` option: LastGo (Display / Sheet)
-- [ ] `N···` option: Merge Cells (Display / Sheet)
-- [ ] `N···` option: Preset (Display / Sheet)
+- [x] `NR··` option: Merge Cells (Display / Sheet)
+- [x] `NR··` option: Preset (Display / Sheet)
 - [ ] `····` option: ID (Display / Sheet)
-- [ ] `N···` option: Readout (Display / Sheet)
+- [x] `NR··` option: Readout (Display / Sheet)
 - [ ] `····` option: Show Master Area (Display / Sheet)
 - [ ] `····` option: Show Title Bar / Title Bar (Display / Sheet)
-- [ ] `N···` option: Speed (Display / Sheet)
-- [ ] `····` option: Step (Display / Sheet)
+- [x] `NR··` option: Speed (Display / Sheet)
+- [ ] `·R··` option: Step (Display / Sheet)
 - [ ] `N···` option: Time Format (Display / Sheet)
 - [ ] `N···` option: Transpose (Display / Sheet)
-- [ ] `····` option: View Mode (Display / Sheet)
+- [ ] `·R··` option: View Mode (Display / Sheet)
 - [ ] `·R··` option: Wing ID (Display / Sheet)
 - [ ] `·R··` section: Mask
-- [ ] `N···` button: Track Sheet (Mask)
+- [x] `NR··` button: Track Sheet (Mask)
 - [ ] `N···` section: Mask Buttons
-- [ ] `····` button: Mask 1 (Mask Buttons)
+- [ ] `·R··` button: Mask 1 (Mask Buttons)
 - [x] `NR··` section: Pool Settings
 - [ ] `N···` option: First Index (Pool Settings)
 - [ ] `N···` button: First Index (Pool Settings)
-- [ ] `N···` option: Show Empty (Pool Settings)
+- [x] `NR··` option: Show Empty (Pool Settings)
 - [x] `NR··` option: Appearance (Pool Settings)
-- [ ] `N···` option: Font Size (Pool Settings)
+- [x] `NR··` option: Font Size (Pool Settings)
 - [x] `NR··` option: DataPool (Pool Settings)
-- [ ] `····` option: Pool Color (Pool Settings)
-- [ ] `····` option: Empty Color (Pool Settings)
+- [ ] `·R··` option: Pool Color (Pool Settings)
+- [ ] `·R··` option: Empty Color (Pool Settings)
 - [ ] `····` option: Reset Colors (Pool Settings)
 - [ ] `N···` button: Use Object Action (Pool Settings)
 - [ ] `····` option: For All (Pool Settings)
@@ -4815,7 +4815,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Main Menu](https://help.malighting.com/grandMA3/2.5/HTML/wvm_menus.html)
 
 - [ ] `N···` page: Main Menu
-- [ ] `N···` option: Patch
+- [x] `NR··` option: Patch
 - [ ] `N···` option: Live Patch
 - [ ] `N···` option: Connector Configuration
 - [ ] `····` option: Desk Lights & Color Theme
@@ -4852,7 +4852,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Pool Windows](https://help.malighting.com/grandMA3/2.5/HTML/wvm_pool.html)
 
 - [ ] `N···` page: Pool Windows
-- [ ] `N···` section: Pool Object
+- [x] `NR··` section: Pool Object
 - [ ] `····` syntax: Group 1 (Pool Object)
 - [ ] `····` syntax: Group "All Spots" (Pool Object)
 - [ ] `····` syntax: Group "All*" (Pool Object)
@@ -4921,7 +4921,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` table-row: 20-bit block (Choosing an Address Range)
 - [ ] `····` table-row: 16-bit block (Choosing an Address Range)
 - [ ] `····` section: Set the IP Address in the Console
-- [x] `NR··` section: USB Network
+- [ ] `N···` section: USB Network
 
 ### [Session](https://help.malighting.com/grandMA3/2.5/HTML/network_session.html)
 
@@ -5145,7 +5145,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: DMX Port Configuration
 - [ ] `N···` button: Connector Configuration
 - [x] `NR··` button: Session
-- [ ] `····` button: Columns
+- [ ] `·R··` button: Columns
 - [ ] `····` option: Full
 - [ ] `····` option: Condensed
 - [ ] `····` option: XLR Only
@@ -5215,24 +5215,24 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Auto (Data Tab)
 - [ ] `····` option: Input (Data Tab)
 - [x] `NR··` option: Destination IP (Data Tab)
-- [ ] `N···` option: Subscribed Nodes (Data Tab)
-- [ ] `N···` option: Local Universe (Data Tab)
-- [ ] `····` option: Amount (Data Tab)
-- [ ] `····` option: Art-Net Sub-Net (Data Tab)
-- [ ] `····` option: Universe (Data Tab)
-- [ ] `N···` option: Art-Net Absolute (Data Tab)
-- [ ] `N···` option: Packet Delay (Data Tab)
+- [x] `NR··` option: Subscribed Nodes (Data Tab)
+- [x] `NR··` option: Local Universe (Data Tab)
+- [ ] `·R··` option: Amount (Data Tab)
+- [ ] `·R··` option: Art-Net Sub-Net (Data Tab)
+- [ ] `·R··` option: Universe (Data Tab)
+- [x] `NR··` option: Art-Net Absolute (Data Tab)
+- [x] `NR··` option: Packet Delay (Data Tab)
 - [x] `NR··` option: Merge Mode (Data Tab)
 - [ ] `N···` button: DMX Universes (Data Tab)
-- [ ] `N···` option: Input Priority (Data Tab)
-- [ ] `N···` option: Enable RDM (Data Tab)
+- [x] `NR··` option: Input Priority (Data Tab)
+- [x] `NR··` option: Enable RDM (Data Tab)
 - [ ] `N···` section: Nodes Tab
 - [ ] `····` option: Lock (Nodes Tab)
 - [ ] `····` option: IP (Nodes Tab)
 - [ ] `····` option: Net (Nodes Tab)
-- [ ] `····` option: Sub-Net (Nodes Tab)
+- [ ] `·R··` option: Sub-Net (Nodes Tab)
 - [ ] `····` option: Output Port (Nodes Tab)
-- [ ] `····` option: Input Port (Nodes Tab)
+- [ ] `N···` option: Input Port (Nodes Tab)
 
 ### [sACN (streaming ACN) Menu](https://help.malighting.com/grandMA3/2.5/HTML/dmx_ethernet_sacn.html)
 
@@ -5254,19 +5254,19 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: Input Multicast (Data Tab)
 - [ ] `N···` option: Input Unicast (Data Tab)
 - [x] `NR··` option: Destination IP (Data Tab)
-- [ ] `N···` option: Local Universe (Data Tab)
-- [ ] `····` option: Amount (Data Tab)
-- [ ] `····` option: sACN Universe (Data Tab)
-- [ ] `N···` option: Priority (Data Tab)
-- [ ] `····` option: Preview Only (Data Tab)
+- [x] `NR··` option: Local Universe (Data Tab)
+- [ ] `·R··` option: Amount (Data Tab)
+- [ ] `·R··` option: sACN Universe (Data Tab)
+- [x] `NR··` option: Priority (Data Tab)
+- [ ] `·R··` option: Preview Only (Data Tab)
 - [ ] `····` option: TTL (Data Tab)
-- [ ] `N···` option: Delay (Data Tab)
+- [x] `NR··` option: Delay (Data Tab)
 - [x] `NR··` option: Merge Mode (Data Tab)
 - [ ] `N···` button: DMX Universes (Data Tab)
-- [ ] `N···` option: Input Priority (Data Tab)
+- [x] `NR··` option: Input Priority (Data Tab)
 - [ ] `N···` section: Discovery Tab
 - [ ] `····` option: Lock (Discovery Tab)
-- [ ] `····` option: Universe List (Discovery Tab)
+- [ ] `·R··` option: Universe List (Discovery Tab)
 
 ### [Transmit DMX Using Art-Net](https://help.malighting.com/grandMA3/2.5/HTML/dmx_ethernet_artnet_transmit.html)
 
@@ -5281,7 +5281,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: DMX Priorities
 - [ ] `····` section: DMX Data Source Priorities
-- [ ] `N···` button: Freeze (DMX Data Source Priorities)
+- [x] `NR··` button: Freeze (DMX Data Source Priorities)
 - [ ] `····` section: Merge Behaviors
 - [ ] `N···` section: Output Modifiers
 - [ ] `N···` section: Selection Overrides
@@ -5294,7 +5294,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: 4. Playbacks with Super Priority
 - [ ] `····` section: 5. Programmer (Freeze enabled)
 - [ ] `····` section: 6. Standard Playbacks
-- [ ] `N···` table-row: Priority (6. Standard Playbacks)
+- [x] `NR··` table-row: Priority (6. Standard Playbacks)
 - [ ] `····` table-row: Swap (6. Standard Playbacks)
 - [ ] `N···` table-row: Highest (6. Standard Playbacks)
 - [ ] `····` table-row: HTP (6. Standard Playbacks)
@@ -5338,10 +5338,10 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` button: Privacy Policy (User Settings)
 - [x] `NR··` section: User Rights
 - [ ] `····` option: Admin (User Rights)
-- [ ] `····` option: Setup (User Rights)
+- [ ] `·R··` option: Setup (User Rights)
 - [ ] `N···` option: Program (User Rights)
 - [ ] `····` option: Playback (User Rights)
-- [ ] `····` option: View (User Rights)
+- [ ] `·R··` option: View (User Rights)
 - [ ] `····` section: User Profile Settings
 - [ ] `····` button: Profiles (User Profile Settings)
 - [ ] `····` syntax: Menu "UserConfiguration" /Tab "Profiles" (User Profile Settings)
@@ -5382,7 +5382,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` option: DMX Tester Mode (User Profile Settings)
 - [ ] `·R··` option: DMX Tester Test Value (User Profile Settings)
 - [ ] `·R··` section: User Attribute Preferences
-- [ ] `N···` button: Edit Encoder Bar (User Attribute Preferences)
+- [x] `NR··` button: Edit Encoder Bar (User Attribute Preferences)
 - [ ] `·R··` option: Time Layer Resolution (User Attribute Preferences)
 - [ ] `····` option: Phase Layer Resolution (User Attribute Preferences)
 - [ ] `·R··` option: Dual Encoder Factor (User Attribute Preferences)
@@ -5390,7 +5390,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` option: Link Resolution (User Attribute Preferences)
 - [x] `NR··` option: Natural Readout (User Attribute Preferences)
 - [x] `NR··` option: Encoder Resolution (User Attribute Preferences)
-- [ ] `····` option: Encoder Press Factor (User Attribute Preferences)
+- [ ] `·R··` option: Encoder Press Factor (User Attribute Preferences)
 - [x] `NR··` section: Wheel Mode
 - [ ] `····` section: Time and Frame Readout
 - [ ] `N···` option: 10d11h23m45 (Time and Frame Readout)
@@ -5430,7 +5430,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Insert New Fixture (Channel Map)
 - [ ] `N···` button: Channel Map (Channel Map)
 - [ ] `····` button: Sort By (Channel Map)
-- [ ] `····` button: Columns (Channel Map)
+- [ ] `·R··` button: Columns (Channel Map)
 - [ ] `N···` button: Split View (Channel Map)
 - [ ] `N···` option: Fixture Types (Channel Map)
 - [ ] `N···` option: DMX Universes (Channel Map)
@@ -5439,7 +5439,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: ID Types (Channel Map)
 - [ ] `N···` option: Layers (Channel Map)
 - [ ] `N···` option: Classes (Channel Map)
-- [ ] `N···` button: Show 3D Positions (Channel Map)
+- [x] `NR··` button: Show 3D Positions (Channel Map)
 - [ ] `····` button: 3D Positions Settings (Channel Map)
 - [ ] `····` option: Wireframe (Channel Map)
 - [ ] `····` option: Beam (Channel Map)
@@ -5459,48 +5459,48 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Add Fixtures to the Show
 - [ ] `····` section: Navigate to the Patch Menu
-- [ ] `N···` button: Patch (Navigate to the Patch Menu)
+- [x] `NR··` button: Patch (Navigate to the Patch Menu)
 - [ ] `····` section: Insert a Device in the Patch
 - [ ] `N···` button: New Fixture (Insert a Device in the Patch)
 - [ ] `N···` button: Insert New Fixture (Insert a Device in the Patch)
 - [ ] `N···` button: Used only (Insert a Device in the Patch)
 - [ ] `N···` button: Internal (Insert a Device in the Patch)
 - [ ] `·R··` button: Description (Insert a Device in the Patch)
-- [ ] `····` button: Columns (Insert a Device in the Patch)
+- [ ] `·R··` button: Columns (Insert a Device in the Patch)
 - [ ] `····` button: Create ! (Insert a Device in the Patch)
 - [ ] `····` section: Short Explanation of Most Columns in the Patch Menu
 - [ ] `····` option: FID (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `·R··` option: IDType (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `····` option: CID (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: FixtureType (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Patch (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: FixtureType (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Patch (Short Explanation of Most Columns in the Patch Menu)
 - [x] `NR··` option: Layer (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `····` option: Class (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Offset Pan (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Offset Tilt (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: DMX Invert Pan (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `····` option: DMX Invert Tilt (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Enc Invert Pan (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `····` option: Enc Invert Tilt (Short Explanation of Most Columns in the Patch Menu)
+- [ ] `·R··` option: Class (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Offset Pan (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Offset Tilt (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: DMX Invert Pan (Short Explanation of Most Columns in the Patch Menu)
+- [ ] `·R··` option: DMX Invert Tilt (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Enc Invert Pan (Short Explanation of Most Columns in the Patch Menu)
+- [ ] `·R··` option: Enc Invert Tilt (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `·R··` option: Pos X (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `·R··` option: Pos Y (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `·R··` option: Pos Z (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `·R··` option: Rot X (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `·R··` option: Rot Y (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `·R··` option: Rot Z (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `····` option: Scale X (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `····` option: Scale Y (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `····` option: Scale Z (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Gel Color (Short Explanation of Most Columns in the Patch Menu)
+- [ ] `·R··` option: Scale X (Short Explanation of Most Columns in the Patch Menu)
+- [ ] `·R··` option: Scale Y (Short Explanation of Most Columns in the Patch Menu)
+- [ ] `·R··` option: Scale Z (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Gel Color (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `····` option: Note (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Beam Angle (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Shadow Quality (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Follow Target (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Selectable 3D (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Visible 3D (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Target Space (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Movement Space (Short Explanation of Most Columns in the Patch Menu)
-- [ ] `N···` option: Master React (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Beam Angle (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Shadow Quality (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Follow Target (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Selectable 3D (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Visible 3D (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Target Space (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Movement Space (Short Explanation of Most Columns in the Patch Menu)
+- [x] `NR··` option: Master React (Short Explanation of Most Columns in the Patch Menu)
 - [x] `NR··` option: Appearance (Short Explanation of Most Columns in the Patch Menu)
 - [ ] `····` section: Assign an ID to Fixtures
 - [ ] `····` section: Assign DMX Address to Fixtures
@@ -5509,13 +5509,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: PatchTo (Use the Edit Patch menu)
 - [ ] `····` option: Unpatch (Use the Edit Patch menu)
 - [ ] `N···` option: Move Patched To Selected Universe (Use the Edit Patch menu)
-- [ ] `····` option: AddressMode (Use the Edit Patch menu)
+- [ ] `·R··` option: AddressMode (Use the Edit Patch menu)
 - [ ] `N···` option: Patch To Next Free Address (Use the Edit Patch menu)
 - [ ] `N···` option: Patch To Next Free Universe (Use the Edit Patch menu)
-- [ ] `····` option: SkipPatched (Use the Edit Patch menu)
+- [ ] `·R··` option: SkipPatched (Use the Edit Patch menu)
 - [ ] `N···` option: PatchOffset (Use the Edit Patch menu)
 - [ ] `····` section: Filtering the Patch Menu
-- [ ] `N···` button: Filter (Filtering the Patch Menu)
+- [x] `NR··` button: Filter (Filtering the Patch Menu)
 - [ ] `····` section: Closing the Patch Menu
 - [ ] `N···` button: Save and Exit (Closing the Patch Menu)
 - [ ] `N···` button: Discard and Exit (Closing the Patch Menu)
@@ -5532,7 +5532,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` syntax: Fixture 2 Multipatch 1 (Example)
 - [ ] `····` section: Add Multipatch Fixtures
 - [ ] `····` setting: Requirement (Add Multipatch Fixtures)
-- [ ] `N···` button: Patch (Add Multipatch Fixtures)
+- [x] `NR··` button: Patch (Add Multipatch Fixtures)
 - [ ] `N···` button: Create Multipatch (Add Multipatch Fixtures)
 
 ### [My Virtual Rig (MVR)](https://help.malighting.com/grandMA3/2.5/HTML/patch_mvr.html)
@@ -5557,7 +5557,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [DMX Sheet](https://help.malighting.com/grandMA3/2.5/HTML/patch_dmx_sheet.html)
 
 - [ ] `N···` page: DMX Sheet
-- [ ] `N···` option: Attribute
+- [x] `NR··` option: Attribute
 - [ ] `····` option: ID
 - [ ] `N···` section: Sheet Settings
 - [ ] `····` option: Background (Sheet Settings)
@@ -5570,7 +5570,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: DMX Channels (DMX Tester)
 - [ ] `····` option: Patched (DMX Tester)
 - [ ] `····` option: Unpatched (DMX Tester)
-- [ ] `N···` option: Select All (DMX Tester)
+- [x] `NR··` option: Select All (DMX Tester)
 - [ ] `N···` option: Release Selected (DMX Tester)
 - [ ] `····` option: Release Unselected (DMX Tester)
 - [ ] `····` option: Release All (DMX Tester)
@@ -5580,7 +5580,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [DMX Universes](https://help.malighting.com/grandMA3/2.5/HTML/patch_dmx_universe.html)
 
 - [x] `NR··` page: DMX Universes
-- [ ] `N···` button: Patch
+- [x] `NR··` button: Patch
 - [ ] `N···` button: DMX Universes
 - [ ] `····` option: Lock
 - [x] `NR··` option: Scribble
@@ -5598,37 +5598,37 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Remove Fixtures from the Show
 - [ ] `····` section: Remove a Fixture from the Patch
-- [ ] `N···` button: Patch (Remove a Fixture from the Patch)
+- [x] `NR··` button: Patch (Remove a Fixture from the Patch)
 
 ### [Position Fixtures in the 3D Space](https://help.malighting.com/grandMA3/2.5/HTML/patch_position_fixtures.html)
 
 - [ ] `····` page: Position Fixtures in the 3D Space
 - [ ] `····` section: Position Fixtures Using the Patch
 - [ ] `N···` button: Live Patch (Position Fixtures Using the Patch)
-- [ ] `N···` button: Show 3D Positions (Position Fixtures Using the Patch)
+- [x] `NR··` button: Show 3D Positions (Position Fixtures Using the Patch)
 - [ ] `····` section: Position Fixtures Using the 3D Viewer
-- [ ] `····` button: Setup (Position Fixtures Using the 3D Viewer)
+- [ ] `·R··` button: Setup (Position Fixtures Using the 3D Viewer)
 - [ ] `N···` option: Function (Position Fixtures Using the 3D Viewer)
 - [ ] `····` option: Axis (Position Fixtures Using the 3D Viewer)
-- [ ] `N···` option: Rotation Mode (Position Fixtures Using the 3D Viewer)
+- [x] `NR··` option: Rotation Mode (Position Fixtures Using the 3D Viewer)
 - [ ] `N···` option: Calibrate Position (Position Fixtures Using the 3D Viewer)
 - [ ] `N···` option: Change on Encoder Event (Position Fixtures Using the 3D Viewer)
 - [ ] `N···` option: Reset Position (Position Fixtures Using the 3D Viewer)
 - [ ] `N···` option: Reset Rotation (Position Fixtures Using the 3D Viewer)
 - [ ] `····` section: Position Arrangement Tool
-- [ ] `····` option: Layout Type (Position Arrangement Tool)
+- [ ] `·R··` option: Layout Type (Position Arrangement Tool)
 - [ ] `····` option: Reset Encoder Values (Position Arrangement Tool)
 - [ ] `N···` option: Apply on Change (Position Arrangement Tool)
 - [ ] `····` option: Apply (Position Arrangement Tool)
 - [ ] `····` setting: Line (Position Arrangement Tool)
 - [ ] `····` setting: Grid (Position Arrangement Tool)
-- [ ] `····` option: Axis Group Type (Grid)
+- [ ] `·R··` option: Axis Group Type (Grid)
 - [ ] `····` option: Reset Z (Grid)
-- [ ] `····` option: Direction (Grid)
+- [ ] `·R··` option: Direction (Grid)
 - [ ] `····` option: Row Order (Grid)
 - [ ] `N···` option: Column Order (Grid)
 - [ ] `N···` setting: Circle (Position Arrangement Tool)
-- [ ] `····` option: Axis Group Type (Circle)
+- [ ] `·R··` option: Axis Group Type (Circle)
 - [ ] `····` option: Reset Z (Circle)
 - [ ] `N···` option: Rotate to Circle Center (Circle)
 - [ ] `····` section: Position Fixtures Using Position Calibration
@@ -5654,33 +5654,33 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Spot (Rendering Settings)
 - [ ] `····` option: Ambient (Rendering Settings)
 - [ ] `N···` option: Point Light (Rendering Settings)
-- [ ] `····` option: Bloom Intensity (Rendering Settings)
-- [ ] `····` option: Setup (Rendering Settings)
-- [ ] `N···` option: Camera (Rendering Settings)
-- [ ] `N···` option: Stage (Rendering Settings)
-- [ ] `N···` option: Render Quality (Rendering Settings)
+- [ ] `·R··` option: Bloom Intensity (Rendering Settings)
+- [ ] `·R··` option: Setup (Rendering Settings)
+- [x] `NR··` option: Camera (Rendering Settings)
+- [x] `NR··` option: Stage (Rendering Settings)
+- [x] `NR··` option: Render Quality (Rendering Settings)
 - [ ] `····` section: Misc Settings
-- [ ] `N···` option: Show fps (Misc Settings)
+- [x] `NR··` option: Show fps (Misc Settings)
 - [ ] `····` option: Wireframe (Misc Settings)
-- [ ] `N···` option: Priority (Misc Settings)
-- [ ] `N···` option: Mark Faulty Meshes (Misc Settings)
-- [ ] `N···` option: Show Selection (Misc Settings)
-- [ ] `N···` option: Lens Shading (Misc Settings)
-- [ ] `N···` option: Touch Mode (Misc Settings)
-- [ ] `N···` option: Selection Mode (Misc Settings)
+- [x] `NR··` option: Priority (Misc Settings)
+- [x] `NR··` option: Mark Faulty Meshes (Misc Settings)
+- [x] `NR··` option: Show Selection (Misc Settings)
+- [x] `NR··` option: Lens Shading (Misc Settings)
+- [x] `NR··` option: Touch Mode (Misc Settings)
+- [x] `NR··` option: Selection Mode (Misc Settings)
 - [ ] `····` option: 2D Grid (Misc Settings)
 - [ ] `N···` option: Linearize (Misc Settings)
-- [ ] `N···` option: Mark Unpatched (Misc Settings)
-- [ ] `····` option: Prism Lines (Misc Settings)
-- [ ] `N···` option: Point of Origin (Misc Settings)
-- [ ] `N···` option: Show Pigtails (Misc Settings)
+- [x] `NR··` option: Mark Unpatched (Misc Settings)
+- [ ] `·R··` option: Prism Lines (Misc Settings)
+- [x] `NR··` option: Point of Origin (Misc Settings)
+- [x] `NR··` option: Show Pigtails (Misc Settings)
 - [ ] `····` option: Arrangement (Misc Settings)
 - [ ] `····` option: Mark Type (Misc Settings)
 - [ ] `·R··` option: Depth (Misc Settings)
-- [ ] `····` option: Alpha (Misc Settings)
+- [ ] `·R··` option: Alpha (Misc Settings)
 - [ ] `N···` option: Draw Target Spaces (Misc Settings)
-- [ ] `N···` option: Show Title Bar (Misc Settings)
-- [ ] `····` option: Show Tool Bar (Misc Settings)
+- [x] `NR··` option: Show Title Bar (Misc Settings)
+- [ ] `·R··` option: Show Tool Bar (Misc Settings)
 - [ ] `····` section: Label Settings
 - [ ] `····` option: Show Label on Body (Label Settings)
 - [ ] `····` option: Show Label on Spot (Label Settings)
@@ -5688,7 +5688,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Add Fixture ID (Label Settings)
 - [ ] `····` option: Background Alpha (Label Settings)
 - [ ] `····` option: Text Alpha (Label Settings)
-- [ ] `N···` option: Font Size (Label Settings)
+- [x] `NR··` option: Font Size (Label Settings)
 - [ ] `N···` option: Max Label Count (Label Settings)
 - [ ] `N···` option: Selection Only (Label Settings)
 - [ ] `····` option: Selection Priority (Label Settings)
@@ -5748,7 +5748,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Stages in grandMA3
 - [ ] `····` section: Add a Stage in the Patch
-- [ ] `N···` button: Patch (Add a Stage in the Patch)
+- [x] `NR··` button: Patch (Add a Stage in the Patch)
 - [ ] `N···` button: Stages (Add a Stage in the Patch)
 - [ ] `N···` button: Insert new Stage (Add a Stage in the Patch)
 - [ ] `····` section: Edit a Stage
@@ -5757,7 +5757,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N···` page: Classes and Layers
 - [ ] `····` section: Create a Class or Layer
-- [ ] `N···` button: Patch (Create a Class or Layer)
+- [x] `NR··` button: Patch (Create a Class or Layer)
 - [ ] `····` button: Full (Create a Class or Layer)
 - [ ] `N···` button: Split View (Create a Class or Layer)
 - [ ] `N···` button: Layers (Create a Class or Layer)
@@ -5785,7 +5785,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` option: Channel Functions
 - [ ] `·R··` option: Hide
 - [ ] `····` section: Add an Attribute Definition
-- [ ] `N···` button: Patch (Add an Attribute Definition)
+- [x] `NR··` button: Patch (Add an Attribute Definition)
 - [ ] `N···` button: Attribute Definitions (Add an Attribute Definition)
 - [ ] `····` button: Insert New Attribute (Add an Attribute Definition)
 - [ ] `····` section: Physical Units
@@ -5797,7 +5797,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` option: Attrib Count
 - [ ] `·R··` option: Deactivation Group
 - [ ] `····` section: Create and Use a New Activation Group
-- [ ] `N···` button: Patch (Create and Use a New Activation Group)
+- [x] `NR··` button: Patch (Create and Use a New Activation Group)
 - [ ] `N···` button: Attribute Definitions (Create and Use a New Activation Group)
 - [ ] `N···` button: Activation Groups (Create and Use a New Activation Group)
 - [ ] `····` button: Insert New ActivationGroup (Create and Use a New Activation Group)
@@ -5812,7 +5812,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` option: Attrib Count
 - [x] `NR··` option: Log Channels
 - [ ] `····` section: Create and Use a New Feature Group and Feature
-- [ ] `N···` button: Patch (Create and Use a New Feature Group and Feature)
+- [x] `NR··` button: Patch (Create and Use a New Feature Group and Feature)
 - [ ] `N···` button: Attribute Definitions (Create and Use a New Feature Group and Feature)
 - [ ] `N···` button: Feature Groups (Create and Use a New Feature Group and Feature)
 - [ ] `····` button: Insert New Feature Group (Create and Use a New Feature Group and Feature)
@@ -5825,7 +5825,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Lock
 - [ ] `·R··` option: Act Groups Count
 - [ ] `····` section: Create and Use a New Deactivation Group
-- [ ] `N···` button: Patch (Create and Use a New Deactivation Group)
+- [x] `NR··` button: Patch (Create and Use a New Deactivation Group)
 - [ ] `N···` button: Attribute Definitions (Create and Use a New Deactivation Group)
 - [ ] `N···` button: Deactivation Groups (Create and Use a New Deactivation Group)
 - [ ] `····` button: Insert New DeactivationGroup (Create and Use a New Deactivation Group)
@@ -5842,7 +5842,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: CID
 - [ ] `·R··` option: ChannelName
 - [ ] `N···` option: Default
-- [ ] `·R··` option: Default Preset
+- [x] `NR··` option: Default Preset
 - [x] `NR··` option: Highlight
 - [ ] `·R··` option: Highlight Preset
 - [x] `NR··` option: Lowlight
@@ -5860,7 +5860,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` page: DMX Curves
 - [x] `NR··` button: DMXReadout
 - [ ] `····` section: Open the DMX Curves Menu
-- [ ] `N···` button: Patch (Open the DMX Curves Menu)
+- [x] `NR··` button: Patch (Open the DMX Curves Menu)
 - [ ] `N···` button: DMX Curves (Open the DMX Curves Menu)
 - [ ] `····` section: Create a New MinMax Curve
 - [ ] `N···` button: Insert new Dmx Curve (Create a New MinMax Curve)
@@ -5905,15 +5905,15 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Preserve GridPosition (Grid Cursor)
 - [x] `NR··` button: Move Grid Cursor (Grid Cursor)
 - [x] `NR··` button: Selection (Grid Cursor)
-- [ ] `N···` button: Tool Bar (Grid Cursor)
-- [ ] `N···` button: Align Bar (Grid Cursor)
-- [ ] `N···` button: Font Size (Grid Cursor)
+- [x] `NR··` button: Tool Bar (Grid Cursor)
+- [x] `NR··` button: Align Bar (Grid Cursor)
+- [x] `NR··` button: Font Size (Grid Cursor)
 - [ ] `····` button: Appearances (Grid Cursor)
-- [ ] `N···` button: MAtricks Transformation (Grid Cursor)
-- [ ] `N···` button: Centerline X (Grid Cursor)
-- [ ] `····` button: Centerline Y (Grid Cursor)
-- [ ] `N···` button: Auto Scroll (Grid Cursor)
-- [ ] `····` button: Gridlines (Grid Cursor)
+- [x] `NR··` button: MAtricks Transformation (Grid Cursor)
+- [x] `NR··` button: Centerline X (Grid Cursor)
+- [ ] `·R··` button: Centerline Y (Grid Cursor)
+- [x] `NR··` button: Auto Scroll (Grid Cursor)
+- [ ] `·R··` button: Gridlines (Grid Cursor)
 - [ ] `N···` button: Edit Title Bar (Grid Cursor)
 - [ ] `····` section: Multiple Cells
 - [ ] `····` section: Perspective and Planar
@@ -5958,13 +5958,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Selection Grid Setup Mode
 - [ ] `····` section: Selection Grid Setup Mode
-- [ ] `····` button: Setup (Selection Grid Setup Mode)
+- [ ] `·R··` button: Setup (Selection Grid Setup Mode)
 - [x] `NR··` button: Selection (Selection Grid Setup Mode)
 
 ### [GridStore Function](https://help.malighting.com/grandMA3/2.5/HTML/gridstore-function.html)
 
 - [ ] `····` page: GridStore Function
-- [ ] `····` button: Setup
+- [ ] `·R··` button: Setup
 
 ### [Parent Child Fixture Behavior](https://help.malighting.com/grandMA3/2.5/HTML/parent-child-fixture.html)
 
@@ -5976,7 +5976,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Fixture Sheet](https://help.malighting.com/grandMA3/2.5/HTML/operate_fixture_sheet.html)
 
-- [ ] `N···` page: Fixture Sheet
+- [x] `NR··` page: Fixture Sheet
 - [ ] `N···` button: Fixture Sheet
 - [ ] `····` button: Common
 
@@ -5989,13 +5989,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Fixture sheet in Channel mode
 - [ ] `····` section: Dimmer+ Mode
 - [ ] `····` section: Sheet Filter Mode
-- [ ] `N···` button: Sheet Mode (Sheet Filter Mode)
-- [ ] `N···` button: Merge Cells (Sheet Filter Mode)
-- [ ] `····` button: Show ID Type (Sheet Filter Mode)
+- [x] `NR··` button: Sheet Mode (Sheet Filter Mode)
+- [x] `NR··` button: Merge Cells (Sheet Filter Mode)
+- [ ] `·R··` button: Show ID Type (Sheet Filter Mode)
 
 ### [Fixture Sheet Settings](https://help.malighting.com/grandMA3/2.5/HTML/fixture-sheet-settings.html)
 
-- [ ] `····` page: Fixture Sheet Settings
+- [ ] `·R··` page: Fixture Sheet Settings
 - [ ] `····` option: ID
 - [ ] `····` option: Flip
 - [ ] `····` option: Simple
@@ -6003,18 +6003,18 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Auto
 - [ ] `N···` option: Output
 - [ ] `····` option: DMX
-- [ ] `N···` button: Track Sheet
+- [x] `NR··` button: Track Sheet
 - [ ] `N···` button: Edit Title Bar
-- [ ] `N···` button: Display
+- [x] `NR··` button: Display
 
 ### [Graphics](https://help.malighting.com/grandMA3/2.5/HTML/operate_fixture_graphic.html)
 
 - [ ] `····` page: Graphics
-- [ ] `N···` section: Feature Graphic
-- [ ] `N···` button: Feature Graphic (Feature Graphic)
-- [ ] `N···` section: Fixture Graphic
+- [x] `NR··` section: Feature Graphic
+- [x] `NR··` button: Feature Graphic (Feature Graphic)
+- [x] `NR··` section: Fixture Graphic
 - [ ] `····` button: Fixture Graphics (Fixture Graphic)
-- [ ] `····` button: Fixture Graphic Source (Fixture Graphic)
+- [ ] `·R··` button: Fixture Graphic Source (Fixture Graphic)
 - [ ] `····` option: Auto (Fixture Graphic)
 - [ ] `N···` option: Output (Fixture Graphic)
 - [ ] `····` option: DMX (Fixture Graphic)
@@ -6022,8 +6022,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [The Programmer](https://help.malighting.com/grandMA3/2.5/HTML/operate_programmer.html)
 
 - [ ] `N···` page: The Programmer
-- [ ] `N···` section: Freeze
-- [ ] `N···` button: Freeze (Freeze)
+- [x] `NR··` section: Freeze
+- [x] `NR··` button: Freeze (Freeze)
 - [ ] `N···` section: Blind
 - [ ] `N···` section: Program Time
 - [ ] `N···` section: Preview
@@ -6041,7 +6041,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: Sinus
 - [ ] `····` option: Slow
 - [ ] `····` option: Fast
-- [ ] `N···` section: Align Bar
+- [x] `NR··` section: Align Bar
 - [ ] `····` button: More (Align Bar)
 - [ ] `····` section: Align /
 - [ ] `N···` button: Position (Align /)
@@ -6064,8 +6064,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: LED Backwall (Example of Cloning Fixtures in the Patch)
 - [ ] `N···` button: Paste (Example of Cloning Fixtures in the Patch)
 - [ ] `····` section: Example of Cloning Fixtures to a Different Stage
-- [ ] `N···` button: Patch (Example of Cloning Fixtures to a Different Stage)
-- [ ] `N···` button: Stage (Example of Cloning Fixtures to a Different Stage)
+- [x] `NR··` button: Patch (Example of Cloning Fixtures to a Different Stage)
+- [x] `NR··` button: Stage (Example of Cloning Fixtures to a Different Stage)
 
 ### [Use Clone to Transfer Values](https://help.malighting.com/grandMA3/2.5/HTML/operate_clone_overlay.html)
 
@@ -6075,7 +6075,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Cloning Show Data
 - [ ] `N···` button: All Sequences (Cloning Show Data)
 - [ ] `····` button: Select None (Cloning Show Data)
-- [ ] `N···` button: Select All (Cloning Show Data)
+- [x] `NR··` button: Select All (Cloning Show Data)
 - [ ] `····` button: All Items To All (Cloning Show Data)
 - [ ] `N···` button: Clone Show (Cloning Show Data)
 - [ ] `····` button: All Items To None (Cloning Show Data)
@@ -6098,7 +6098,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Tools
 - [ ] `N···` button: Special Dialog
 - [ ] `····` button: Tabs
-- [ ] `N···` button: Display
+- [x] `NR··` button: Display
 - [x] `NR··` button: Color
 - [ ] `····` button: Shapers
 - [ ] `····` section: Display Settings
@@ -6115,9 +6115,9 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Quality
 - [ ] `····` button: Constant Brightness (Quality)
 - [ ] `····` section: HSB Field
-- [ ] `N···` button: Filter (HSB Field)
-- [ ] `····` button: Clear Filter (HSB Field)
-- [ ] `····` button: View (HSB Field)
+- [x] `NR··` button: Filter (HSB Field)
+- [ ] `·R··` button: Clear Filter (HSB Field)
+- [ ] `·R··` button: View (HSB Field)
 - [ ] `····` button: Sort by (HSB Field)
 - [ ] `····` option: Key (HSB Field)
 - [ ] `····` section: Color Wheels
@@ -6137,7 +6137,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Mini Faders
 - [ ] `N···` button: Control
 - [ ] `·R··` button: Link
-- [ ] `····` button: View
+- [ ] `·R··` button: View
 - [ ] `····` section: Graphical View Mode
 - [ ] `····` section: Using the Faders
 - [ ] `····` button: Reset 1-4 (Using the Faders)
@@ -6184,7 +6184,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Data Pools (Examples)
 - [ ] `N···` button: World (Examples)
 - [ ] `N···` button: Edit Setting (Examples)
-- [ ] `N···` button: Patch (Examples)
+- [x] `NR··` button: Patch (Examples)
 
 ### [Notes in Pool Objects](https://help.malighting.com/grandMA3/2.5/HTML/notes_pool_objects.html)
 
@@ -6202,13 +6202,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Requirement
 - [ ] `····` button: Common
 - [ ] `N···` button: Sequence Sheet
-- [ ] `N···` button: Link Type
+- [x] `NR··` button: Link Type
 - [ ] `····` section: Multi-Line Editor
 - [ ] `····` section: Changing the Line Height
 - [ ] `·R··` button: Mask (Changing the Line Height)
-- [ ] `N···` button: Line Height (Changing the Line Height)
-- [ ] `N···` section: Show Notes
-- [ ] `N···` button: Show Notes (Show Notes)
+- [x] `NR··` button: Line Height (Changing the Line Height)
+- [x] `NR··` section: Show Notes
+- [x] `NR··` button: Show Notes (Show Notes)
 - [ ] `····` table-row: When Show Notes is enabled, Show Recipes is disabled (Show Notes)
 
 ## Scribbles
@@ -6327,7 +6327,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` page: Meshes
 - [ ] `N···` button: Pools
 - [ ] `····` button: Meshes
-- [ ] `····` button: Front
+- [ ] `N···` button: Front
 - [ ] `····` button: Auto
 - [ ] `····` section: Import Meshes
 - [ ] `N···` button: Import (Import Meshes)
@@ -6470,7 +6470,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` syntax: Extract Cue [Cue_Number or "Cue_Name"] (Extract Preset Data)
 - [ ] `····` syntax: Extract Selection /Single (Example)
 - [ ] `····` syntax: Extract Selection (Example)
-- [ ] `N···` section: Delay To Phase
+- [x] `NR··` section: Delay To Phase
 
 ### [Preset Pools](https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html)
 
@@ -6490,7 +6490,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Create New Presets
 - [ ] `N···` button: Edit Settings
-- [ ] `N···` button: MAgic
+- [x] `NR··` button: MAgic
 - [ ] `····` section: Multistep Preset
 
 ### [Recipe Presets](https://help.malighting.com/grandMA3/2.5/HTML/presets_recipes.html)
@@ -6533,7 +6533,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Presets Running from Executors
 - [ ] `N···` button: Edit Setting (Presets Running from Executors)
 - [ ] `N···` button: Preferences and Timing (Presets Running from Executors)
-- [ ] `N···` button: Preset (Presets Running from Executors)
+- [x] `NR··` button: Preset (Presets Running from Executors)
 - [ ] `····` section: Store Presets in Cues
 - [ ] `····` section: Assign Presets to Attributes in the Tracking Sheet
 - [ ] `····` section: Extract Preset Values
@@ -6608,16 +6608,16 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: MIB (Filter Rules)
 - [ ] `N···` button: Multi Step (Filter Rules)
 - [ ] `····` button: Parked (Filter Rules)
-- [ ] `N···` button: Patch (Filter Rules)
-- [ ] `N···` button: Selected (Filter Rules)
+- [x] `NR··` button: Patch (Filter Rules)
+- [x] `NR··` button: Selected (Filter Rules)
 - [ ] `N···` button: Selected Feature (Filter Rules)
-- [ ] `N···` button: Stage (Filter Rules)
+- [x] `NR··` button: Stage (Filter Rules)
 - [ ] `N···` button: Used In Object (Filter Rules)
 - [ ] `N···` button: Used In Selected Sequence (Filter Rules)
 - [ ] `N···` button: Used In Show (Filter Rules)
-- [ ] `N···` button: Invert (Filter Rules)
-- [ ] `N···` button: Apply to Fixtures (Filter Rules)
-- [ ] `N···` button: Apply to Attributes (Filter Rules)
+- [x] `NR··` button: Invert (Filter Rules)
+- [x] `NR··` button: Apply to Fixtures (Filter Rules)
+- [x] `NR··` button: Apply to Attributes (Filter Rules)
 - [ ] `····` button: Insert New Ruleset (Filter Rules)
 - [ ] `····` section: Filter Rule Attributes
 - [ ] `····` button: Ruleset (Filter Rule Attributes)
@@ -6628,7 +6628,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Assign Object to a Filter
 - [ ] `····` syntax: Assign Group 2 At Filter 8 (Assign Object to a Filter)
 - [ ] `····` section: Static Filter Rules
-- [ ] `N···` button: Output Filter (Static Filter Rules)
+- [x] `NR··` button: Output Filter (Static Filter Rules)
 - [ ] `····` button: Hide Dynamic (Static Filter Rules)
 - [ ] `N···` button: Edit Recipes (Static Filter Rules)
 
@@ -6641,20 +6641,20 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N···` page: Sheet Masking
 - [ ] `····` section: Create a Sheet Mask
-- [ ] `····` button: Mask 1 (Create a Sheet Mask)
-- [ ] `N···` button: Track Sheet (Create a Sheet Mask)
+- [ ] `·R··` button: Mask 1 (Create a Sheet Mask)
+- [x] `NR··` button: Track Sheet (Create a Sheet Mask)
 - [ ] `N···` button: Prog Only (Create a Sheet Mask)
 - [ ] `N···` button: Selection Only (Create a Sheet Mask)
 - [ ] `····` section: Assigning a Mask Button
 - [ ] `N···` button: Empty (Assigning a Mask Button)
-- [ ] `N···` button: <Selected> (Assigning a Mask Button)
+- [x] `NR··` button: <Selected> (Assigning a Mask Button)
 - [ ] `····` button: <Called> (Assigning a Mask Button)
-- [ ] `N···` button: Filter (Assigning a Mask Button)
+- [x] `NR··` button: Filter (Assigning a Mask Button)
 - [ ] `N···` button: World (Assigning a Mask Button)
 - [ ] `N···` button: Add Window
 - [ ] `····` button: Fixure Sheet
 - [ ] `N···` button: Mask Buttons
-- [ ] `····` button: Mask3
+- [ ] `·R··` button: Mask3
 - [ ] `····` button: Mask Toolbar
 - [ ] `N···` button: Parked Only
 - [ ] `N···` button: Filter 1
@@ -6668,7 +6668,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N···` page: MAtricks and Shuffle
 - [ ] `····` section: MAtricks Tools
-- [ ] `N···` button: MAtricks (MAtricks Tools)
+- [x] `NR··` button: MAtricks (MAtricks Tools)
 - [ ] `····` button: Grid (MAtricks Tools)
 - [ ] `N···` button: Layers (MAtricks Tools)
 - [ ] `N···` button: Shuffle (MAtricks Tools)
@@ -6686,7 +6686,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Simple Example
 - [x] `NR··` button: Active (Simple Example)
 - [ ] `····` section: Multiple Selection
-- [ ] `N···` button: ActiveSel (Multiple Selection)
+- [x] `NR··` button: ActiveSel (Multiple Selection)
 - [ ] `N···` button: Copy Sel (Multiple Selection)
 - [ ] `N···` button: Copy Values (Multiple Selection)
 - [ ] `····` syntax: ClearAll (Multiple Selection)
@@ -6705,7 +6705,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` button: InvertX (Invert Options)
 - [ ] `·R··` button: InvertY (Invert Options)
 - [ ] `·R··` button: InvertZ (Invert Options)
-- [ ] `N···` button: Speed Master (Invert Options)
+- [x] `NR··` button: Speed Master (Invert Options)
 - [ ] `····` table-row: Currently, Align only works with the X-axis (Invert Options)
 
 ### [Blocks](https://help.malighting.com/grandMA3/2.5/HTML/matricks_block.html)
@@ -6738,10 +6738,10 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Transform
 - [x] `NR··` button: Phaser (Example)
 - [ ] `····` button: 2D (Example)
-- [ ] `N···` button: MAtricks (Example)
+- [x] `NR··` button: MAtricks (Example)
 - [ ] `·R··` button: XWings (Example)
 - [ ] `····` button: Transform (Example)
-- [ ] `N···` button: Mirror (Example)
+- [x] `NR··` button: Mirror (Example)
 - [ ] `·R··` button: InvertStyle (Example)
 - [ ] `····` button: Inverts (Example)
 - [ ] `····` section: Cues and Preset along with Transform Mirror
@@ -6753,7 +6753,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Cues and Sequences](https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence.html)
 
 - [ ] `N···` page: Cues and Sequences
-- [ ] `N···` section: Executor Style
+- [x] `NR··` section: Executor Style
 - [ ] `····` section: Pool Action and Object Action
 - [ ] `····` section: Reference
 - [x] `NR··` section: Filters
@@ -6762,7 +6762,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [What is Tracking](https://help.malighting.com/grandMA3/2.5/HTML/cue_tracking.html)
 
 - [ ] `····` page: What is Tracking
-- [ ] `N···` button: Track Sheet (Example)
+- [x] `NR··` button: Track Sheet (Example)
 - [ ] `N···` button: Channel Sets (Example)
 - [ ] `····` button: Closed (Example)
 - [ ] `····` button: Destination Attributes(s) (Example)
@@ -6781,7 +6781,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Tracking Distance](https://help.malighting.com/grandMA3/2.5/HTML/cue_tracking_distance.html)
 
-- [ ] `N···` page: Tracking Distance
+- [x] `NR··` page: Tracking Distance
 - [ ] `····` section: Tracking Using Cue Number
 - [ ] `····` section: Tracking Delta Distance
 - [ ] `····` button: Δ+ (Example)
@@ -6795,8 +6795,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Break](https://help.malighting.com/grandMA3/2.5/HTML/cue_tracking_break.html)
 
-- [ ] `N···` page: Break
-- [ ] `N···` button: Filter (Example)
+- [x] `NR··` page: Break
+- [x] `NR··` button: Filter (Example)
 
 ### [Sequence Sheet](https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_sheet.html)
 
@@ -6804,44 +6804,44 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` section: Title Bar
 - [ ] `····` section: Main Part of the Sheet
 - [ ] `····` option: Lock (Main Part of the Sheet)
-- [ ] `····` option: Part (Main Part of the Sheet)
-- [ ] `N···` option: Trig Type (Main Part of the Sheet)
+- [ ] `·R··` option: Part (Main Part of the Sheet)
+- [x] `NR··` option: Trig Type (Main Part of the Sheet)
 - [ ] `····` option: Go (Main Part of the Sheet)
 - [ ] `·R··` option: Time (Main Part of the Sheet)
 - [ ] `N···` option: Follow (Main Part of the Sheet)
 - [ ] `N···` option: Sound (Main Part of the Sheet)
 - [ ] `····` option: BPM (Main Part of the Sheet)
-- [ ] `N···` option: Trig Time (Main Part of the Sheet)
-- [ ] `····` option: Trig Sound (Main Part of the Sheet)
+- [x] `NR··` option: Trig Time (Main Part of the Sheet)
+- [ ] `·R··` option: Trig Sound (Main Part of the Sheet)
 - [x] `NR··` option: Duration (Main Part of the Sheet)
-- [ ] `N···` option: CueIn Fade (Main Part of the Sheet)
-- [ ] `N···` option: CueIn Delay (Main Part of the Sheet)
-- [ ] `N···` option: CueOut Fade (Main Part of the Sheet)
-- [ ] `N···` option: CueOut Delay (Main Part of the Sheet)
-- [ ] `N···` option: Snap Delay (Main Part of the Sheet)
+- [x] `NR··` option: CueIn Fade (Main Part of the Sheet)
+- [x] `NR··` option: CueIn Delay (Main Part of the Sheet)
+- [x] `NR··` option: CueOut Fade (Main Part of the Sheet)
+- [x] `NR··` option: CueOut Delay (Main Part of the Sheet)
+- [x] `NR··` option: Snap Delay (Main Part of the Sheet)
 - [x] `NR··` option: Release (Main Part of the Sheet)
-- [ ] `N···` option: Break (Main Part of the Sheet)
-- [ ] `N···` option: Allow Duplicates (Main Part of the Sheet)
-- [ ] `N···` option: Tracking Distance (Main Part of the Sheet)
-- [ ] `····` option: Sync (Main Part of the Sheet)
-- [ ] `N···` option: Speed Master (Main Part of the Sheet)
+- [x] `NR··` option: Break (Main Part of the Sheet)
+- [x] `NR··` option: Allow Duplicates (Main Part of the Sheet)
+- [x] `NR··` option: Tracking Distance (Main Part of the Sheet)
+- [ ] `·R··` option: Sync (Main Part of the Sheet)
+- [x] `NR··` option: Speed Master (Main Part of the Sheet)
 - [x] `NR··` option: Speed Scale (Main Part of the Sheet)
 - [ ] `····` option: Morph (Main Part of the Sheet)
-- [ ] `N···` option: Transition (Main Part of the Sheet)
+- [x] `NR··` option: Transition (Main Part of the Sheet)
 - [ ] `····` option: "Preset type" Fade (Main Part of the Sheet)
 - [ ] `····` option: "Preset type" Delay (Main Part of the Sheet)
 - [x] `NR··` option: Command (Main Part of the Sheet)
-- [ ] `N···` option: Command Delay (Main Part of the Sheet)
+- [x] `NR··` option: Command Delay (Main Part of the Sheet)
 - [ ] `····` option: Note (Main Part of the Sheet)
-- [ ] `N···` option: MIB Preference (Main Part of the Sheet)
-- [ ] `N···` option: MIB Mode (Main Part of the Sheet)
-- [ ] `N···` option: MIB Target (Main Part of the Sheet)
-- [ ] `N···` option: MIB MultiStep (Main Part of the Sheet)
+- [x] `NR··` option: MIB Preference (Main Part of the Sheet)
+- [x] `NR··` option: MIB Mode (Main Part of the Sheet)
+- [x] `NR··` option: MIB Target (Main Part of the Sheet)
+- [x] `NR··` option: MIB MultiStep (Main Part of the Sheet)
 - [x] `NR··` option: MIB Fade (Main Part of the Sheet)
 - [x] `NR··` option: MIB Delay (Main Part of the Sheet)
-- [ ] `N···` option: Indiv Fade (Main Part of the Sheet)
-- [ ] `N···` option: Indiv Delay (Main Part of the Sheet)
-- [ ] `····` option: Indiv Duration (Main Part of the Sheet)
+- [x] `NR··` option: Indiv Fade (Main Part of the Sheet)
+- [x] `NR··` option: Indiv Delay (Main Part of the Sheet)
+- [ ] `·R··` option: Indiv Duration (Main Part of the Sheet)
 - [x] `NR··` option: Appearance (Main Part of the Sheet)
 - [ ] `N···` section: Track Sheet Mode
 - [ ] `····` section: Overwritten Cue Timing
@@ -6850,16 +6850,16 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: ID (Sequence Sheet Settings)
 - [ ] `····` option: Num+Name (Sequence Sheet Settings)
 - [ ] `····` option: Fixed (Sequence Sheet Settings)
-- [ ] `N···` option: Selected (Sequence Sheet Settings)
+- [x] `NR··` option: Selected (Sequence Sheet Settings)
 - [ ] `····` option: LastGo (Sequence Sheet Settings)
-- [ ] `N···` option: Feature Graphic (Sequence Sheet Settings)
+- [x] `NR··` option: Feature Graphic (Sequence Sheet Settings)
 - [ ] `····` option: ID+Name (Sequence Sheet Settings)
 - [ ] `N···` option: Show Fixture Name (Sequence Sheet Settings)
-- [ ] `N···` button: Track Sheet (Sequence Sheet Settings)
-- [ ] `N···` option: Show Notes (Sequence Sheet Settings)
-- [ ] `N···` option: Show Recipes (Sequence Sheet Settings)
-- [ ] `····` option: Show Steps (Sequence Sheet Settings)
-- [ ] `N···` option: Track Sheet (Sequence Sheet Settings)
+- [x] `NR··` button: Track Sheet (Sequence Sheet Settings)
+- [x] `NR··` option: Show Notes (Sequence Sheet Settings)
+- [x] `NR··` option: Show Recipes (Sequence Sheet Settings)
+- [ ] `·R··` option: Show Steps (Sequence Sheet Settings)
+- [x] `NR··` option: Track Sheet (Sequence Sheet Settings)
 - [ ] `····` button: Mask Toolbar (Sequence Sheet Settings)
 - [ ] `····` section: Sequence Edit Toolbar
 
@@ -6869,7 +6869,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Show Parts
 - [ ] `····` section: Content Sheet Settings
 - [ ] `····` option: Num+Name (Content Sheet Settings)
-- [ ] `N···` option: Current Cue (Content Sheet Settings)
+- [x] `NR··` option: Current Cue (Content Sheet Settings)
 - [ ] `N···` option: Previous Cue (Content Sheet Settings)
 - [ ] `N···` option: Next Cue (Content Sheet Settings)
 - [ ] `····` option: Manual (Content Sheet Settings)
@@ -6878,61 +6878,61 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Simple (Content Sheet Settings)
 - [ ] `····` option: Gobo (Content Sheet Settings)
 - [ ] `····` option: Fixed (Content Sheet Settings)
-- [ ] `N···` option: Selected (Content Sheet Settings)
+- [x] `NR··` option: Selected (Content Sheet Settings)
 - [ ] `····` option: LastGo (Content Sheet Settings)
-- [ ] `N···` button: Track Sheet (Content Sheet Settings)
+- [x] `NR··` button: Track Sheet (Content Sheet Settings)
 
 ### [Sequence Settings](https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_settings.html)
 
-- [ ] `N···` page: Sequence Settings
+- [x] `NR··` page: Sequence Settings
 - [ ] `N···` button: Edit Settings
-- [ ] `N···` button: Load from Default
+- [x] `NR··` button: Load from Default
 - [ ] `N···` button: Save as Default
 - [ ] `N···` section: Label
 - [ ] `····` setting: Name (Label)
 - [x] `NR··` setting: Scribble (Label)
 - [x] `NR··` setting: Appearance (Label)
-- [ ] `N···` setting: Prefer Cue Appearance (Label)
-- [ ] `N···` setting: Executor Display Mode (Label)
+- [x] `NR··` setting: Prefer Cue Appearance (Label)
+- [x] `NR··` setting: Executor Display Mode (Label)
 - [ ] `·R··` option: Data (Executor Display Mode)
 - [x] `NR··` option: Appearance (Executor Display Mode)
 - [ ] `N···` option: Data and Appearance (Executor Display Mode)
-- [ ] `N···` section: Start
+- [x] `NR··` section: Start
 - [x] `NR··` setting: Auto Start (Start)
-- [ ] `N···` setting: Auto Stop (Start)
-- [ ] `N···` setting: Master Go Mode (Start)
+- [x] `NR··` setting: Auto Stop (Start)
+- [x] `NR··` setting: Master Go Mode (Start)
 - [ ] `····` option: Go (Master Go Mode)
 - [ ] `····` option: Top (Master Go Mode)
-- [ ] `N···` setting: Auto Fix (Start)
-- [ ] `N···` setting: Auto Stomp (Start)
+- [x] `NR··` setting: Auto Fix (Start)
+- [x] `NR··` setting: Auto Stomp (Start)
 - [ ] `····` section: Playback
-- [ ] `····` setting: Tracking (Playback)
-- [ ] `N···` setting: Restart Mode (Playback)
+- [ ] `·R··` setting: Tracking (Playback)
+- [x] `NR··` setting: Restart Mode (Playback)
 - [ ] `N···` option: First Cue (Restart Mode)
-- [ ] `N···` option: Current Cue (Restart Mode)
+- [x] `NR··` option: Current Cue (Restart Mode)
 - [ ] `N···` option: Next Cue (Restart Mode)
-- [ ] `N···` setting: Cue Command (Playback)
-- [ ] `N···` setting: XFade Reload (Playback)
-- [ ] `N···` setting: Output Filter (Playback)
-- [ ] `N···` setting: Priority (Playback)
-- [ ] `N···` setting: Soft LTP (Playback)
-- [ ] `N···` setting: Playback Master (Playback)
-- [ ] `N···` setting: XFade Mode (Playback)
+- [x] `NR··` setting: Cue Command (Playback)
+- [x] `NR··` setting: XFade Reload (Playback)
+- [x] `NR··` setting: Output Filter (Playback)
+- [x] `NR··` setting: Priority (Playback)
+- [x] `NR··` setting: Soft LTP (Playback)
+- [x] `NR··` setting: Playback Master (Playback)
+- [x] `NR··` setting: XFade Mode (Playback)
 - [ ] `····` option: Split (XFade Mode)
 - [ ] `····` option: AB (XFade Mode)
-- [ ] `N···` section: Speed
-- [ ] `N···` setting: Rate Master (Speed)
-- [ ] `N···` setting: Rate Scale (Speed)
-- [ ] `N···` setting: Speed Master (Speed)
+- [x] `NR··` section: Speed
+- [x] `NR··` setting: Rate Master (Speed)
+- [x] `NR··` setting: Rate Scale (Speed)
+- [x] `NR··` setting: Speed Master (Speed)
 - [x] `NR··` setting: Speed Scale (Speed)
-- [ ] `N···` setting: Speed from Rate (Speed)
+- [x] `NR··` setting: Speed from Rate (Speed)
 - [ ] `····` section: Protect
-- [ ] `N···` setting: Input Filter (Protect)
-- [ ] `N···` setting: Swap Protect (Protect)
-- [ ] `N···` setting: Kill Protect (Protect)
-- [ ] `N···` setting: Include Link Last Go (Protect)
-- [ ] `N···` setting: Use Executor Time (Protect)
-- [ ] `N···` setting: Off when Overridden (Protect)
+- [x] `NR··` setting: Input Filter (Protect)
+- [x] `NR··` setting: Swap Protect (Protect)
+- [x] `NR··` setting: Kill Protect (Protect)
+- [x] `NR··` setting: Include Link Last Go (Protect)
+- [x] `NR··` setting: Use Executor Time (Protect)
+- [x] `NR··` setting: Off when Overridden (Protect)
 - [ ] `N···` setting: Lock Sequence (Protect)
 - [ ] `····` section: MIB
 - [ ] `····` setting: MIB (MIB)
@@ -6941,7 +6941,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: Force Early (MIB)
 - [ ] `N···` option: Force UponGo (MIB)
 - [ ] `N···` option: Force Late (MIB)
-- [ ] `N···` setting: MIB Mode (MIB)
+- [x] `NR··` setting: MIB Mode (MIB)
 
 ### [Store Cues](https://help.malighting.com/grandMA3/2.5/HTML/cue_store.html)
 
@@ -6980,14 +6980,14 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Update Cues
 - [ ] `N···` setting: Sequence Update Mode
 - [ ] `N···` setting: Sequence Mode
-- [ ] `N···` option: Selected (Sequence Mode)
+- [x] `NR··` option: Selected (Sequence Mode)
 - [ ] `····` option: Last Go (Sequence Mode)
 
 ### [Copy Cues](https://help.malighting.com/grandMA3/2.5/HTML/cue_copy.html)
 
 - [ ] `····` page: Copy Cues
 - [ ] `····` syntax: Copy Cue ["Cue_Name" or Cue_Number] At ["New_Cue_Name" or New_Cue_Number]
-- [ ] `N···` option: Content
+- [x] `NR··` option: Content
 - [x] `NR··` option: Status
 - [ ] `····` option: Retain
 - [ ] `N···` option: Replace With Release
@@ -7001,7 +7001,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N···` page: Cue Recipes
 - [ ] `····` section: Adding Cue Recipes
-- [ ] `N···` button: Show Recipes (Adding Cue Recipes)
+- [x] `NR··` button: Show Recipes (Adding Cue Recipes)
 - [ ] `····` button: New Recipe (Adding Cue Recipes)
 - [ ] `····` syntax: Cook [Object] (/Option) (Adding Cue Recipes)
 - [ ] `N···` option: Merge (Adding Cue Recipes)
@@ -7044,7 +7044,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` syntax: Go+ Cue ["Cue_Name" or Cue_Number] (Relevant Playback Commands)
 - [ ] `····` option: Go- (Relevant Playback Commands)
 - [ ] `····` syntax: Go- Cue ["Cue_Name" or Cue_Number] (Relevant Playback Commands)
-- [ ] `····` option: Goto (Relevant Playback Commands)
+- [ ] `·R··` option: Goto (Relevant Playback Commands)
 - [ ] `····` syntax: Go+ Loaded (Relevant Playback Commands)
 - [ ] `N···` option: Pause (Relevant Playback Commands)
 - [ ] `····` option: Top (Relevant Playback Commands)
@@ -7060,27 +7060,27 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: LTP (Latest Takes Precedence) (Sequence Priorities)
 - [ ] `····` option: Low (Sequence Priorities)
 - [ ] `····` option: Lowest (Sequence Priorities)
-- [ ] `N···` section: Soft LTP
+- [x] `NR··` section: Soft LTP
 
 ### [Move In Black](https://help.malighting.com/grandMA3/2.5/HTML/cue_mib.html)
 
 - [ ] `N···` page: Move In Black
 - [ ] `····` section: Cue MIB Settings
-- [ ] `N···` option: MIB Preference (Cue MIB Settings)
+- [x] `NR··` option: MIB Preference (Cue MIB Settings)
 - [ ] `····` option: Never(0) (Cue MIB Settings)
 - [ ] `····` option: Worst(1) (Cue MIB Settings)
 - [ ] `····` option: Bad(25) (Cue MIB Settings)
 - [ ] `····` option: Normal(50) (Cue MIB Settings)
 - [ ] `····` option: Good(75) (Cue MIB Settings)
 - [ ] `····` option: Best(100) (Cue MIB Settings)
-- [ ] `N···` option: MIB Mode (Cue MIB Settings)
+- [x] `NR··` option: MIB Mode (Cue MIB Settings)
 - [ ] `N···` option: Default (Cue MIB Settings)
 - [ ] `····` option: Defined (Cue MIB Settings)
 - [ ] `N···` option: Early (Cue MIB Settings)
 - [ ] `····` option: UponGo (Cue MIB Settings)
 - [ ] `····` option: Late (Cue MIB Settings)
-- [ ] `N···` option: MIB Target (Cue MIB Settings)
-- [ ] `N···` option: MIB MultiStep (Cue MIB Settings)
+- [x] `NR··` option: MIB Target (Cue MIB Settings)
+- [x] `NR··` option: MIB MultiStep (Cue MIB Settings)
 - [x] `NR··` option: Running (Cue MIB Settings)
 - [ ] `····` option: Paused (Cue MIB Settings)
 - [x] `NR··` option: MIB Fade (Cue MIB Settings)
@@ -7089,28 +7089,28 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Preferences and Timings (Global MIB Settings)
 - [ ] `····` button: Timings (Global MIB Settings)
 - [ ] `····` button: Cues (Global MIB Settings)
-- [ ] `N···` option: MIB Mode (Global MIB Settings)
+- [x] `NR··` option: MIB Mode (Global MIB Settings)
 - [x] `NR··` option: MIB Fade (Global MIB Settings)
 - [x] `NR··` option: MIB Delay (Global MIB Settings)
-- [ ] `N···` option: MIB MultiStep (Global MIB Settings)
+- [x] `NR··` option: MIB MultiStep (Global MIB Settings)
 - [ ] `····` section: Sequence MIB Settings
 - [ ] `····` section: MIB Color Indicators
 
 ### [Cue Timing](https://help.malighting.com/grandMA3/2.5/HTML/cue_timing.html)
 
-- [ ] `N···` page: Cue Timing
+- [x] `NR··` page: Cue Timing
 - [ ] `N···` option: General cue times
 - [ ] `····` option: Feature Type Timing
 - [ ] `····` option: Individual Attribute times
 - [ ] `····` option: Executor Time at point of cue execution
 - [ ] `····` option: Dynamic changed Rate
 - [ ] `N···` section: General Cue Times
-- [ ] `····` option: Cue In Fade (General Cue Times)
-- [ ] `····` option: Cue In Delay (General Cue Times)
-- [ ] `····` option: Cue Out Fade (General Cue Times)
-- [ ] `····` option: Cue Out Delay (General Cue Times)
-- [ ] `N···` option: Snap Delay (General Cue Times)
-- [ ] `N···` option: Command Delay (General Cue Times)
+- [ ] `·R··` option: Cue In Fade (General Cue Times)
+- [ ] `·R··` option: Cue In Delay (General Cue Times)
+- [ ] `·R··` option: Cue Out Fade (General Cue Times)
+- [ ] `·R··` option: Cue Out Delay (General Cue Times)
+- [x] `NR··` option: Snap Delay (General Cue Times)
+- [x] `NR··` option: Command Delay (General Cue Times)
 - [ ] `····` syntax: Cue ["Cue_Name" or Cue_Number] CueInFade [New_Cue_Time] (General Cue Times)
 - [ ] `····` section: Feature Group Timings
 - [ ] `N···` section: Individual Attribute Timing
@@ -7135,7 +7135,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: Slow+ (Cue Transition)
 - [ ] `····` option: Fast (Cue Transition)
 - [ ] `N···` option: Fast+ (Cue Transition)
-- [ ] `····` option: SCurve (Cue Transition)
+- [ ] `N···` option: SCurve (Cue Transition)
 - [ ] `····` option: Swing- (Cue Transition)
 - [ ] `····` option: Swing (Cue Transition)
 - [ ] `····` option: Swing+ (Cue Transition)
@@ -7154,10 +7154,10 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Executors](https://help.malighting.com/grandMA3/2.5/HTML/executor.html)
 
-- [ ] `····` page: Executors
+- [ ] `·R··` page: Executors
 - [ ] `N···` section: Executor Pages
 - [ ] `····` syntax: Store Page [Page_Number] (["Page_Name"]) (Executor Pages)
-- [ ] `N···` button: Render Style (Executor Pages)
+- [x] `NR··` button: Render Style (Executor Pages)
 - [ ] `N···` button: Import (Executor Pages)
 - [ ] `N···` button: Export (Executor Pages)
 - [ ] `····` section: Executor Labels
@@ -7165,9 +7165,9 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` section: Playback Window Settings
 - [ ] `·R··` button: Page (Playback Window Settings)
 - [ ] `·R··` button: WingID (Playback Window Settings)
-- [ ] `····` button: Executors (Playback Window Settings)
-- [ ] `····` button: Labels (Playback Window Settings)
-- [ ] `N···` button: #Sections (Playback Window Settings)
+- [ ] `·R··` button: Executors (Playback Window Settings)
+- [ ] `·R··` button: Labels (Playback Window Settings)
+- [x] `NR··` button: #Sections (Playback Window Settings)
 - [ ] `····` option: Auto (Playback Window Settings)
 
 ### [Executor Configurations](https://help.malighting.com/grandMA3/2.5/HTML/executor_configurations.html)
@@ -7196,7 +7196,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` button: DataPool (Assign Objects Using the Assign Menu)
 - [ ] `····` section: Change Key Function and Executor Size Using the Handle Tab
 - [ ] `N···` button: Fix Executor (Change Key Function and Executor Size Using the Handle Tab)
-- [ ] `N···` button: Render Style (Change Key Function and Executor Size Using the Handle Tab)
+- [x] `NR··` button: Render Style (Change Key Function and Executor Size Using the Handle Tab)
 - [ ] `N···` section: Trigger Options
 - [ ] `····` section: Change Functions in the Assign Menu
 - [ ] `····` section: Change Key, Encoder Left, and Encoder Right Functions
@@ -7210,7 +7210,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: Flash (Change Key, Encoder Left, and Encoder Right Functions)
 - [ ] `····` option: Go (Change Key, Encoder Left, and Encoder Right Functions)
 - [ ] `····` option: Go- (Change Key, Encoder Left, and Encoder Right Functions)
-- [ ] `····` option: Goto (Change Key, Encoder Left, and Encoder Right Functions)
+- [ ] `·R··` option: Goto (Change Key, Encoder Left, and Encoder Right Functions)
 - [ ] `N···` option: HalfSpeed (Change Key, Encoder Left, and Encoder Right Functions)
 - [ ] `····` option: Kill (Change Key, Encoder Left, and Encoder Right Functions)
 - [ ] `N···` option: LearnSpeed (Change Key, Encoder Left, and Encoder Right Functions)
@@ -7263,12 +7263,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Timers (Running Playback Window)
 - [ ] `····` button: Sounds (Running Playback Window)
 - [ ] `····` button: Select Playbacks (Running Playback Window)
-- [ ] `N···` button: Touch Mode (Running Playback Window)
-- [ ] `N···` button: Hold List (Running Playback Window)
+- [x] `NR··` button: Touch Mode (Running Playback Window)
+- [x] `NR··` button: Hold List (Running Playback Window)
 - [ ] `N···` button: Started by (Running Playback Window)
-- [ ] `N···` button: My Playbacks Only (Running Playback Window)
-- [ ] `····` button: SelectedDataPool (Running Playback Window)
-- [ ] `N···` button: Sheet Style (Running Playback Window)
+- [x] `NR··` button: My Playbacks Only (Running Playback Window)
+- [ ] `·R··` button: SelectedDataPool (Running Playback Window)
+- [x] `NR··` button: Sheet Style (Running Playback Window)
 - [ ] `N···` section: Off Menu
 - [ ] `N···` button: Everything Off (Off Menu)
 
@@ -7279,14 +7279,14 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Go+
 - [ ] `····` button: Go-
 - [ ] `N···` button: Pause
-- [ ] `····` button: Labels
+- [ ] `·R··` button: Labels
 - [ ] `····` button: Hardware Buttons
 - [ ] `····` button: Custom Area
 - [ ] `N···` button: Master Area
 - [ ] `N···` button: Grand Master
 - [ ] `····` button: Page Area
 - [ ] `····` button: Master Area Knobs
-- [ ] `N···` button: Show Title Bar
+- [x] `NR··` button: Show Title Bar
 - [ ] `····` section: Special Executor 5 and the Grand Master
 
 ## Masters
@@ -7306,7 +7306,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Selected Masters](https://help.malighting.com/grandMA3/2.5/HTML/masters_selected.html)
 
-- [ ] `····` page: Selected Masters
+- [ ] `N···` page: Selected Masters
 - [ ] `····` option: Master 1.1 'Master'
 - [ ] `····` option: Master 1.2 'XFade'
 - [ ] `····` option: Master 1.3 'XFadeA'
@@ -7341,7 +7341,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` page: Highlight, Lowlight, Solo
 - [ ] `····` section: Master 2.3 'Highlight'
 - [ ] `····` section: Master 2.4 'Lowlight'
-- [ ] `N···` button: Patch (Master 2.4 'Lowlight')
+- [x] `NR··` button: Patch (Master 2.4 'Lowlight')
 - [ ] `N···` button: Edit DMX Mode (Master 2.4 'Lowlight')
 - [ ] `····` section: Master 2.5 'Solo'
 
@@ -7352,7 +7352,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Prog Time (Program Time)
 - [ ] `N···` section: Executor Time
 - [ ] `N···` button: Executor Time (Executor Time)
-- [ ] `N···` button: Use Executor Time (Executor Time)
+- [x] `NR··` button: Use Executor Time (Executor Time)
 
 ### [Speed Masters](https://help.malighting.com/grandMA3/2.5/HTML/masters_speed.html)
 
@@ -7378,7 +7378,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Recipe Editor](https://help.malighting.com/grandMA3/2.5/HTML/recipe-sheet.html)
 
-- [ ] `N···` page: Recipe Editor
+- [x] `NR··` page: Recipe Editor
 - [ ] `N···` button: Add Standard Recipe
 - [ ] `····` button: Add Phaser Recipe
 - [ ] `····` section: Columns of the Recipe Editor
@@ -7386,11 +7386,11 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Z (Columns of the Recipe Editor)
 - [ ] `N···` button: Shuffle (Columns of the Recipe Editor)
 - [x] `NR··` button: Data Pool (Columns of the Recipe Editor)
-- [ ] `N···` button: Link Steps (Columns of the Recipe Editor)
+- [x] `NR··` button: Link Steps (Columns of the Recipe Editor)
 - [ ] `····` button: Add Value Source (Columns of the Recipe Editor)
 - [x] `NR··` button: Filters (Columns of the Recipe Editor)
 - [ ] `····` button: Sheet (Columns of the Recipe Editor)
-- [ ] `N···` button: Filter (Columns of the Recipe Editor)
+- [x] `NR··` button: Filter (Columns of the Recipe Editor)
 - [ ] `····` button: Clear Attribute (Columns of the Recipe Editor)
 - [ ] `N···` button: Empty (Columns of the Recipe Editor)
 - [ ] `····` button: Specials (Columns of the Recipe Editor)
@@ -7403,7 +7403,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Stay (Columns of the Recipe Editor)
 - [ ] `····` button: Unlimited (Columns of the Recipe Editor)
 - [ ] `N···` button: Pause at End (Columns of the Recipe Editor)
-- [ ] `····` button: Sync (Columns of the Recipe Editor)
+- [ ] `·R··` button: Sync (Columns of the Recipe Editor)
 - [ ] `····` button: Take from Shape (Columns of the Recipe Editor)
 - [ ] `····` section: Context Area
 - [ ] `····` button: Pool (Context Area)
@@ -7414,7 +7414,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Adjust Shape (Context Area)
 - [ ] `····` button: Adjust MAtricks (Context Area)
 - [ ] `····` section: Context Area of the Name Cell
-- [ ] `N···` button: Shape (Context Area of the Name Cell)
+- [x] `NR··` button: Shape (Context Area of the Name Cell)
 
 ### [Recipe Editor Window](https://help.malighting.com/grandMA3/2.5/HTML/recipe-editor-window.html)
 
@@ -7455,37 +7455,37 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` section: Value Layers
 - [ ] `N···` section: Step Layers
 - [x] `NR··` option: Width (Step Layers)
-- [ ] `N···` option: Transition (Step Layers)
+- [x] `NR··` option: Transition (Step Layers)
 - [ ] `·R··` option: Accel (Step Layers)
 - [ ] `····` button: Spline (Step Layers)
 - [ ] `·R··` option: Decel (Step Layers)
 - [ ] `N···` section: Phaser Layers
-- [ ] `N···` option: Speed (Phaser Layers)
-- [ ] `N···` option: SpeedMaster (Phaser Layers)
-- [ ] `····` option: Phase (Phaser Layers)
-- [ ] `····` option: Measure (Phaser Layers)
-- [ ] `····` section: Steps
+- [x] `NR··` option: Speed (Phaser Layers)
+- [x] `NR··` option: SpeedMaster (Phaser Layers)
+- [ ] `N···` option: Phase (Phaser Layers)
+- [ ] `·R··` option: Measure (Phaser Layers)
+- [ ] `·R··` section: Steps
 - [ ] `N···` button: Delete Steps (Example)
 - [ ] `N···` section: Stomp
-- [ ] `····` section: Sync
+- [ ] `·R··` section: Sync
 
 ### [Phaser Editor](https://help.malighting.com/grandMA3/2.5/HTML/phaser_editor.html)
 
 - [ ] `N···` page: Phaser Editor
 - [x] `NR··` button: Phaser
-- [ ] `····` button: Show Beams
-- [ ] `N···` section: Step Bar
-- [ ] `N···` button: Step Bar (Step Bar)
+- [ ] `·R··` button: Show Beams
+- [x] `NR··` section: Step Bar
+- [x] `NR··` button: Step Bar (Step Bar)
 - [ ] `····` syntax: Step Toggle Executor (Step Bar)
 - [ ] `····` section: 2D View Mode
-- [ ] `····` button: Values (2D View Mode)
+- [ ] `·R··` button: Values (2D View Mode)
 - [x] `NR··` button: Absolute (2D View Mode)
 - [x] `NR··` button: Relative (2D View Mode)
 - [ ] `····` button: Abs+Rel (2D View Mode)
 - [ ] `····` section: 1D View Mode
-- [ ] `····` button: LineHeight (1D View Mode)
+- [ ] `·R··` button: LineHeight (1D View Mode)
 - [ ] `····` button: 1D Mode (1D View Mode)
-- [ ] `N···` button: Transition (1D View Mode)
+- [x] `NR··` button: Transition (1D View Mode)
 - [ ] `····` section: Sheet View Mode
 - [ ] `····` section: Tools
 - [ ] `····` option: 1 - Move Area (Tools)
@@ -7498,15 +7498,15 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: 8 - Change Rotation (Tools)
 - [ ] `····` option: 9 - Change Phase (Tools)
 - [ ] `N···` button: Reset (Tools)
-- [ ] `N···` button: Invert (Tools)
+- [x] `NR··` button: Invert (Tools)
 - [ ] `····` option: 10 - Change Width (Tools)
-- [ ] `N···` button: Speed (Tools)
+- [x] `NR··` button: Speed (Tools)
 - [ ] `····` option: 11 - Select Form (Tools)
 - [ ] `····` option: 12 - Change Speed (Tools)
 - [ ] `····` option: Loop (Tools)
 - [ ] `····` button: Loop (Tools)
-- [ ] `N···` option: Fixture (Tools)
-- [ ] `N···` button: Fixture (Tools)
+- [x] `NR··` option: Fixture (Tools)
+- [x] `NR··` button: Fixture (Tools)
 - [ ] `····` option: 13 - Select all Steps (Tools)
 - [ ] `····` option: 1 - Reset (Tools)
 - [ ] `····` option: 2 - Delete (Tools)
@@ -7522,8 +7522,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Phaser Encoder Toolbar
 - [ ] `····` section: 2D Bar
 - [ ] `····` button: 2D Bar (2D Bar)
-- [ ] `····` option: MoveX (2D Bar)
-- [ ] `····` option: MoveY (2D Bar)
+- [ ] `·R··` option: MoveX (2D Bar)
+- [ ] `·R··` option: MoveY (2D Bar)
 - [ ] `·R··` option: Size (2D Bar)
 - [ ] `N···` option: Rotate (2D Bar)
 - [ ] `····` option: Aspect (2D Bar)
@@ -7531,24 +7531,24 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` section: Phaser Bar
 - [ ] `N···` button: Phaser Bar (Phaser Bar)
 - [x] `NR··` section: Window Settings
-- [ ] `····` button: View Mode (Window Settings)
-- [ ] `N···` button: Line Height (Window Settings)
+- [ ] `·R··` button: View Mode (Window Settings)
+- [x] `NR··` button: Line Height (Window Settings)
 - [x] `NR··` button: Appearance (Window Settings)
-- [ ] `N···` button: Font Size (Window Settings)
+- [x] `NR··` button: Font Size (Window Settings)
 - [ ] `·R··` button: Attributes (Window Settings)
 - [ ] `····` button: PanTilt (Window Settings)
 - [ ] `····` button: XY (Window Settings)
 - [ ] `····` button: XZ (Window Settings)
 - [ ] `····` button: YZ (Window Settings)
-- [ ] `····` button: Layer Bar (Window Settings)
-- [ ] `N···` button: EncoderBar (Window Settings)
+- [ ] `·R··` button: Layer Bar (Window Settings)
+- [x] `NR··` button: EncoderBar (Window Settings)
 - [ ] `N···` button: Preset Bar (Window Settings)
-- [ ] `N···` button: Readout (Window Settings)
-- [ ] `N···` button: Preset (Window Settings)
+- [x] `NR··` button: Readout (Window Settings)
+- [x] `NR··` button: Preset (Window Settings)
 - [ ] `····` option: ID (Window Settings)
-- [ ] `N···` button: Color Mode (Window Settings)
-- [ ] `····` button: Attribute Sheet (Window Settings)
-- [ ] `····` button: Layer Sheet (Window Settings)
+- [x] `NR··` button: Color Mode (Window Settings)
+- [ ] `·R··` button: Attribute Sheet (Window Settings)
+- [ ] `·R··` button: Layer Sheet (Window Settings)
 - [ ] `N···` button: Transpose (Window Settings)
 - [ ] `····` button: Show Empty Rows (Window Settings)
 
@@ -7564,7 +7564,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: +/- (Alternate Methods to Create a Sinus Dimmer Phaser)
 - [ ] `····` button: 0 (Alternate Methods to Create a Sinus Dimmer Phaser)
 - [ ] `·R··` button: Decel (Alternate Methods to Create a Sinus Dimmer Phaser)
-- [ ] `····` button: Phase (Alternate Methods to Create a Sinus Dimmer Phaser)
+- [ ] `N···` button: Phase (Alternate Methods to Create a Sinus Dimmer Phaser)
 - [ ] `····` button: Thru (Alternate Methods to Create a Sinus Dimmer Phaser)
 - [ ] `····` button: 6 (Alternate Methods to Create a Sinus Dimmer Phaser)
 
@@ -7597,12 +7597,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Data Pools
 - [ ] `N···` button: First Index
 - [ ] `····` section: Edit Shapes
-- [ ] `N···` button: Link Steps (Edit Shapes)
+- [x] `NR··` button: Link Steps (Edit Shapes)
 - [ ] `N···` button: Make Other Symmetrical (Edit Shapes)
 - [ ] `N···` section: Sheet Tab
-- [ ] `····` button: Group by Attribute (Sheet Tab)
+- [ ] `·R··` button: Group by Attribute (Sheet Tab)
 - [ ] `····` section: 1D Tab
-- [ ] `····` button: Show All Attributes (1D Tab)
+- [ ] `·R··` button: Show All Attributes (1D Tab)
 - [ ] `····` section: Title Bar and Settings
 - [x] `NR··` button: Scribble (Title Bar and Settings)
 - [x] `NR··` button: Appearance (Title Bar and Settings)
@@ -7623,24 +7623,24 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Bitmap](https://help.malighting.com/grandMA3/2.5/HTML/bitmap.html)
 
-- [ ] `N···` page: Bitmap
+- [x] `NR··` page: Bitmap
 - [ ] `····` section: Bitmap Canvas
 - [ ] `····` button: At (Bitmap Canvas)
 - [ ] `N···` button: Dimensions From Selection (Bitmap Canvas)
 - [ ] `N···` button: Format Selection (Bitmap Canvas)
-- [ ] `N···` button: Auto Format (Bitmap Canvas)
+- [x] `NR··` button: Auto Format (Bitmap Canvas)
 - [ ] `····` section: Bitmap Editor
 - [ ] `N···` button: Reset (Bitmap Editor)
 - [ ] `····` button: Reset All (Bitmap Editor)
 - [ ] `····` button: Revert (Bitmap Editor)
 - [ ] `N···` section: Bitmap Configuration
 - [ ] `····` button: Select Bitmap Config (Bitmap Configuration)
-- [ ] `····` section: Bitmap Channel
+- [ ] `·R··` section: Bitmap Channel
 - [ ] `N···` section: Bitmap Control Fixture
 - [ ] `N···` button: Control Fixture (Bitmap Control Fixture)
 - [ ] `····` button: Link Control Fixture (Bitmap Control Fixture)
-- [ ] `N···` section: Speed Master
-- [ ] `N···` button: SpeedMaster (Speed Master)
+- [x] `NR··` section: Speed Master
+- [x] `NR··` button: SpeedMaster (Speed Master)
 - [ ] `····` section: Using Bitmaps
 - [ ] `····` syntax: At Bitmap ["Bitmap_Name" or Bitmap_Number] (Using Bitmaps)
 
@@ -7656,7 +7656,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Activating XYZ for Fixture Types](https://help.malighting.com/grandMA3/2.5/HTML/xyz_activate.html)
 
 - [ ] `····` page: Activating XYZ for Fixture Types
-- [ ] `N···` button: Patch
+- [x] `NR··` button: Patch
 - [ ] `N···` button: Fixture Types
 
 ### [MArker Fixture](https://help.malighting.com/grandMA3/2.5/HTML/xyz_marker.html)
@@ -7772,7 +7772,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `·R··` page: Variables
 - [ ] `N···` option: Double
-- [ ] `····` option: Text
+- [ ] `·R··` option: Text
 - [ ] `····` section: SetGlobalVariable and SetUserVariable
 - [ ] `····` syntax: SetGlobalVariable ["Variable_Name"] ["Content text with or without spaces"] (SetGlobalVariable and SetUserVariable)
 - [ ] `····` syntax: SetGlobalVariable ["Variable_Name"] [Integer or Double] (SetGlobalVariable and SetUserVariable)
@@ -7827,13 +7827,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: View Modes
 - [ ] `····` button: Tools
 - [ ] `N···` button: Agenda Viewer
-- [ ] `····` button: View Mode
+- [ ] `·R··` button: View Mode
 
 ### [Create an Agenda Entry](https://help.malighting.com/grandMA3/2.5/HTML/agenda_entry.html)
 
 - [ ] `····` page: Create an Agenda Entry
 - [ ] `····` section: Create an Agenda Entry Using the Sheet View Mode
-- [ ] `····` button: View Mode (Create an Agenda Entry Using the Sheet View Mode)
+- [ ] `·R··` button: View Mode (Create an Agenda Entry Using the Sheet View Mode)
 - [ ] `····` button: Sheet (Create an Agenda Entry Using the Sheet View Mode)
 - [ ] `····` button: New AgendaEvent (Create an Agenda Entry Using the Sheet View Mode)
 - [x] `NR··` option: Appearance (Create an Agenda Entry Using the Sheet View Mode)
@@ -7860,7 +7860,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `·R··` button: Reset Pattern (Schedule Settings)
 - [ ] `····` button: Reset Endtime (Schedule Settings)
 - [ ] `····` section: Iterations Settings
-- [ ] `····` button: ViewMode (Iterations Settings)
+- [ ] `·R··` button: ViewMode (Iterations Settings)
 - [ ] `·R··` option: Countdown (Iterations Settings)
 - [x] `NR··` option: Planned Date (Iterations Settings)
 - [x] `NR··` option: Planned Time (Iterations Settings)
@@ -7874,7 +7874,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Agenda Toolbar](https://help.malighting.com/grandMA3/2.5/HTML/agenda_toolbar.html)
 
 - [ ] `····` page: Agenda Toolbar
-- [ ] `····` button: Setup
+- [ ] `·R··` button: Setup
 - [ ] `····` button: Today
 - [ ] `N···` button: Delete Old
 
@@ -7893,8 +7893,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` option: Appearance (Label)
 - [ ] `····` option: Note (Label)
 - [ ] `·R··` section: Settings
-- [ ] `N···` option: Timer Mode (Settings)
-- [ ] `N···` option: Timer Link Type (Settings)
+- [x] `NR··` option: Timer Mode (Settings)
+- [x] `NR··` option: Timer Link Type (Settings)
 - [ ] `N···` option: Not Linked (Settings)
 - [ ] `····` option: <Selected Sequence> (Settings)
 - [ ] `N···` option: Link Last (Settings)
@@ -7903,7 +7903,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: Reset (Settings)
 - [ ] `····` section: Colors
 - [ ] `····` section: Format
-- [ ] `N···` option: Frame Format (Format)
+- [x] `NR··` option: Frame Format (Format)
 - [x] `NR··` option: Time Readout (Format)
 
 ### [Stopwatch](https://help.malighting.com/grandMA3/2.5/HTML/timers_stopwatch.html)
@@ -7916,28 +7916,28 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Countdown Settings
 - [ ] `·R··` section: Countdown
 - [ ] `····` option: Countdown Time (Countdown)
-- [ ] `····` option: Countdown Alert Type (Countdown)
+- [ ] `·R··` option: Countdown Alert Type (Countdown)
 - [ ] `····` option: Pop-Up (Countdown)
 - [x] `NR··` option: Command (Countdown)
 - [ ] `····` option: Command & Pop-Up (Countdown)
 - [ ] `····` section: Alert
-- [ ] `····` option: Alert Duration (Alert)
+- [ ] `·R··` option: Alert Duration (Alert)
 - [ ] `····` option: Alert Range (Alert)
 - [ ] `N···` option: Local (Alert)
 - [ ] `····` option: All Stations (Alert)
 - [ ] `N···` button: Confirm (Alert)
 - [ ] `····` button: Confirm All Stations (Alert)
-- [ ] `····` option: Alert Command (Alert)
-- [ ] `····` option: Alert Text (Alert)
+- [ ] `·R··` option: Alert Command (Alert)
+- [ ] `·R··` option: Alert Text (Alert)
 
 ## Preview
 
 ### [Preview](https://help.malighting.com/grandMA3/2.5/HTML/preview.html)
 
 - [ ] `N···` page: Preview
-- [ ] `N···` button: Follow Preview
+- [x] `NR··` button: Follow Preview
 - [ ] `····` button: Misc
-- [ ] `N···` button: Display
+- [x] `NR··` button: Display
 - [ ] `····` section: Preview Encoder Bar
 - [x] `NR··` button: Transfer Selection (Preview Encoder Bar)
 - [x] `NR··` button: Transfer Programmer (Preview Encoder Bar)
@@ -7973,8 +7973,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Tools
 - [x] `NR··` section: Selection
 - [ ] `····` section: Add Menu
-- [ ] `N···` section: Playback Toolbar
-- [ ] `····` section: View Mode
+- [x] `NR··` section: Playback Toolbar
+- [ ] `·R··` section: View Mode
 - [ ] `····` section: View Mode - Text
 - [ ] `····` section: View Mode - Timeline
 - [ ] `····` section: View Mode - Both
@@ -7983,7 +7983,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` section: Display
 - [ ] `····` section: Modes
 - [ ] `····` section: Timeline
-- [ ] `····` section: Setup
+- [ ] `·R··` section: Setup
 - [ ] `N···` section: Timecode Encoder Bar
 
 ### [Track Groups](https://help.malighting.com/grandMA3/2.5/HTML/timecode_track_groups.html)
@@ -7993,12 +7993,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Markers](https://help.malighting.com/grandMA3/2.5/HTML/timecode_markers.html)
 
-- [ ] `····` page: Markers
+- [ ] `·R··` page: Markers
 - [ ] `····` button: M<<
 - [ ] `····` button: >>M
 - [ ] `····` section: Add Markers to the Track Group
 - [ ] `N···` button: Selection Target (Add Markers to the Track Group)
-- [ ] `····` button: Setup (Add Markers to the Track Group)
+- [ ] `·R··` button: Setup (Add Markers to the Track Group)
 - [ ] `N···` button: TimeRange (Add Markers to the Track Group)
 - [x] `NR··` button: Duration (Add Markers to the Track Group)
 - [ ] `····` button: +M (Add Markers to the Track Group)
@@ -8022,7 +8022,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [x] `NR··` page: Timecode Slots
 - [ ] `N···` button: Pool Action
-- [ ] `N···` section: Generator
+- [x] `NR··` section: Generator
 - [ ] `····` syntax: [Function] TimecodeSlot ["TimecodeSlot_Name" or TimecodeSlot_Number (Generator)
 - [ ] `····` section: Edit a Timecode Slot
 - [ ] `N···` section: Label
@@ -8031,7 +8031,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Format
 - [ ] `····` section: Clock
 - [ ] `N···` button: Clock Source (Clock)
-- [ ] `N···` button: Timecode Slot (Clock)
+- [x] `NR··` button: Timecode Slot (Clock)
 
 ### [Create a Timecode Show](https://help.malighting.com/grandMA3/2.5/HTML/timecode_create.html)
 
@@ -8053,15 +8053,15 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Timecode Settings
 - [ ] `N···` section: Label
 - [ ] `·R··` section: Time
-- [ ] `N···` button: Offset TC Slot (Time)
+- [x] `NR··` button: Offset TC Slot (Time)
 - [ ] `····` section: Playback
 - [x] `NR··` section: Display
 - [ ] `····` section: Other
 - [ ] `N···` section: Record
-- [ ] `N···` button: Playback and Record (Record)
+- [x] `NR··` button: Playback and Record (Record)
 - [ ] `····` section: Timecode Settings in Preference and Timing
 - [ ] `····` button: Preference and Timing (Timecode Settings in Preference and Timing)
-- [ ] `N···` button: Timecode (Timecode Settings in Preference and Timing)
+- [x] `NR··` button: Timecode (Timecode Settings in Preference and Timing)
 - [ ] `····` section: Global Settings in Preference and Timing
 - [ ] `N···` button: Global (Global Settings in Preference and Timing)
 
@@ -8093,7 +8093,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Adding subfixtures to Layouts
 - [ ] `N···` section: Pool Elements
 - [ ] `····` section: Layout Viewer Toolbar
-- [ ] `····` button: Setup (Layout Viewer Toolbar)
+- [ ] `·R··` button: Setup (Layout Viewer Toolbar)
 - [ ] `····` section: Auto Tool
 - [ ] `····` section: Select an Element
 - [ ] `····` section: Move an Element
@@ -8121,20 +8121,20 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Edit Layout
 - [x] `NR··` button: Scribble
 - [ ] `N···` button: Pool Appearance
-- [ ] `N···` button: Canvas Appearance
+- [x] `NR··` button: Canvas Appearance
 - [ ] `·R··` button: Tags
 - [ ] `N···` button: Notes
 - [ ] `·R··` button: PositionX
 - [ ] `·R··` button: PositionY
-- [ ] `N···` button: DimensionW
-- [ ] `····` button: DimensionH
-- [ ] `····` button: Markers
-- [ ] `N···` button: Value Colors
-- [ ] `N···` button: ViewPosActive
-- [ ] `····` button: ViewPosX
-- [ ] `····` button: ViewPosY
-- [ ] `····` button: ViewPosScale
-- [ ] `N···` button: Executor Style
+- [x] `NR··` button: DimensionW
+- [ ] `·R··` button: DimensionH
+- [ ] `·R··` button: Markers
+- [x] `NR··` button: Value Colors
+- [x] `NR··` button: ViewPosActive
+- [ ] `·R··` button: ViewPosX
+- [ ] `·R··` button: ViewPosY
+- [ ] `·R··` button: ViewPosScale
+- [x] `NR··` button: Executor Style
 - [x] `NR··` section: Layout Element Defaults
 - [ ] `N···` button: Preferences and Timings (Layout Element Defaults)
 - [ ] `N···` button: Layout Elements (Layout Element Defaults)
@@ -8147,10 +8147,10 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Layout Viewer
 - [ ] `····` section: Open Layout View Settings
 - [ ] `····` section: Display Tab
-- [ ] `N···` option: Layout (Display Tab)
+- [x] `NR··` option: Layout (Display Tab)
 - [x] `NR··` option: Layer (Display Tab)
-- [ ] `N···` option: Show Selection (Display Tab)
-- [ ] `N···` option: Right Click To Edit (Display Tab)
+- [x] `NR··` option: Show Selection (Display Tab)
+- [x] `NR··` option: Right Click To Edit (Display Tab)
 - [ ] `····` option: Lock Position (Display Tab)
 - [ ] `N···` option: Auto Fit (Display Tab)
 - [ ] `N···` option: Canvas Fit Mode (Display Tab)
@@ -8160,8 +8160,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` option: Visible Grid (Display Tab)
 - [ ] `N···` option: Grid Color (Display Tab)
 - [ ] `N···` option: Grid Style (Display Tab)
-- [ ] `····` option: Scale (Display Tab)
-- [ ] `N···` option: Show Title Bar (Display Tab)
+- [ ] `·R··` option: Scale (Display Tab)
+- [x] `NR··` option: Show Title Bar (Display Tab)
 - [ ] `····` section: Layout View Title Bar
 
 ### [Edit Layout View](https://help.malighting.com/grandMA3/2.5/HTML/layout_edit_view.html)
@@ -8169,7 +8169,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Edit Layout View
 - [ ] `····` button: Tools
 - [ ] `N···` button: Layout Viewer
-- [ ] `····` button: Setup
+- [ ] `·R··` button: Setup
 - [ ] `····` button: General
 - [x] `NR··` button: Object
 - [ ] `····` section: Add an Element Using the GUI
@@ -8179,7 +8179,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Edit Layout Elements](https://help.malighting.com/grandMA3/2.5/HTML/layout_elements_edit.html)
 
 - [ ] `····` page: Edit Layout Elements
-- [ ] `····` button: Setup
+- [ ] `·R··` button: Setup
 - [ ] `N···` button: Edit Selected
 - [ ] `····` section: General Tab
 - [ ] `····` option: ID (General Tab)
@@ -8190,18 +8190,18 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Arrangement Tab
 - [x] `NR··` option: Position X (Arrangement Tab)
 - [ ] `····` option: Padding Top, Padding Bottom, Padding Left, Padding Right (Arrangement Tab)
-- [ ] `N···` option: Border Color (Arrangement Tab)
+- [x] `NR··` option: Border Color (Arrangement Tab)
 - [x] `NR··` option: Width (Arrangement Tab)
 - [ ] `····` option: Element Visible (Arrangement Tab)
-- [ ] `N···` option: Indicator Bar (Arrangement Tab)
+- [x] `NR··` option: Indicator Bar (Arrangement Tab)
 - [ ] `····` section: Custom Text Tab
 - [ ] `····` option: Text Size (Custom Text Tab)
 - [ ] `····` option: Align Horizontal (Custom Text Tab)
 - [ ] `N···` option: Center (Custom Text Tab)
 - [ ] `····` option: Align Vertical (Custom Text Tab)
 - [ ] `····` option: Top (Custom Text Tab)
-- [ ] `····` option: Bottom (Custom Text Tab)
-- [ ] `····` option: Above (Custom Text Tab)
+- [ ] `N···` option: Bottom (Custom Text Tab)
+- [ ] `N···` option: Above (Custom Text Tab)
 - [ ] `····` table-row: Multiple selected layout elements can be edited simultaneously (Custom Text Tab)
 
 ### [Layout Encoder Bar](https://help.malighting.com/grandMA3/2.5/HTML/layout_encoder_bar.html)
@@ -8209,25 +8209,25 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` page: Layout Encoder Bar
 - [ ] `····` setting: Requirements
 - [ ] `····` section: Layout Encoder Bar Function Set to Position
-- [ ] `····` button: Setup (Layout Encoder Bar Function Set to Position)
+- [ ] `·R··` button: Setup (Layout Encoder Bar Function Set to Position)
 - [ ] `N···` button: Function (Layout Encoder Bar Function Set to Position)
 - [ ] `·R··` option: Pos Y (Layout Encoder Bar Function Set to Position)
 - [x] `NR··` option: Width (Layout Encoder Bar Function Set to Position)
 - [x] `NR··` option: Height (Layout Encoder Bar Function Set to Position)
-- [ ] `····` option: Scale (Layout Encoder Bar Function Set to Position)
+- [ ] `·R··` option: Scale (Layout Encoder Bar Function Set to Position)
 - [ ] `·R··` option: Ratio (Layout Encoder Bar Function Set to Position)
 - [ ] `N···` option: Rotate (Layout Encoder Bar Function Set to Position)
 - [ ] `····` option: Change on EncoderEvent (Layout Encoder Bar Function Set to Position)
 - [ ] `N···` option: Reset Position (Layout Encoder Bar Function Set to Position)
 - [ ] `····` section: Layout Encoder Bar Function Set to Arrangement
-- [ ] `····` button: LayoutType (Layout Encoder Bar Function Set to Arrangement)
+- [ ] `·R··` button: LayoutType (Layout Encoder Bar Function Set to Arrangement)
 - [ ] `····` section: Camera Arrangement
-- [ ] `····` button: Layout Type (Camera Arrangement)
-- [ ] `N···` option: Camera (Camera Arrangement)
-- [ ] `····` option: Scale (Camera Arrangement)
+- [ ] `·R··` button: Layout Type (Camera Arrangement)
+- [x] `NR··` option: Camera (Camera Arrangement)
+- [ ] `·R··` option: Scale (Camera Arrangement)
 - [ ] `·R··` option: Ratio (Camera Arrangement)
-- [ ] `····` option: Move X (Camera Arrangement)
-- [ ] `····` option: Move Y (Camera Arrangement)
+- [ ] `·R··` option: Move X (Camera Arrangement)
+- [ ] `·R··` option: Move Y (Camera Arrangement)
 - [ ] `····` button: Apply (Camera Arrangement)
 
 ## Plugins
@@ -8283,7 +8283,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Interface Functions](https://help.malighting.com/grandMA3/2.5/HTML/lua_interface.html)
 
-- [ ] `····` page: Interface Functions
+- [ ] `N···` page: Interface Functions
 
 ### [Progress Bar](https://help.malighting.com/grandMA3/2.5/HTML/lua_interface_progressbar.html)
 
@@ -8304,12 +8304,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [AddonVars(string)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_addonvars.html)
 
-- [ ] `····` page: AddonVars(string)
+- [ ] `N···` page: AddonVars(string)
 
 ### [BuildDetails()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_builddetails.html)
 
 - [ ] `N···` page: BuildDetails()
-- [ ] `····` option: Build details (Return)
+- [ ] `N···` option: Build details (Return)
 - [ ] `····` option: GitDate (Return)
 - [ ] `····` option: GitHead (Return)
 - [ ] `····` option: GitHash (Return)
@@ -8367,7 +8367,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [CmdObj()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_cmdobj.html)
 
-- [ ] `····` page: CmdObj()
+- [ ] `N···` page: CmdObj()
 
 ### [ConfigTable()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_configtable.html)
 
@@ -8411,7 +8411,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [DefaultDisplayPositions()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_defaultdisplaypositions.html)
 
-- [ ] `····` page: DefaultDisplayPositions()
+- [ ] `N···` page: DefaultDisplayPositions()
 
 ### [DelVar(handle, string)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_delvar.html)
 
@@ -8476,7 +8476,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [FindTexture(string)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_findtexture.html)
 
-- [ ] `····` page: FindTexture(string)
+- [ ] `N···` page: FindTexture(string)
 
 ### [FirstDmxModeFixture(handle)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_firstdmxmodefixture.html)
 
@@ -8492,7 +8492,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [GetApiDescriptor()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getapidescriptor.html)
 
-- [ ] `····` page: GetApiDescriptor()
+- [ ] `N···` page: GetApiDescriptor()
 
 ### [GetAttributeByUIChannel(integer)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getattributebyuichannel.html)
 
@@ -8824,7 +8824,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [GetChannelFunctionIndex()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getchannelfunctionindex.html)
 
-- [ ] `····` page: GetChannelFunctionIndex()
+- [ ] `N···` page: GetChannelFunctionIndex()
 
 ### [GetClassDerivationLevel(string)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getclassderivationlevel.html)
 
@@ -8857,12 +8857,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [GetExecutor(integer)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getexecutor.html)
 
 - [ ] `N···` page: GetExecutor(integer)
-- [ ] `····` option: Handle - Executor (Return)
+- [ ] `N···` option: Handle - Executor (Return)
 - [ ] `····` option: Handle - Page (Return)
 
 ### [GetFocus()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getfocus.html)
 
-- [ ] `····` page: GetFocus()
+- [ ] `N···` page: GetFocus()
 
 ### [GetFocusDisplay()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getfocusdisplay.html)
 
@@ -8911,7 +8911,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [GetSample(string)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getsample.html)
 
-- [ ] `····` page: GetSample(string)
+- [ ] `N···` page: GetSample(string)
 
 ### [GetScreenContent(handle)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getscreencontent.html)
 
@@ -8919,7 +8919,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [GetSelectedAttribute()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getselectedattribute.html)
 
-- [ ] `····` page: GetSelectedAttribute()
+- [ ] `N···` page: GetSelectedAttribute()
 
 ### [GetShowFileStatus()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getshowfilestatus.html)
 
@@ -8952,7 +8952,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [GetUIChannelCount()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getuichannelcount.html)
 
-- [ ] `····` page: GetUIChannelCount()
+- [ ] `N···` page: GetUIChannelCount()
 
 ### [GetUIChannelIndex(integer, integer)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_getuichannelindex.html)
 
@@ -9025,7 +9025,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [IsObjectValid(handle)](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_isobjectvalid.html)
 
 - [x] `NRP·` page: IsObjectValid(handle)
-- [ ] `····` option: Boolean or nil (Return)
+- [ ] `N···` option: Boolean or nil (Return)
 
 ### [KeyboardObj()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_keyboardobj.html)
 
@@ -9040,11 +9040,11 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` page: MessageBox(table)
 - [ ] `N···` option: title (Arguments)
 - [ ] `····` option: titleTextColor (Arguments)
-- [ ] `····` option: backColor (Arguments)
+- [ ] `·R··` option: backColor (Arguments)
 - [ ] `·R··` option: icon (Arguments)
 - [ ] `····` syntax: ChangeDestination GraphicsRoot/TextureCollect/Textures (Arguments)
 - [ ] `····` syntax: List (Arguments)
-- [ ] `N···` option: message (Arguments)
+- [x] `NR··` option: message (Arguments)
 - [ ] `····` option: messageTextColor (Arguments)
 - [ ] `N···` option: timeout (Arguments)
 - [ ] `····` option: timeoutResultCancel (Arguments)
@@ -9054,13 +9054,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: blackfilter (Arguments)
 - [ ] `····` option: whitefilter (Arguments)
 - [ ] `····` option: vkPlugin (Arguments)
-- [ ] `····` option: maxTextLength (Arguments)
+- [ ] `·R··` option: maxTextLength (Arguments)
 - [ ] `····` option: states (Arguments)
-- [ ] `N···` option: state (Arguments)
+- [x] `NR··` option: state (Arguments)
 - [ ] `····` option: selectors (Arguments)
 - [ ] `····` option: selectedValue (Arguments)
 - [ ] `····` option: 0 (Arguments)
-- [ ] `N···` option: values (Arguments)
+- [x] `NR··` option: values (Arguments)
 - [ ] `····` syntax: ["string"]=integer (Arguments)
 - [ ] `····` option: success (Return)
 - [ ] `N···` option: result (Return)
@@ -9105,7 +9105,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [Pult()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_pult.html)
 
-- [ ] `····` page: Pult()
+- [ ] `N···` page: Pult()
 
 ### [ReleaseType()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_releasetype.html)
 
@@ -9118,7 +9118,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [SelectedFeature()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_selectedfeature.html)
 
-- [ ] `····` page: SelectedFeature()
+- [ ] `N···` page: SelectedFeature()
 
 ### [SelectedLayout()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_selectedlayout.html)
 
@@ -9130,11 +9130,11 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [SelectedTimecode()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_selectedtimecode.html)
 
-- [ ] `····` page: SelectedTimecode()
+- [ ] `N···` page: SelectedTimecode()
 
 ### [SelectedTimer()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_selectedtimer.html)
 
-- [ ] `····` page: SelectedTimer()
+- [ ] `N···` page: SelectedTimer()
 
 ### [Selection()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_selection.html)
 
@@ -9146,12 +9146,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [SelectionFirst()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_selectionfirst.html)
 
-- [ ] `····` page: SelectionFirst()
+- [ ] `N···` page: SelectionFirst()
 - [ ] `····` section: Related Functions
 
 ### [SelectionNext()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_selectionnext.html)
 
-- [ ] `····` page: SelectionNext()
+- [ ] `N···` page: SelectionNext()
 - [ ] `····` section: Related Functions
 
 ### [SerialNumber()](https://help.malighting.com/grandMA3/2.5/HTML/lua_objectfree_serialnumber.html)
@@ -9506,7 +9506,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 ### [HasActivePlayback(handle)](https://help.malighting.com/grandMA3/2.5/HTML/lua_object_hasactiveplayback.html)
 
-- [ ] `N···` page: HasActivePlayback(handle)
+- [x] `NRP·` page: HasActivePlayback(handle)
 - [ ] `····` option: True (Return)
 - [ ] `····` option: False (Return)
 
@@ -9537,13 +9537,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Quickeys (Accessing Quickeys)
 - [ ] `····` section: Assigning Quickeys
 - [ ] `····` section: Quickeys Pool Settings
-- [ ] `N···` button: Show Empty (Quickeys Pool Settings)
+- [x] `NR··` button: Show Empty (Quickeys Pool Settings)
 - [x] `NR··` button: Appearance (Quickeys Pool Settings)
 - [ ] `N···` button: Pool Columns (Quickeys Pool Settings)
-- [ ] `N···` button: Font Size (Quickeys Pool Settings)
+- [x] `NR··` button: Font Size (Quickeys Pool Settings)
 - [x] `NR··` button: DataPool (Quickeys Pool Settings)
-- [ ] `····` button: Pool Color (Quickeys Pool Settings)
-- [ ] `····` button: Empty Color (Quickeys Pool Settings)
+- [ ] `·R··` button: Pool Color (Quickeys Pool Settings)
+- [ ] `·R··` button: Empty Color (Quickeys Pool Settings)
 - [ ] `····` button: Reset Colors (Quickeys Pool Settings)
 - [ ] `····` button: CLI (Quickeys Pool Settings)
 
@@ -9604,8 +9604,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N···` page: Date and Time
 - [ ] `N···` button: Date and Time
-- [ ] `N···` section: Session Time
-- [ ] `N···` button: Session Time (Session Time)
+- [x] `NR··` section: Session Time
+- [x] `NR··` button: Session Time (Session Time)
 - [ ] `N···` section: Date and Time
 - [ ] `·R··` button: Timezone (Location)
 - [ ] `·R··` button: Longitude (Location)
@@ -9620,14 +9620,14 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Clock
 - [ ] `····` button: Tools
 - [ ] `N···` button: Clock Source
-- [ ] `N···` section: Session Time
+- [x] `NR··` section: Session Time
 - [ ] `····` button: Style (Session Time)
 - [ ] `····` section: Time Zone Clock
 - [x] `NR··` button: Time Zone (Time Zone Clock)
-- [ ] `N···` section: Timecode Slot
-- [ ] `N···` button: Timecode (Timecode Slot)
-- [ ] `N···` button: Timecode Slot (Timecode Slot)
-- [ ] `N···` button: <Selected> (Timecode Slot)
+- [x] `NR··` section: Timecode Slot
+- [x] `NR··` button: Timecode (Timecode Slot)
+- [x] `NR··` button: Timecode Slot (Timecode Slot)
+- [x] `NR··` button: <Selected> (Timecode Slot)
 - [x] `NR··` section: Timer
 - [ ] `N···` button: Timer (Timer)
 - [ ] `N···` button: <Link Selected> (Timer)
@@ -9640,7 +9640,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Title Format (Clock Window Settings)
 - [x] `NR··` button: Frame Readout (Clock Window Settings)
 - [ ] `N···` button: Show Fractions (Clock Window Settings)
-- [ ] `N···` button: Show Title Bar (Clock Window Settings)
+- [x] `NR··` button: Show Title Bar (Clock Window Settings)
 
 ### [Desk Lights](https://help.malighting.com/grandMA3/2.5/HTML/si_desklights.html)
 
@@ -9672,7 +9672,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Details (Fan Check)
 - [ ] `····` button: HDD (Fan Check)
 - [ ] `N···` button: Network (Fan Check)
-- [ ] `N···` button: Show Title Bar (Fan Check)
+- [x] `NR··` button: Show Title Bar (Fan Check)
 
 ### [System Monitor](https://help.malighting.com/grandMA3/2.5/HTML/si_system_monitor.html)
 
@@ -9694,11 +9694,11 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` syntax: ListReference (List Reference)
 - [ ] `N···` button: List Reference (List Reference)
 - [ ] `····` button: Look (List Reference)
-- [ ] `N···` section: Link Type
-- [ ] `N···` button: Link Type (Link Type)
+- [x] `NR··` section: Link Type
+- [x] `NR··` button: Link Type (Link Type)
 - [ ] `N···` option: Selected Sequence (Link Type)
-- [ ] `N···` section: Window Mode
-- [ ] `N···` button: Window Mode (Window Mode)
+- [x] `NR··` section: Window Mode
+- [x] `NR··` button: Window Mode (Window Mode)
 - [ ] `····` option: Sequence / Macro (Window Mode)
 - [ ] `····` option: Current Cue / Current MacroLine (Window Mode)
 - [ ] `····` option: Next Cue / Next MacroLine (Window Mode)
@@ -9744,21 +9744,21 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [x] `NR··` page: Status Center
 - [ ] `····` section: Statuses
 - [ ] `····` section: Defaults
-- [ ] `N···` section: Programmer
+- [x] `NR··` section: Programmer
 - [x] `NR··` table-row: Highlight (Programmer)
 - [x] `NR··` table-row: Lowlight (Programmer)
 - [ ] `····` table-row: Solo (Programmer)
 - [ ] `N···` table-row: Blind (Programmer)
 - [ ] `N···` table-row: Preview (Programmer)
 - [ ] `N···` table-row: Timecode Record (Programmer)
-- [ ] `N···` table-row: Recipe Editing (Programmer)
+- [x] `NR··` table-row: Recipe Editing (Programmer)
 - [ ] `N···` table-row: Grand Master (Programmer)
 - [ ] `N···` table-row: World Master (Programmer)
 - [ ] `N···` table-row: Group Masters (Programmer)
 - [ ] `N···` table-row: Grand Rate (Programmer)
 - [ ] `N···` table-row: Pause at End (Programmer)
 - [x] `NR··` section: Filter
-- [ ] `N···` table-row: Filter (Filter)
+- [x] `NR··` table-row: Filter (Filter)
 - [ ] `N···` table-row: World (Filter)
 - [ ] `····` section: Universe/Patch
 - [ ] `····` table-row: Parked (Universe/Patch)
@@ -9768,12 +9768,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` table-row: Patch Open (Universe/Patch)
 - [ ] `····` section: More
 - [x] `NR··` table-row: World Server (More)
-- [ ] `N···` table-row: Encoder Bar (More)
+- [x] `NR··` table-row: Encoder Bar (More)
 - [ ] `N···` table-row: Phasers (More)
 - [ ] `N···` table-row: Flow Control (More)
 - [ ] `····` section: Hardware
 - [ ] `····` table-row: Battery (Hardware)
-- [x] `NR··` table-row: USB Network (Hardware)
+- [ ] `N···` table-row: USB Network (Hardware)
 - [ ] `N···` table-row: ShowData (Hardware)
 - [ ] `····` table-row: CPU (Hardware)
 - [ ] `····` table-row: Memory (Hardware)
@@ -9804,9 +9804,9 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Out
 - [ ] `····` button: Note
 - [ ] `····` section: Output Configuration Settings for Remotes
-- [ ] `N···` button: MIDI Data Mode (Output Configuration Settings for Remotes)
-- [ ] `N···` button: MIDI Offset (Output Configuration Settings for Remotes)
-- [ ] `N···` button: DC Start (Output Configuration Settings for Remotes)
+- [x] `NR··` button: MIDI Data Mode (Output Configuration Settings for Remotes)
+- [x] `NR··` button: MIDI Offset (Output Configuration Settings for Remotes)
+- [x] `NR··` button: DC Start (Output Configuration Settings for Remotes)
 - [ ] `·R··` button: OSC Interface (Output Configuration Settings for Remotes)
 - [ ] `·R··` button: PSN Interface (Output Configuration Settings for Remotes)
 - [ ] `N···` section: Example 1
@@ -9820,7 +9820,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [x] `NR··` page: DC Remotes
 - [ ] `N···` button: Connector Configuration
-- [ ] `N···` button: DC Start
+- [x] `NR··` button: DC Start
 
 ### [MIDI Remotes](https://help.malighting.com/grandMA3/2.5/HTML/remote_inputs_midi.html)
 
@@ -9828,8 +9828,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: MIDI Remotes
 - [ ] `····` table-row: MIDI does not transmit an audio signal
 - [ ] `····` section: Output Configuration Window
-- [ ] `N···` button: MIDI Offset (Output Configuration Window)
-- [ ] `N···` button: MIDI Data Mode (Output Configuration Window)
+- [x] `NR··` button: MIDI Offset (Output Configuration Window)
+- [x] `NR··` button: MIDI Data Mode (Output Configuration Window)
 - [x] `NR··` button: Enable Input (Output Configuration Window)
 - [ ] `N···` section: In & Out Menu
 - [ ] `····` button: MIDI Channel (In & Out Menu)
@@ -9848,7 +9848,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` option: note (Requirements)
 - [ ] `····` option: velo (Requirements)
 - [ ] `····` option: control (Requirements)
-- [ ] `N···` option: offset (Requirements)
+- [x] `NR··` option: offset (Requirements)
 - [ ] `····` section: Receive MIDI
 - [ ] `····` setting: Requirement (Receive MIDI)
 - [ ] `····` button: In (Receive MIDI)
@@ -9865,14 +9865,14 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: MIDI Connection via USB
 - [ ] `····` setting: Requirements (MIDI Connection via USB)
 - [ ] `N···` button: onPC Settings (MIDI Connection via USB)
-- [ ] `····` button: MIDI In Device (MIDI Connection via USB)
+- [ ] `N···` button: MIDI In Device (MIDI Connection via USB)
 - [ ] `····` button: MIDI Out Device (MIDI Connection via USB)
 - [ ] `····` button: MPK225 (MIDI Connection via USB)
 
 ### [DMX Remotes](https://help.malighting.com/grandMA3/2.5/HTML/remote_inputs_dmx.html)
 
 - [x] `NR··` page: DMX Remotes
-- [ ] `····` button: Address
+- [ ] `·R··` button: Address
 - [ ] `·R··` button: Resolution
 - [ ] `····` button: Trigger On Session Change
 - [ ] `N···` button: Trigger On
@@ -9957,10 +9957,10 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: QLab
 - [ ] `N···` button: Network
 - [x] `NR··` button: Interface
-- [ ] `·R··` button: Destination
+- [x] `NR··` button: Destination
 - [ ] `····` button: Passcode
 - [ ] `····` button: Done
-- [ ] `N···` button: Patch
+- [x] `NR··` button: Patch
 - [ ] `·R··` button: Category
 - [ ] `····` button: Use Prefix
 - [ ] `·R··` button: Prefix
@@ -10009,7 +10009,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Rot XYZ
 - [x] `NR··` button: Enable Input (Example)
 - [ ] `····` button: Insert new System (Example)
-- [ ] `N···` button: Patch (Example)
+- [x] `NR··` button: Patch (Example)
 - [ ] `N···` button: Fixture Types (Example)
 - [ ] `····` button: MAC Encore Performance CLD (Example)
 - [ ] `····` button: XYZ (Example)
@@ -10325,8 +10325,8 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `N···` page: Sound Viewer
 - [ ] `····` button: Tools
-- [ ] `····` button: View Mode
-- [ ] `····` button: Audio In Device
+- [ ] `·R··` button: View Mode
+- [ ] `N···` button: Audio In Device
 - [ ] `····` section: Wave View Mode
 - [ ] `····` section: Sound View Mode
 - [ ] `····` option: Bass (Sound View Mode)
@@ -10367,7 +10367,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [RDM (Remote Device Management)](https://help.malighting.com/grandMA3/2.5/HTML/rdm.html)
 
 - [ ] `N···` page: RDM (Remote Device Management)
-- [ ] `N···` section: Enable RDM
+- [x] `NR··` section: Enable RDM
 - [ ] `N···` button: Network (Enable RDM)
 - [ ] `····` button: RDM (Enable RDM)
 - [ ] `N···` button: Live Patch (Enable RDM)
@@ -10379,7 +10379,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` table-row: PROXIED_DEVICES (RDM Parameters)
 - [ ] `····` table-row: PROXIED_DEVICE_COUNT (RDM Parameters)
 - [ ] `····` table-row: LANGUAGE_CAPABILITIES (RDM Parameters)
-- [ ] `····` table-row: SOFTWARE_VERSION_LABEL (RDM Parameters)
+- [ ] `·R··` table-row: SOFTWARE_VERSION_LABEL (RDM Parameters)
 - [ ] `····` table-row: BOOT_SOFTWARE_VERSION_ID (RDM Parameters)
 - [ ] `····` table-row: BOOT_SOFTWARE_VERSION_LABEL (RDM Parameters)
 - [ ] `····` table-row: SLOT_INFO (RDM Parameters)
@@ -10404,7 +10404,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` table-row: TILT_INVERT (RDM Parameters)
 - [ ] `····` table-row: PAN_TILT_SWAP (RDM Parameters)
 - [ ] `····` table-row: DISPLAY_INVERT (RDM Parameters)
-- [ ] `····` table-row: DISPLAY_LEVEL (RDM Parameters)
+- [ ] `·R··` table-row: DISPLAY_LEVEL (RDM Parameters)
 - [ ] `····` table-row: RESET_DEVICE (RDM Parameters)
 - [ ] `····` table-row: FACTORY_DEFAULTS (RDM Parameters)
 - [ ] `····` section: Proxy Devices
@@ -10533,9 +10533,9 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Fixture Types Editor](https://help.malighting.com/grandMA3/2.5/HTML/edit-fixture-types.html)
 
 - [ ] `····` page: Fixture Types Editor
-- [ ] `N···` button: Patch
+- [x] `NR··` button: Patch
 - [ ] `N···` button: Fixture Types
-- [ ] `····` button: Columns
+- [ ] `·R··` button: Columns
 - [ ] `N···` button: DMXModes
 
 ### [Import Fixture Types](https://help.malighting.com/grandMA3/2.5/HTML/ft_import.html)
@@ -10543,7 +10543,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` page: Import Fixture Types
 - [ ] `N···` option: grandMA3
 - [ ] `N···` section: Fixture Types Menu
-- [ ] `N···` button: Patch (Fixture Types Menu)
+- [x] `NR··` button: Patch (Fixture Types Menu)
 - [ ] `N···` button: Fixture Types (Fixture Types Menu)
 - [ ] `N···` option: Lock, No, Name (Fixture Types Menu)
 - [ ] `N···` option: Scribble, Note, (Fixture Types Menu)
@@ -10565,7 +10565,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 
 - [ ] `····` page: Import GDTF
 - [ ] `····` section: Import GDTF from the Console or Directly from the World Server
-- [ ] `N···` button: Patch (Import GDTF from the Console or Directly from the World Server)
+- [x] `NR··` button: Patch (Import GDTF from the Console or Directly from the World Server)
 - [ ] `N···` button: Fixture Types (Import GDTF from the Console or Directly from the World Server)
 - [ ] `N···` button: Import (Import GDTF from the Console or Directly from the World Server)
 - [ ] `·R··` button: Description (Import GDTF from the Console or Directly from the World Server)
@@ -10598,15 +10598,15 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: 'New object' line
 - [ ] `····` button: Insert New Geometry
 - [ ] `····` section: subfixtures Grid Position
-- [ ] `N···` option: Grid Auto (subfixtures Grid Position)
-- [ ] `····` option: Grid Swap XY (subfixtures Grid Position)
-- [ ] `····` option: Grid Inv X (subfixtures Grid Position)
-- [ ] `····` option: Grid Inv Y (subfixtures Grid Position)
-- [ ] `····` option: Grid Inv Z (subfixtures Grid Position)
-- [ ] `····` option: Grid X (subfixtures Grid Position)
-- [ ] `····` option: Grid Y (subfixtures Grid Position)
-- [ ] `····` option: Grid Z (subfixtures Grid Position)
-- [ ] `N···` button: Patch (subfixtures Grid Position)
+- [x] `NR··` option: Grid Auto (subfixtures Grid Position)
+- [ ] `·R··` option: Grid Swap XY (subfixtures Grid Position)
+- [ ] `·R··` option: Grid Inv X (subfixtures Grid Position)
+- [ ] `·R··` option: Grid Inv Y (subfixtures Grid Position)
+- [ ] `·R··` option: Grid Inv Z (subfixtures Grid Position)
+- [ ] `·R··` option: Grid X (subfixtures Grid Position)
+- [ ] `·R··` option: Grid Y (subfixtures Grid Position)
+- [ ] `·R··` option: Grid Z (subfixtures Grid Position)
+- [x] `NR··` button: Patch (subfixtures Grid Position)
 
 ### [Insert Models](https://help.malighting.com/grandMA3/2.5/HTML/ft_insert_models.html)
 
@@ -10640,12 +10640,12 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: DMXModes (Preparation)
 - [ ] `N···` button: Default (Preparation)
 - [x] `NR··` option: Coarse (Preparation)
-- [ ] `N···` option: Attribute (Preparation)
+- [x] `NR··` option: Attribute (Preparation)
 - [x] `NR··` option: Master (Preparation)
-- [ ] `N···` option: Physical From (Preparation)
-- [ ] `····` option: Physical To (Preparation)
-- [ ] `N···` option: DMX From (Preparation)
-- [ ] `····` option: DMX To (Preparation)
+- [x] `NR··` option: Physical From (Preparation)
+- [ ] `·R··` option: Physical To (Preparation)
+- [x] `NR··` option: DMX From (Preparation)
+- [ ] `·R··` option: DMX To (Preparation)
 - [ ] `····` section: Enter DMX Channel 1 – Pan
 - [ ] `····` button: Merge children (Enter DMX Channel 1 – Pan)
 - [ ] `····` section: Enter DMX Channel 2 – Tilt
@@ -10662,7 +10662,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 ### [Environmental Fixture Types](https://help.malighting.com/grandMA3/2.5/HTML/ft_environmental_fixture_types.html)
 
 - [ ] `····` page: Environmental Fixture Types
-- [ ] `N···` button: Patch
+- [x] `NR··` button: Patch
 - [ ] `N···` button: Insert New Fixture
 - [ ] `····` button: Hide Environmental
 - [ ] `····` table-row: www.gdtf-share.com contains even more environmental fixture types
@@ -10721,7 +10721,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` section: Local Section Title Bar Tools
 - [x] `NR··` button: DataPool (Local Section Title Bar Tools)
 - [ ] `N···` button: DataPools (Local Section Title Bar Tools)
-- [ ] `N···` button: Sheet Style (Local Section Title Bar Tools)
+- [x] `NR··` button: Sheet Style (Local Section Title Bar Tools)
 - [ ] `····` button: Collect all (Local Section Title Bar Tools)
 - [ ] `····` button: Uncollect all (Local Section Title Bar Tools)
 - [ ] `····` button: Clear Collection (Local Section Title Bar Tools)
@@ -10738,7 +10738,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Create Groups
 - [ ] `N···` button: Fixture Types
 - [x] `NR··` button: DataPool
-- [ ] `N···` button: Sheet Style
+- [x] `NR··` button: Sheet Style
 - [ ] `····` button: Create Groups /All
 - [ ] `N···` button: Create
 - [ ] `····` button: Create Groups /OddEven
@@ -10760,7 +10760,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` button: Amount Saturation
 - [ ] `····` button: Sort By
 - [ ] `····` button: Create Color
-- [ ] `····` button: View
+- [ ] `·R··` button: View
 
 ### [Create Presets from Fixture Types](https://help.malighting.com/grandMA3/2.5/HTML/sc_autocreate_groups.html)
 
@@ -10793,16 +10793,16 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `N···` button: Show Creator
 - [ ] `N···` button: Partial Show Read
 - [ ] `····` button: Show
-- [ ] `N···` button: Patch
+- [x] `NR··` button: Patch
 - [ ] `····` button: Rename
 - [ ] `····` button: Do Not Rename
 - [ ] `····` section: PSR Prepare Menu
 - [ ] `····` button: Use PSR Patch Column (PSR Prepare Menu)
 - [ ] `····` button: Use PSR Position/Rotation Columns (PSR Prepare Menu)
 - [ ] `····` button: Hide Environmental (PSR Prepare Menu)
-- [ ] `N···` button: Stage (PSR Prepare Menu)
+- [x] `NR··` button: Stage (PSR Prepare Menu)
 - [ ] `····` button: Match Type (PSR Prepare Menu)
-- [ ] `N···` button: Fixture Type (PSR Prepare Menu)
+- [x] `NR··` button: Fixture Type (PSR Prepare Menu)
 - [ ] `····` button: Reset Filters (PSR Prepare Menu)
 - [ ] `N···` button: Use PSR Only (PSR Prepare Menu)
 - [ ] `N···` button: Use Local Only (PSR Prepare Menu)
@@ -10926,13 +10926,13 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` setting: CIDR (C)
 - [ ] `····` setting: CIE (C)
 - [ ] `····` setting: CMY (C)
-- [ ] `····` setting: Executors (C)
-- [x] `NR··` setting: Extension (C)
+- [ ] `·R··` setting: Executors (C)
+- [ ] `N···` setting: Extension (C)
 - [ ] `····` section: F
 - [ ] `····` setting: Fader Wing (F)
 - [ ] `····` setting: FID (F)
-- [ ] `N···` setting: Fixture (F)
-- [ ] `N···` setting: Fixture Type (F)
+- [x] `NR··` setting: Fixture (F)
+- [x] `NR··` setting: Fixture Type (F)
 - [ ] `····` setting: fps (F)
 - [ ] `····` section: G
 - [ ] `····` setting: GB (G)
@@ -11009,7 +11009,7 @@ Census: `console-2026-11-08.json`, 390 classes. Out of scope: the 414 hardware q
 - [ ] `····` setting: TC (T)
 - [ ] `····` setting: TCP (T)
 - [ ] `·R··` setting: Tilt (T)
-- [ ] `····` setting: Tracking (T)
+- [ ] `·R··` setting: Tracking (T)
 - [ ] `····` section: U
 - [ ] `····` setting: UDP (U)
 - [ ] `····` setting: UI (U)

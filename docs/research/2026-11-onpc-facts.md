@@ -222,3 +222,31 @@ still says `Version="0.1.0.0"`; bump it with the Lua version.
   window is open, `ShowData().LivePatch` the live one. Details: `docs/atlas/topics/dmx-curves.md`.
 - From the help: the stick is selected with `Select Drive <n>` (two words); `/Path "/..."` starts at
   the root of the selected drive, not the file system. Both explain the failed stick import.
+
+## Programmer and selection as objects (onPC in the console's session, 2026-11-21)
+
+Measured with single `ma3_object` / `ma3_children` reads through plugin alpha.6 on onPC 2.5.1.1.
+
+- `UserProfile <n>.1` is class `Environments` (`ACTIVEENVIRONMENT` = `Normal`); its two children are
+  class `UserEnvironment`: `Normal` and `Preview`. An environment has 8 children: 1 and 2 `Selection`,
+  3 `Programmer`, 4 `AtFilter`, 5 not an object (`GetClass` is nil; `ma3_children` on the environment
+  fails there), 6 `LivePatch3dSelection`, 7 `RecipeEditor`, 8 `ObjectSelection` (`SELECTEDDATAPOOL`,
+  the executor configuration defaults).
+- `Programmer` is sequence-like (it carries a sequence's settings) with one child, class `ProgPart`,
+  name `Part Zero`. An empty part: `MEMORYFOOTPRINT` 297, `COUNT` 0, on profiles 1, 2 and 5. Its
+  address renders as `Programmer 0`, which resolves to the part of the station's own user.
+- `Export` of an empty part writes `<ProgPart/>`. What a part with values exports is not seen yet
+  (no write is allowed on this onPC, and every programmer was empty).
+- `Selection`: `COUNTTOTALSELECTED`, `COUNTFULLYSELECTED`, `ACTIVE`, `SELECTEDATTRIBUTES`,
+  `LASTSELECTEDGROUP`, plus the MAtricks settings of the live selection (`XGROUP`, `XSHUFFLE`, ...).
+  The environment's `ACTIVESELINDEX` names which of the two is current.
+- The onPC user list reads the same as the console's (8 users; `User 5` Master on `UserProfile 5`;
+  `User 8` Aaron on `UserProfile 1`). A station logged in as User 5 shares his programmer.
+- Console, 2026-11-21: `Copy Sequence 10 At Sequence 14` (free slot) returns `OK` and carries
+  settings and cues; `Label Sequence n "Lord I Need You (Passion)"` accepts quoted parentheses.
+- Masters (same day, onPC): `Master` is class `Masters` with five pools: `Master 1` Selected (11),
+  `Master 2` Grand (15: Master, World, Highlight, Lowlight, Solo, Rate, ..., Blind, SoundOut/In/Fade),
+  `Master 3` Speed (16, his are named `S1 Era Dim` ..), `Master 4` Playback (50), `Master 5` Timing (50).
+  Each master: `NORMEDVALUE` (level in percent; rate and speed rest at 50), `FADERENABLE`.
+- An executor carries `EXECUTORCONFIGURATION` (`Configuration 1`), `OBJECT` (what is assigned),
+  `FADERRANGELOW` / `FADERRANGEHIGH`; no property holds the fader's level.

@@ -96,6 +96,9 @@ command Z hang"):
 - **A positive needs the desk.** Something that works on onPC is "proven onPC" until the console
   says so. The grid view's first build is why: it ran perfectly on a fake and on onPC-like
   assumptions and died on the desk.
+- **A gap triggers a sweep** (Aaron, 2026-11-21). One thing the MCP cannot see or do means the
+  plugin gets the update and, the same session, the area around it is checked for what else is
+  missing. Ledger and rule: `docs/GAPS.md`. Basic operator-level things come first.
 - **Every fact carries evidence and a date.** Facts file lines read "measured", "documented", or
   "inferred", with the version. Inferred facts are re-tested when they start to matter.
 - **Found the answer? Look once more.** When a probe answers a question, the next step is one

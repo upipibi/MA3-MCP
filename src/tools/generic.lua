@@ -189,6 +189,8 @@ function M.register(tools, c, ctx)
       local offset = math.max(0, math.floor(tonumber(args.offset) or 0))
       local limit = math.min(500, math.max(1, math.floor(tonumber(args.limit) or 500)))
       local out = {}
+      local parent_addr = h:ToAddr()
+      if not require("addr").proven(parent_addr) then parent_addr = args.address end   -- the caller's path got us here
       local i = offset + 1
       while i <= total and #out < limit do
         local ch = h:Ptr(i)
@@ -197,7 +199,7 @@ function M.register(tools, c, ctx)
         if ch and not allowed then
           out[#out + 1] = { index = i, class = cls, refused = why }
         elseif ch then
-          local row = console.child_summary(ch, i)
+          local row = console.child_summary(ch, i, parent_addr)
           if args.fields then
             row.properties = {}
             for _, f in ipairs(args.fields) do row.properties[f] = console.get(ch, f) end
