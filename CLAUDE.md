@@ -60,9 +60,23 @@ this later." The show was saved with `ma3_save` at the end; it holds everything 
 3. **Gap work, mine, no ask needed:** `docs/GAPS.md`. Next: turn the onPC census (629 classes) into
    reads; programmer values per channel (`GetProgPhaserValue`); reading sheet cells (`Grid*`); the
    Command Line History text; the item-by-item sweep against the help checklist.
-4. **Open with Aaron:** whether flow control dropped after onPC was killed (asked twice, unanswered);
-   ladder layout tweaks ("a later issue", his to raise); a GitHub pre-release of alpha.8 (offered at
-   this `/save`); the MCP playground beyond the one view (layouts, appearances).
+4. **Open with Aaron:** whether flow control dropped after onPC was killed (asked three times,
+   unanswered: ask once more, then drop it); ladder layout tweaks ("a later issue", his to raise); the
+   number for the next build (alpha.9 suggested, unanswered); the MCP playground beyond the one view
+   (layouts, appearances). **Closed:** a GitHub pre-release of alpha.8: "nah, we just keep it local
+   for now" (2026-11-21). Do not offer a release again until he raises it.
+6. **Written just before a compact (2026-11-21, 23:00). What a fresh context must not get wrong:**
+   - Checkpoint `28de36f` is pushed; this note is one local commit ahead of it.
+   - Jobs and exploring reads go through onPC as `MCP` (`python3 tools/onpc_call.py <tool> '<json>'`);
+     undo groups of those jobs are in the MCP user's Oops list, so "undo" is mine to send, by group
+     name (`nov29-10` .. `nov29-13`, `nov29-12-fix`, `dimmer-rows`, `mcp-view`, `mcp-user`).
+   - The console is still never a bench: no census, no first call on an unknown class there.
+   - To program a song: `docs/PROGRAMMING-STYLE.md` (last two sections) and
+     `docs/jobs/2026-11-21-nov29-songs/README.md`. Status copies with `"ForceRelease"`, holds empty,
+     one donor song per new song, values from the current show only, never from an old rig.
+   - Local, git-ignored, also in OneDrive: his song exports and my look sheets
+     (`docs/research/shows/christmas-2026-study/`); re-export before trusting them, he edits daily.
+   - Reply format: his global rules (label-first headings, tight budgets, no emojis, fun fact last).
 5. **Study agents:** he wants them kept going (two at a time, Sonnet, offline only). Next topics are
    in "The gap rule" below.
 
